@@ -5,12 +5,11 @@
  *
  * Made By MaterializeCSS.com
  */
-body {
-	background: #fafafa;
-	color: #125688;
-	
-}
+/*body, p, html {  
+  color: red !important;
+}*/
 
+/*
 .icon-block {
   padding: 0 15px;
 }
@@ -74,3 +73,4 @@ body {
 .signup-form .btn.btn-signup {
 	background-color: #125688;
 }
+*/

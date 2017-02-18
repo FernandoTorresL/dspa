@@ -386,11 +386,6 @@
                                 <label data-error="Error" for="nombre">Nombre(s)</label>
                               </div>
 
-                              <div class="input-field">
-                                <i class="material-icons prefix">assignment_ind</i>
-                                <input disabled type="text" required class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $rowB['matricula'] ) ) echo $rowB['matricula']; ?>'/>
-                                <label data-error="Error" for="matricula">Matrícula</label>
-                              </div>
 
                             </div>
                           </div>
@@ -400,6 +395,11 @@
                           <div class="signup-box">
                             <div class="container">
 
+                              <div class="input-field">
+                                <i class="material-icons prefix">assignment_ind</i>
+                                <input disabled type="text" required class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $rowB['matricula'] ) ) echo $rowB['matricula']; ?>'/>
+                                <label data-error="Error" for="matricula">Matrícula</label>
+                              </div>
 
                               <div class="input-field">
                                 <i class="material-icons prefix">account_circle</i>
@@ -574,7 +574,7 @@
           FROM ctas_solicitudes, ctas_grupos grupos1, ctas_grupos grupos2, ctas_usuarios
           WHERE ctas_solicitudes.id_grupo_nuevo = grupos1.id_grupo
           AND   ctas_solicitudes.id_grupo_actual = grupos2.id_grupo
-          AND   ctas_solicitudes.id_lote = 0 
+          AND   ctas_solicitudes.id_lote = 0
           AND   ctas_solicitudes.user_id = " . $_SESSION['user_id'];
         $query = $query . " AND   ctas_solicitudes.user_id = ctas_usuarios.user_id ";
 
@@ -789,12 +789,6 @@
                   <label data-error="Error" for="nombre">Nombre(s)</label>
                 </div>
 
-                <div class="input-field">
-                  <i class="material-icons prefix">assignment_ind</i>
-                  <input type="text" required class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $matricula ) ) echo $matricula; ?>'/>
-                  <label data-error="Error" for="matricula">Matrícula</label>
-                </div>
-
               </div>
             </div>
           </div>
@@ -802,6 +796,12 @@
           <div class="col s5">
             <div class="signup-box">
               <div class="container">
+
+                <div class="input-field">
+                  <i class="material-icons prefix">assignment_ind</i>
+                  <input type="text" required class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $matricula ) ) echo $matricula; ?>'/>
+                  <label data-error="Error" for="matricula">Matrícula</label>
+                </div>
 
                 <div class="input-field">
                     <i class="material-icons prefix">account_circle</i>

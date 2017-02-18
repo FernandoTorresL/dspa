@@ -6,9 +6,9 @@
 	//define('MM_DBC', mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     //$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-	define('MM_UPLOADPATH_VAL', 'files/');
-	define('MM_UPLOADPATH_CTASSINDO', 'filesctasSINDO/');
-	define('MM_UPLOADPATH_PROFILE', 'imagesprofile/');
+	define('MM_UPLOADPATH_VAL', '../files/');
+	define('MM_UPLOADPATH_CTASSINDO', '../filesctasSINDO/');
+	define('MM_UPLOADPATH_PROFILE', '../imagesprofile/');
 	// define('MM_UPLOADPATH_IMG', 'images/');
 
 	define('MM_MAXFILESIZE_VAL', 512000000);      // 500 Mb, 500,000 Kb
@@ -23,10 +23,9 @@
 	define('MM_MAXIMGWIDTH_PROFILE', 12000);        // 12000 pixels
 	define('MM_MAXIMGHEIGHT_PROFILE', 12000);       // 12000 pixels
 
-	//define('MM_EXPIRE_COOKIE_VAL', (60 * 60 * 1));      // expires in 1 hour
-	define('MM_EXPIRE_COOKIE_VAL', (60 * 1));      // expires in 10 MINUTES
-
+	/*define('MM_EXPIRE_COOKIE_VAL', (60 * 60 ) );      // expires in 1 hour*/
 	//define('MM_EXPIRE_COOKIE_VAL', (60 * 1));      // expires in 1 MINUTE
+	define('MM_EXPIRE_COOKIE_VAL', ( 60 * 10 ) );      // expires in 10 MINUTES
 
   	// define('MM_FILE', '100registros.txt');       // Nombre de archivo
   //define('MM_FILE', 'NOT_ACR_2015_05_02.TXT');       // Nombre de archivo
@@ -36,8 +35,8 @@
 
 	//Variables del Captcha
 	define('CAPTCHA_NUMCHARS', 6);  // number of characters in pass-phrase
-	define('CAPTCHA_WIDTH', 100);   // width of image. Add more width if increase CAPTCHA_NUMCHARS
-	define('CAPTCHA_HEIGHT', 30);   // height of image. Add more height if increase CAPTCHA_NUMCHARS
-	define('CAPTCHA_NUMDOTS', 100);   // dots in the image. Add more height if increase CAPTCHA_NUMCHARS
-	define('CAPTCHA_NUMLINES', 4);   // lines in the image. Add more height if increase CAPTCHA_NUMCHARS
+	define('CAPTCHA_WIDTH', 150);   // width of image. Add more width if increase CAPTCHA_NUMCHARS
+	define('CAPTCHA_HEIGHT', 45);   // height of image. Add more height if increase CAPTCHA_NUMCHARS
+	define('CAPTCHA_NUMDOTS', 300);   // dots in the image. Add more height if increase CAPTCHA_NUMCHARS
+	define('CAPTCHA_NUMLINES', 8);   // lines in the image. Add more height if increase CAPTCHA_NUMCHARS
 ?>
