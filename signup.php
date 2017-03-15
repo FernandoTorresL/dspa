@@ -6,6 +6,8 @@
   require_once('lib/appvars.php');
   require_once('lib/connectvars.php');
 
+  require_once( 'commonfiles/funciones.php');
+
   // Insert the page header
   $page_title = MM_APPNAME;
   require_once('lib/header.php');
@@ -87,31 +89,21 @@
     echo '<h5 class="red-text">' . $error_msg . '</h5>';
 ?>
 
-    <section id="main-container">
-    <div class="row">
+    <section id="forma" class="forma contenedor">
+      <article class="forma">
 
-      <div class="col s4">
-        <div class="container">
-          <img src="images/sign_up_256.png" />
-          <h6 class="center teal-text">Ingresa todos los datos para registrarte</h6>
-        </div>
-      </div>
-
-      <div class="col s4">
-        <div class="row">
-          <div class="signup-box">
-
-            <form class="signup-form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <div class="contenedor-modulo-a">
+          <form class="signup-form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 
               <div class="section">
 
-                <i class="small material-icons prefix teal-text">account_circle</i>
+                <!-- <i class="small material-icons prefix teal-text">account_circle</i> -->
                 <div class="input-field teal-text">
                   <input type="text" required class="active validate" length="18" name="username" id=username  value="<?php if ( !empty( $user_username ) ) echo $user_username; ?>" />
                   <label data-error="Error al capturar CURP" for="curp">CURP</label>
                 </div>
 
-                <i class="small material-icons prefix teal-text">vpn_key</i>
+                <!-- <i class="small material-icons prefix teal-text">vpn_key</i> -->
                 <div class="input-field teal-text">
                   <input type="password" required class="active validate" minlength=6 maxlength=12 id="password1" name="password1" />
                   <label data-error="Error al capturar contraseña" for="password1">Contraseña (entre 6 y 12 caracteres)</label>
@@ -122,7 +114,7 @@
                   <label data-error="Error al repetir la contraseña" for="password2">Repite la contraseña</label>
                 </div>
 
-                <i class="small material-icons prefix teal-text">dialpad</i> 
+                <!-- <i class="small material-icons prefix teal-text">dialpad</i>  -->
                   <img align="right" src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />
 
                 <div class="input-field teal-text">
@@ -131,18 +123,18 @@
                 </div>
 
                 <div class="input-field center">
-                  <button class="btn waves-effect waves-light btn-signup center white-text teal" type="submit" name="submit">Registra Solicitud de Usuario
-                    <i class="material-icons right white-text">send</i>
-                  </button>
+                  <button class="btn waves-effect waves-light btn-signup center white-text teal" type="submit" name="submit">Registra Solicitud de Usuario</button>
                 </div>
 
               </div>
 
             </form>
 
-          </div>
         </div>
-      </div>
+
+      </article>
+    </section>
+    
 
       <div class="col s4">
         <div class="container">
