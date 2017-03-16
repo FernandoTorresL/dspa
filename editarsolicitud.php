@@ -56,7 +56,24 @@
     $cmbgpoactual =         mysqli_real_escape_string( $dbc, trim( $_POST['cmbgpoactual'] ) );
     $cmbcausarechazo =      mysqli_real_escape_string( $dbc, trim( $_POST['cmbcausarechazo'] ) );
     $comentario =           mysqli_real_escape_string( $dbc, trim( $_POST['comentario'] ) );
+    
+    /*if ( !isset( $_FILES['new_file']['name'] ) ) { 
+      $new_file_var = $nom_archivo_BD . '|Con Archi';
+      $Actualizar_new_file = false;
+    } 
+    else {
+      $new_file_var = 'Sin archi';
+    }*/
+
     $new_file =             mysqli_real_escape_string( $dbc, trim( $_FILES['new_file']['name'] ) );
+    /*echo 'CON archivo nuevo, actualicemos!';*/
+    $Actualizar_new_file = true;
+
+    if ( $new_file == '' ) {
+      /*  echo 'Sin archivo nuevo, usemos el mismo';*/
+      $Actualizar_new_file = false;
+    }
+    
     $new_file_type = $_FILES['new_file']['type'];
     $new_file_size = $_FILES['new_file']['size'];
 
@@ -185,365 +202,370 @@
               $output_form = 'yes';
             }
 
-            if ( empty( $new_file ) ) {
-              echo '<p class="error">Olvidaste adjuntar un Archivo.</p>';
-              $output_form = 'yes';
-            }
-
             if ( $output_form == 'no' ) {
 
-              // Validate and move the uploaded picture file, if necessary
-              if ( !empty( $new_file ) ) {
+              $error = false;
 
-                if ( ( ( $new_file_type == 'application/pdf' ) || ( $new_file_type == 'image/gif' ) || ( $new_file_type == 'image/jpeg' ) || ( $new_file_type == 'image/pjpeg' ) || ( $new_file_type == 'image/png' ) ) && ( ( $new_file_size > 0 ) && ( $new_file_size <= MM_MAXFILESIZE_VALIJA ) ) ) {
-                  if ( $_FILES['new_file']['error'] == 0 ) {
-                    $timetime = time();
-                    //Move the file to the target upload folder
-                    $target = MM_UPLOADPATH_CTASSINDO . $timetime . " " . basename( $new_file );
+              //Si el archivo no es neuvo, no tiene caso realizar las siguientes validaciones
+              if ( $Actualizar_new_file ) {
 
-                      // The new file file move was successful, now make sure any old file is deleted
-                    if ( move_uploaded_file( $_FILES['new_file']['tmp_name'], $target ) ) {
-                      // Conectarse a la BD
-                      $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+                // Validate and move the uploaded picture file, if necessary
+                if ( !empty( $new_file ) ) {
 
-                                    /*id_lote = '$cmbLotes', */
-                      $query = "UPDATE ctas_solicitudes
-                                SET id_valija = '$cmbValijas', 
-                                    fecha_solicitud_del = '$fecha_solicitud_del',
-                                    fecha_modificacion = NOW(),
-                                    delegacion = '$cmbDelegaciones',
-                                    subdelegacion = '$cmbSubdelegaciones',
-                                    nombre = '$nombre',
-                                    primer_apellido = '$primer_apellido',
-                                    segundo_apellido = '$segundo_apellido',
-                                    matricula = '$matricula',
-                                    curp = '$curp',
-                                    usuario = '$usuario',
-                                    id_movimiento = '$cmbtipomovimiento',
-                                    id_grupo_actual = '$cmbgpoactual',
-                                    id_grupo_nuevo = '$cmbgponuevo',
-                                    comentario = '$comentario',
-                                    id_causarechazo = $cmbcausarechazo, 
-                                    archivo = '$timetime $new_file',
-                                    user_id = " . $_SESSION['user_id'] . " WHERE ";
+                  if ( ( ( $new_file_type == 'application/pdf' ) || ( $new_file_type == 'image/gif' ) || ( $new_file_type == 'image/jpeg' ) || ( $new_file_type == 'image/pjpeg' ) || ( $new_file_type == 'image/png' ) ) && ( ( $new_file_size > 0 ) && ( $new_file_size <= MM_MAXFILESIZE_VALIJA ) ) ) {
+                    if ( $_FILES['new_file']['error'] == 0 ) {
+                      $timetime = time();
+                      //Move the file to the target upload folder
+                      $target = MM_UPLOADPATH_CTASSINDO . $timetime . " " . basename( $new_file );
 
-                        $query = $query . "id_solicitud = '" . $id_solicitud . "' LIMIT 1";
-                        
-                      /*echo $query;*/
-                      mysqli_query( $dbc, $query );
+                        // The new file file move was successful, now make sure any old file is deleted
+                      if ( move_uploaded_file( $_FILES['new_file']['tmp_name'], $target ) ) {
 
-                      /*$query = "SELECT LAST_INSERT_ID()";
-                      $result = mysqli_query( $dbc, $query );
-                      $data = mysqli_query( $dbc, $query );
-
-                      if ( mysqli_num_rows( $data ) == 1 ) {
-                        // The user row was found so display the user data
-                        $row = mysqli_fetch_array($data);*/
-                        echo '<p class="nota"><strong>¡La solicitud ha sido actualizada!</strong></p>';
-
-                        echo '<p class="titulo2">Puede agregar una <a href="agregarsolicitud.php">nueva solicitud</a></p>';
-                        /*echo '<p class="titulo2">Agregar <a href="agregarvalija.php">nueva valija</a></p>';*/
-                        echo '<p>O puede regresar al <a href="indexCuentasSINDO.php">inicio</a></p>';
-
-                        $query = "SELECT ctas_solicitudes.id_solicitud, ctas_solicitudes.id_valija, 
-                              ctas_solicitudes.fecha_captura_ca, ctas_solicitudes.fecha_solicitud_del, ctas_solicitudes.fecha_modificacion, ctas_solicitudes.id_lote,
-                              ctas_solicitudes.delegacion, ctas_solicitudes.subdelegacion, 
-                              ctas_solicitudes.nombre, ctas_solicitudes.primer_apellido, ctas_solicitudes.segundo_apellido, 
-                              ctas_solicitudes.matricula, ctas_solicitudes.curp, ctas_solicitudes.curp_correcta, ctas_solicitudes.cargo, ctas_solicitudes.usuario, 
-                              ctas_solicitudes.id_movimiento, ctas_solicitudes.id_grupo_actual, ctas_solicitudes.id_grupo_nuevo, 
-                              ctas_solicitudes.comentario, ctas_solicitudes.id_causarechazo, ctas_solicitudes.archivo,
-                              CONCAT(ctas_usuarios.first_name, ' ', ctas_usuarios.first_last_name) AS creada_por
-                            FROM ctas_solicitudes, ctas_grupos grupos1, ctas_grupos grupos2, ctas_usuarios
-                            WHERE ctas_solicitudes.id_grupo_nuevo= grupos1.id_grupo
-                            AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
-                            AND   ctas_solicitudes.user_id = ctas_usuarios.user_id ";
-
-                        $query = $query . "AND ctas_solicitudes.id_solicitud = '" . $id_solicitud . "'";
-                        $data = mysqli_query( $dbc, $query );
-
-                        if ( mysqli_num_rows( $data ) == 1 ) {
-                          // The user row was found so display the user data
-                          $rowB = mysqli_fetch_array($data);
-                        }
-
-                        ?>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col s5">
-                          <div class="signup-box">
-                            <div class="container">
-
-                            <div class="input-field">
-                            <input hidden disabled type="text" required class="active validate" name="id_solicitud" id="id_solicitud" value="<?php if ( !empty( $rowB['id_solicitud'] ) ) echo $rowB['id_solicitud']; ?>"/>
-                            <label hidden data-error="Error" for="id_solicitud">ID Solicitud</label>
-                          </div>
-
-                          <div class="input-field">
-                            <i class="material-icons prefix">view_quilt</i>
-                            <select disabled id="cmbLotes" name="cmbLotes">
-                            <?php
-                              $query = "SELECT ctas_lotes.id_lote AS id_lote2,
-                                         ctas_lotes.lote_anio 
-                                        FROM ctas_lotes 
-                                        WHERE ctas_lotes.id_lote = " . $rowB['id_lote'];
-                              $result = mysqli_query( $dbc, $query );
-
-                              while ( $row2 = mysqli_fetch_array( $result ) )
-                                  echo '<option value="' . $row2['id_lote2'] . '" selected>' . $row2['lote_anio'] . '</option>';
-                                ?>
-                            </select>
-                            <label>Número de Lote</label>
-                          </div>
-
-                          <div class="input-field">
-                            <i class="material-icons prefix">description</i>
-                            <select disabled id="cmbValijas" name="cmbValijas">
-                              <?php
-                                $query = "SELECT ctas_valijas.id_valija AS id_valija2, 
-                                            ctas_valijas.delegacion AS num_del, 
-                                            ctas_delegaciones.descripcion AS delegacion_descripcion, 
-                                            ctas_valijas.num_oficio_del,
-                                            ctas_valijas.num_oficio_ca, 
-                                            ctas_valijas.user_id
-                                          FROM ctas_valijas, ctas_delegaciones 
-                                          WHERE ctas_valijas.delegacion = ctas_delegaciones.delegacion 
-                                          AND ctas_valijas.id_valija = " . $rowB['id_valija'];
-                                $result = mysqli_query( $dbc, $query );
-                                while ( $row2 = mysqli_fetch_array( $result ) )
-                                  echo '<option value="' . $row2['id_valija2'] . '" selected>' . $row2['num_oficio_ca'] . ': ' . $row2['num_del'] . '-' . $row2['delegacion_descripcion'] . '</option>';
-                              ?>
-                            </select>
-                            <label for="cmbValijas">Núm. de Valija/Oficio</label>
-                          </div>
-
-                              <label for="fecha_solicitud_del">Fecha solicitud:</label>
-                              <div class="input-field">
-                                <i class="material-icons prefix">today</i>
-                                <input disabled type="text" id="fecha_solicitud_del" name="fecha_solicitud_del" value="<?php if ( !empty( $rowB['fecha_solicitud_del'] ) ) echo $rowB['fecha_solicitud_del']; ?>"/>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">view_list</i>
-                                <select disabled id="cmbtipomovimiento" name="cmbtipomovimiento">
-                                  <?php
-                                    $query = "SELECT * 
-                                              FROM ctas_movimientos
-                                              WHERE id_movimiento = " . $rowB['id_movimiento'];
-                                    $result = mysqli_query( $dbc, $query );
-                                    while ( $row2 = mysqli_fetch_array( $result ) )
-                                      echo '<option value="' . $row2['id_movimiento'] . '" ' . fntipomovimientoSelect( $row2['id_movimiento'] ) . '>' . $row2['descripcion'] . '</option>';
-                                  ?>
-                                </select>
-                                <label for="cmbtipomovimiento">Tipo de Movimiento</label>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="large material-icons prefix">business</i>
-                                <select disabled id="cmbDelegaciones" name="cmbDelegaciones" >
-                                  <?php
-                                    $query = "SELECT * 
-                                              FROM ctas_delegaciones 
-                                              WHERE delegacion = " . $rowB['delegacion'];
-                                    $result = mysqli_query( $dbc, $query );
-                                    while ( $row2 = mysqli_fetch_array( $result ) )
-                                      echo '<option value="' . $row2['delegacion'] . '" selected>' . $row2['delegacion'] . ' - ' . $row2['descripcion'] . '</option>';
-                                  ?>
-                                </select>
-                                <label>Delegación IMSS</label>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">store</i>
-                                <select disabled class="active validate" id="cmbSubdelegaciones" name="cmbSubdelegaciones" >
-                                  <?php
-                                    $query = "SELECT * 
-                                              FROM ctas_subdelegaciones 
-                                              WHERE delegacion = " . $rowB['delegacion'] . " AND subdelegacion = " . $rowB['subdelegacion'];
-                                    $result = mysqli_query( $dbc, $query );
-                                    while ( $row2 = mysqli_fetch_array( $result ) )
-                                      echo '<option value="' . $row2['subdelegacion'] . '" selected>' . $row2['subdelegacion'] . ' - ' . $row2['descripcion'] . '</option>';
-                                  ?>
-                                </select>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">perm_identity</i>
-                                <input disabled type="text" class="active validate" name="primer_apellido" id="primer_apellido" length="32" value="<?php if ( !empty( $rowB['primer_apellido'] ) ) echo $rowB['primer_apellido']; ?>"/>
-                                <label data-error="Error" for="primer_apellido">Primer apellido</label>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">perm_identity</i>
-                                <input disabled type="text" class="active validate" name="segundo_apellido" id="segundo_apellido" length="32" value="<?php if ( !empty( $rowB['segundo_apellido'] ) ) echo $rowB['segundo_apellido']; ?>"/>
-                                <label data-error="Error" for="segundo_apellido">Segundo apellido</label>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">perm_identity</i>
-                                <input disabled type="text" required class="active validate" name="nombre" id="nombre" length="32" value="<?php if ( !empty( $rowB['nombre'] ) ) echo $rowB['nombre']; ?>"/>
-                                <label data-error="Error" for="nombre">Nombre(s)</label>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">assignment_ind</i>
-                                <input disabled type="text" required class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $rowB['matricula'] ) ) echo $rowB['matricula']; ?>'/>
-                                <label data-error="Error" for="matricula">Matrícula</label>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col s5">
-                          <div class="signup-box">
-                            <div class="container">
-
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">account_circle</i>
-                                <input disabled type="text" required class="active validate" name="curp" id="curp" length="18" value="<?php if ( !empty( $rowB['curp'] ) ) echo $rowB['curp']; ?>" />
-                                <label data-error="Error" for="curp">CURP</label>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">assignment</i>
-                                <input disabled type="text" required class="active validate" name="usuario" id="usuario" length="7" value="<?php if ( !empty( $rowB['usuario'] ) ) echo $rowB['usuario']; ?>" />
-                                <label data-error="Error" for="usuario">Usuario</label>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">label_outline</i>
-                                <select disabled id="cmbgpoactual" class="active validate" name="cmbgpoactual" >
-                                  <?php
-                                    $query = "SELECT * 
-                                              FROM ctas_grupos 
-                                              WHERE id_grupo = " . $rowB['id_grupo_actual'];
-                                    $result = mysqli_query( $dbc, $query );
-                                    while ( $row2 = mysqli_fetch_array( $result ) )
-                                      echo '<option value="' . $row2['id_grupo'] . '" selected>' . $row2['descripcion'] . '</option>';
-                                  ?>
-                                </select>
-                                <label>Grupo Actual</label>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">label</i>
-                                <select disabled id="cmbgponuevo" name="cmbgponuevo" >
-                                  <?php
-                                    $query = "SELECT * 
-                                              FROM ctas_grupos 
-                                              WHERE id_grupo = " . $rowB['id_grupo_nuevo'];
-                                    $result = mysqli_query( $dbc, $query );
-                                    while ( $row2 = mysqli_fetch_array( $result ) )
-                                      echo '<option value="' . $row2['id_grupo'] . '" selected>' . $row2['descripcion'] . '</option>';
-                                  ?>
-                                </select>
-                                <label>Grupo Nuevo</label>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">report_problem</i>
-                                <select disabled id="cmbcausarechazo" name="cmbcausarechazo" >
-                                  <?php
-                                    $query = "SELECT * 
-                                              FROM ctas_causasrechazo
-                                              WHERE id_causarechazo = " . $rowB['id_causarechazo'];
-                                    $result = mysqli_query( $dbc, $query );
-                                    while ( $row2 = mysqli_fetch_array( $result ) )
-                                      echo '<option value="' . $row2['id_causarechazo'] . '" selected>' . $row2['id_causarechazo'] . ' - ' . $row2['descripcion'] . '</option>';
-                                  ?>
-                                </select>
-                                <label>Causa de Rechazo</label>
-                              </div>
-                                  
-                              <div class="input-field">
-                                <i class="material-icons prefix">comment</i>
-                                <textarea disabled class="materialize-textarea" class="validate" id="comentario" length="256" name="comentario"><?php if ( !empty( $rowB['comentario'] ) ) echo $rowB['comentario']; ?></textarea>
-                                <label data-error="Error" for="comentario">Comentario</label>
-                              </div>
-
-                              <div>
-                                <i class="material-icons prefix">description</i>
-                                <label data-error="Error" for="usuario">Archivo</label>
-                                <div class="section" align="right">
-                                  <?php 
-                                    if ( !empty( $rowB['archivo'] ) ) 
-                                      echo '<a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $rowB['archivo'] . '"  target="_new">' . $rowB['archivo'] . '</a>';
-                                    else echo '(Vacío)';
-                                  ?>
-                                </div>
-                              </div>
-
-                              <div class="input-field">
-                                <i class="material-icons prefix">contact</i>
-                                <input disabled type="text" required class="active validate" name="user_id" id="user_id" length="50" value="<?php if ( !empty( $rowB['creada_por'] ) ) echo $rowB['creada_por']; ?>" />
-                                <label data-error="Error" for="user_id">Modificada por:</label>
-                              </div>
-
-                              <label for="fecha_modificacion">Fecha Modificación:</label>
-                              <div class="input-field">
-                                <i class="material-icons prefix">today</i>
-                                <input disabled type="text" id="fecha_modificacion" name="fecha_modificacion" value="<?php if ( !empty( $rowB['fecha_modificacion'] ) ) echo $rowB['fecha_modificacion']; ?>"/>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-
-                      <?php
-                      /*}
+                        $error = false; //No hay error, podremos hacer UPDATE (línea 257) y mostrar los resultados
+                      }
                       else {
-                        echo '<p class="error"><strong>La nueva solicitud no ha podido generarse. Contactar al administrador.</strong></p>';
-                      }*/
+                        // The new picture file move failed, so delete the temporary file and set the error flag
+                        @unlink( $_FILES['new_file']['tmp_name'] );
+                        $error = true;
+                        echo '<p class="error">Lo sentimos, hubo un problema al cargar tu archivo.</p>';
+                      } // if ( move_uploaded_file(...
 
-                      // Clear the score data to clear the form
-                      $_POST['id_solicitud']    = 0;
-                      $_POST['cmbLotes']    = 0;
-                      $_POST['cmbValijas'] = 0;
-                      $_POST['fecha_solicitud_del'] = "";
-                      $_POST['fecha_modificacion'] = "";
-                      $_POST['cmbtipomovimiento'] = 0;
-                      $_POST['cmbDelegaciones'] = 0;
-                      $_POST['cmbSubdelegaciones'] = -1;
-                      $_POST['nombre'] = "";
-                      $_POST['primer_apellido'] = "";
-                      $_POST['segundo_apellido'] = "";
-                      $_POST['matricula'] = "";
-                      $_POST['curp'] = "";
-                      $_POST['cargo'] = "";
-                      $_POST['usuario'] = "";
-                      $_POST['cmbgpoactual'] = 0;
-                      $_POST['cmbgponuevo'] = 0;
-                      $_POST['cmbcausarechazo'] = -1;
-                      $_POST['comentario'] = "";
-                      $_POST['new_file'] = "";
+                    } // if ( $_FILES['new_file']['error'] == 0 )...
 
-                      mysqli_close( $dbc );
-                    }
-                    else {
-                      // The new picture file move failed, so delete the temporary file and set the error flag
-                      @unlink( $_FILES['new_file']['tmp_name'] );
-                      $error = true;
-                      echo '<p class="error">Lo sentimos, hubo un problema al cargar tu archivo.</p>';
-                    } // if ( move_uploaded_file(...
+                  }
+                  else {
+                  // The new picture file is not valid, so delete the temporary file and set the error flag
+                    @unlink( $_FILES['new_file']['tmp_name'] );
+                    $error = true;
+                    echo '<p class="error">El archivo debe ser PDF, GIF, JPEG o PNG no mayor de '. ( MM_MAXFILESIZE_VALIJA / 1024 ) . ' KB de tamaño.</p>';
+                  } // if ( ( ( $new_file_type == 'application/pdf' )...
 
-                  } // if ( $_FILES['new_file']['error'] == 0 )...
-
-                }
+                } // ELSE de "if ( !empty( $new_file ) )"
                 else {
-                // The new picture file is not valid, so delete the temporary file and set the error flag
-                  @unlink( $_FILES['new_file']['tmp_name'] );
-                  $error = true;
-                  echo '<p class="error">El archivo debe ser PDF, GIF, JPEG o PNG no mayor de '. ( MM_MAXFILESIZE_VALIJA / 1024 ) . ' KB de tamaño.</p>';
-                } // if ( ( ( $new_file_type == 'application/pdf' )...
+                  $output_form = 'yes';
+                }
 
-              } //FIN de "if (isset($_POST['submit']))"
-              else {
-                $output_form = 'yes';
-              }
-            }
+              } // END IF de "if ( $Actualizar_new_file )"
+
+              if ( !$error ) { //Si no hay error, hacemos el UPDATE y mostramos el registro modificado:
+
+                // Conectarse a la BD
+                $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+
+                $query = "UPDATE ctas_solicitudes
+                        SET id_valija = '$cmbValijas', 
+                            fecha_solicitud_del = '$fecha_solicitud_del',
+                            fecha_modificacion = NOW(),
+                            delegacion = '$cmbDelegaciones',
+                            subdelegacion = '$cmbSubdelegaciones',
+                            nombre = '$nombre',
+                            primer_apellido = '$primer_apellido',
+                            segundo_apellido = '$segundo_apellido',
+                            matricula = '$matricula',
+                            curp = '$curp',
+                            usuario = '$usuario',
+                            id_movimiento = '$cmbtipomovimiento',
+                            id_grupo_actual = '$cmbgpoactual',
+                            id_grupo_nuevo = '$cmbgponuevo',
+                            comentario = '$comentario',
+                            id_causarechazo = '$cmbcausarechazo',";
+
+                if ( $Actualizar_new_file ) { //...si hay nuevo archivo, sí hay que agregar campo "archivo"
+                  $query = $query . "archivo = '$timetime $new_file',";
+                }
+
+                $query = $query . "user_id = " . $_SESSION['user_id'] . " WHERE 
+                                  id_solicitud = '" . $id_solicitud . "' LIMIT 1";
+
+                /*echo $query;*/
+                mysqli_query( $dbc, $query );
+
+                echo '<p class="nota"><strong>¡La solicitud ha sido actualizada!</strong></p>';
+
+                echo '<p class="titulo2">Puede agregar una <a href="agregarsolicitud.php">nueva solicitud</a></p>';
+                /*echo '<p class="titulo2">Agregar <a href="agregarvalija.php">nueva valija</a></p>';*/
+                echo '<p>O puede regresar al <a href="indexCuentasSINDO.php">inicio</a></p>';
+
+                $query = "SELECT ctas_solicitudes.id_solicitud, ctas_solicitudes.id_valija, 
+                      ctas_solicitudes.fecha_captura_ca, ctas_solicitudes.fecha_solicitud_del, ctas_solicitudes.fecha_modificacion, ctas_solicitudes.id_lote,
+                      ctas_solicitudes.delegacion, ctas_solicitudes.subdelegacion, 
+                      ctas_solicitudes.nombre, ctas_solicitudes.primer_apellido, ctas_solicitudes.segundo_apellido, 
+                      ctas_solicitudes.matricula, ctas_solicitudes.curp, ctas_solicitudes.curp_correcta, ctas_solicitudes.cargo, ctas_solicitudes.usuario, 
+                      ctas_solicitudes.id_movimiento, ctas_solicitudes.id_grupo_actual, ctas_solicitudes.id_grupo_nuevo, 
+                      ctas_solicitudes.comentario, ctas_solicitudes.id_causarechazo, ctas_solicitudes.archivo,
+                      CONCAT(ctas_usuarios.first_name, ' ', ctas_usuarios.first_last_name) AS creada_por
+                    FROM ctas_solicitudes, ctas_grupos grupos1, ctas_grupos grupos2, ctas_usuarios
+                    WHERE ctas_solicitudes.id_grupo_nuevo= grupos1.id_grupo
+                    AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
+                    AND   ctas_solicitudes.user_id = ctas_usuarios.user_id ";
+
+                $query = $query . "AND ctas_solicitudes.id_solicitud = '" . $id_solicitud . "'";
+                $data = mysqli_query( $dbc, $query );
+
+                if ( mysqli_num_rows( $data ) == 1 ) {
+                  // The user row was found so display the user data
+                  $rowB = mysqli_fetch_array($data);
+                }
+
+                ?>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col s5">
+                  <div class="signup-box">
+                    <div class="container">
+
+                    <div class="input-field">
+                    <input hidden disabled type="text" required class="active validate" name="id_solicitud" id="id_solicitud" value="<?php if ( !empty( $rowB['id_solicitud'] ) ) echo $rowB['id_solicitud']; ?>"/>
+                    <label hidden data-error="Error" for="id_solicitud">ID Solicitud</label>
+                  </div>
+
+                  <div class="input-field">
+                    <i class="material-icons prefix">view_quilt</i>
+                    <select disabled id="cmbLotes" name="cmbLotes">
+                    <?php
+                      $query = "SELECT ctas_lotes.id_lote AS id_lote2,
+                                 ctas_lotes.lote_anio 
+                                FROM ctas_lotes 
+                                WHERE ctas_lotes.id_lote = " . $rowB['id_lote'];
+                      $result = mysqli_query( $dbc, $query );
+
+                      while ( $row2 = mysqli_fetch_array( $result ) )
+                          echo '<option value="' . $row2['id_lote2'] . '" selected>' . $row2['lote_anio'] . '</option>';
+                        ?>
+                    </select>
+                    <label>Número de Lote</label>
+                  </div>
+
+                  <div class="input-field">
+                    <i class="material-icons prefix">description</i>
+                    <select disabled id="cmbValijas" name="cmbValijas">
+                      <?php
+                        $query = "SELECT ctas_valijas.id_valija AS id_valija2, 
+                                    ctas_valijas.delegacion AS num_del, 
+                                    ctas_delegaciones.descripcion AS delegacion_descripcion, 
+                                    ctas_valijas.num_oficio_del,
+                                    ctas_valijas.num_oficio_ca, 
+                                    ctas_valijas.user_id
+                                  FROM ctas_valijas, ctas_delegaciones 
+                                  WHERE ctas_valijas.delegacion = ctas_delegaciones.delegacion 
+                                  AND ctas_valijas.id_valija = " . $rowB['id_valija'];
+                        $result = mysqli_query( $dbc, $query );
+                        while ( $row2 = mysqli_fetch_array( $result ) )
+                          echo '<option value="' . $row2['id_valija2'] . '" selected>' . $row2['num_oficio_ca'] . ': ' . $row2['num_del'] . '-' . $row2['delegacion_descripcion'] . '</option>';
+                      ?>
+                    </select>
+                    <label for="cmbValijas">Núm. de Valija/Oficio</label>
+                  </div>
+
+                      <label for="fecha_solicitud_del">Fecha solicitud:</label>
+                      <div class="input-field">
+                        <i class="material-icons prefix">today</i>
+                        <input disabled type="text" id="fecha_solicitud_del" name="fecha_solicitud_del" value="<?php if ( !empty( $rowB['fecha_solicitud_del'] ) ) echo $rowB['fecha_solicitud_del']; ?>"/>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">view_list</i>
+                        <select disabled id="cmbtipomovimiento" name="cmbtipomovimiento">
+                          <?php
+                            $query = "SELECT * 
+                                      FROM ctas_movimientos
+                                      WHERE id_movimiento = " . $rowB['id_movimiento'];
+                            $result = mysqli_query( $dbc, $query );
+                            while ( $row2 = mysqli_fetch_array( $result ) )
+                              echo '<option value="' . $row2['id_movimiento'] . '" ' . fntipomovimientoSelect( $row2['id_movimiento'] ) . '>' . $row2['descripcion'] . '</option>';
+                          ?>
+                        </select>
+                        <label for="cmbtipomovimiento">Tipo de Movimiento</label>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="large material-icons prefix">business</i>
+                        <select disabled id="cmbDelegaciones" name="cmbDelegaciones" >
+                          <?php
+                            $query = "SELECT * 
+                                      FROM ctas_delegaciones 
+                                      WHERE delegacion = " . $rowB['delegacion'];
+                            $result = mysqli_query( $dbc, $query );
+                            while ( $row2 = mysqli_fetch_array( $result ) )
+                              echo '<option value="' . $row2['delegacion'] . '" selected>' . $row2['delegacion'] . ' - ' . $row2['descripcion'] . '</option>';
+                          ?>
+                        </select>
+                        <label>Delegación IMSS</label>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">store</i>
+                        <select disabled class="active validate" id="cmbSubdelegaciones" name="cmbSubdelegaciones" >
+                          <?php
+                            $query = "SELECT * 
+                                      FROM ctas_subdelegaciones 
+                                      WHERE delegacion = " . $rowB['delegacion'] . " AND subdelegacion = " . $rowB['subdelegacion'];
+                            $result = mysqli_query( $dbc, $query );
+                            while ( $row2 = mysqli_fetch_array( $result ) )
+                              echo '<option value="' . $row2['subdelegacion'] . '" selected>' . $row2['subdelegacion'] . ' - ' . $row2['descripcion'] . '</option>';
+                          ?>
+                        </select>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">perm_identity</i>
+                        <input disabled type="text" class="active validate" name="primer_apellido" id="primer_apellido" length="32" value="<?php if ( !empty( $rowB['primer_apellido'] ) ) echo $rowB['primer_apellido']; ?>"/>
+                        <label data-error="Error" for="primer_apellido">Primer apellido</label>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">perm_identity</i>
+                        <input disabled type="text" class="active validate" name="segundo_apellido" id="segundo_apellido" length="32" value="<?php if ( !empty( $rowB['segundo_apellido'] ) ) echo $rowB['segundo_apellido']; ?>"/>
+                        <label data-error="Error" for="segundo_apellido">Segundo apellido</label>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">perm_identity</i>
+                        <input disabled type="text" required class="active validate" name="nombre" id="nombre" length="32" value="<?php if ( !empty( $rowB['nombre'] ) ) echo $rowB['nombre']; ?>"/>
+                        <label data-error="Error" for="nombre">Nombre(s)</label>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">assignment_ind</i>
+                        <input disabled type="text" required class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $rowB['matricula'] ) ) echo $rowB['matricula']; ?>'/>
+                        <label data-error="Error" for="matricula">Matrícula</label>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col s5">
+                  <div class="signup-box">
+                    <div class="container">
+
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input disabled type="text" required class="active validate" name="curp" id="curp" length="18" value="<?php if ( !empty( $rowB['curp'] ) ) echo $rowB['curp']; ?>" />
+                        <label data-error="Error" for="curp">CURP</label>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">assignment</i>
+                        <input disabled type="text" required class="active validate" name="usuario" id="usuario" length="7" value="<?php if ( !empty( $rowB['usuario'] ) ) echo $rowB['usuario']; ?>" />
+                        <label data-error="Error" for="usuario">Usuario</label>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">label_outline</i>
+                        <select disabled id="cmbgpoactual" class="active validate" name="cmbgpoactual" >
+                          <?php
+                            $query = "SELECT * 
+                                      FROM ctas_grupos 
+                                      WHERE id_grupo = " . $rowB['id_grupo_actual'];
+                            $result = mysqli_query( $dbc, $query );
+                            while ( $row2 = mysqli_fetch_array( $result ) )
+                              echo '<option value="' . $row2['id_grupo'] . '" selected>' . $row2['descripcion'] . '</option>';
+                          ?>
+                        </select>
+                        <label>Grupo Actual</label>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">label</i>
+                        <select disabled id="cmbgponuevo" name="cmbgponuevo" >
+                          <?php
+                            $query = "SELECT * 
+                                      FROM ctas_grupos 
+                                      WHERE id_grupo = " . $rowB['id_grupo_nuevo'];
+                            $result = mysqli_query( $dbc, $query );
+                            while ( $row2 = mysqli_fetch_array( $result ) )
+                              echo '<option value="' . $row2['id_grupo'] . '" selected>' . $row2['descripcion'] . '</option>';
+                          ?>
+                        </select>
+                        <label>Grupo Nuevo</label>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">report_problem</i>
+                        <select disabled id="cmbcausarechazo" name="cmbcausarechazo" >
+                          <?php
+                            $query = "SELECT * 
+                                      FROM ctas_causasrechazo
+                                      WHERE id_causarechazo = " . $rowB['id_causarechazo'];
+                            $result = mysqli_query( $dbc, $query );
+                            while ( $row2 = mysqli_fetch_array( $result ) )
+                              echo '<option value="' . $row2['id_causarechazo'] . '" selected>' . $row2['id_causarechazo'] . ' - ' . $row2['descripcion'] . '</option>';
+                          ?>
+                        </select>
+                        <label>Causa de Rechazo</label>
+                      </div>
+                          
+                      <div class="input-field">
+                        <i class="material-icons prefix">comment</i>
+                        <textarea disabled class="materialize-textarea" class="validate" id="comentario" length="256" name="comentario"><?php if ( !empty( $rowB['comentario'] ) ) echo $rowB['comentario']; ?></textarea>
+                        <label data-error="Error" for="comentario">Comentario</label>
+                      </div>
+
+                      <div>
+                        <i class="material-icons prefix">description</i>
+                        <label data-error="Error" for="usuario">Archivo</label>
+                        <div class="section" align="right">
+                          <?php 
+                            if ( !empty( $rowB['archivo'] ) ) 
+                              echo '<a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $rowB['archivo'] . '"  target="_new">' . $rowB['archivo'] . '</a>';
+                            else echo '(Vacío)';
+                          ?>
+                        </div>
+                      </div>
+
+                      <div class="input-field">
+                        <i class="material-icons prefix">contact</i>
+                        <input disabled type="text" required class="active validate" name="user_id" id="user_id" length="50" value="<?php if ( !empty( $rowB['creada_por'] ) ) echo $rowB['creada_por']; ?>" />
+                        <label data-error="Error" for="user_id">Modificada por:</label>
+                      </div>
+
+                      <label for="fecha_modificacion">Fecha Modificación:</label>
+                      <div class="input-field">
+                        <i class="material-icons prefix">today</i>
+                        <input disabled type="text" id="fecha_modificacion" name="fecha_modificacion" value="<?php if ( !empty( $rowB['fecha_modificacion'] ) ) echo $rowB['fecha_modificacion']; ?>"/>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <?php
+                /*}
+                else {
+                  echo '<p class="error"><strong>La nueva solicitud no ha podido generarse. Contactar al administrador.</strong></p>';
+                }*/
+
+                // Clear the score data to clear the form
+                $_POST['id_solicitud']    = 0;
+                $_POST['cmbLotes']    = 0;
+                $_POST['cmbValijas'] = 0;
+                $_POST['fecha_solicitud_del'] = "";
+                $_POST['fecha_modificacion'] = "";
+                $_POST['cmbtipomovimiento'] = 0;
+                $_POST['cmbDelegaciones'] = 0;
+                $_POST['cmbSubdelegaciones'] = -1;
+                $_POST['nombre'] = "";
+                $_POST['primer_apellido'] = "";
+                $_POST['segundo_apellido'] = "";
+                $_POST['matricula'] = "";
+                $_POST['curp'] = "";
+                $_POST['cargo'] = "";
+                $_POST['usuario'] = "";
+                $_POST['cmbgpoactual'] = 0;
+                $_POST['cmbgponuevo'] = 0;
+                $_POST['cmbcausarechazo'] = -1;
+                $_POST['comentario'] = "";
+                $_POST['new_file'] = "";
+
+                mysqli_close( $dbc );
+
+              } //ENDIF de "if ( !$error )"
+
+            } // ELSE de "if ( $output_form == 'no' )"
             else {
               echo '<p class="error">Debes ingresar todos los datos obligatorios para registrar la solicitud.</p>';
             }
@@ -613,7 +635,8 @@
           $cmbgpoactual =         $rowF['id_grupo_actual'];
           $cmbcausarechazo =      $rowF['id_causarechazo'];
           $comentario =           $rowF['comentario'];
-          $archivo =              $rowF['archivo'];
+          $archivo        =       $rowF['archivo'];
+          $nom_archivo_BD =       $archivo;
           $creada_por =           $rowF['creada_por'];
 
           /*$new_file =             $_FILES['new_file']['name'];
