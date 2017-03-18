@@ -190,11 +190,6 @@
                 <label data-error="Error" for="nombre">Nombre(s)</label>
               </div>
 
-              <div class="input-field">
-                <i class="material-icons prefix">assignment_ind</i>
-                <input type="text" required disabled class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $row['matricula'] ) ) echo $row['matricula']; ?>'/>
-                <label data-error="Error" for="matricula">Matrícula</label>
-              </div>
 
             </div>
           </div>
@@ -204,6 +199,12 @@
           <div class="signup-box">
             <div class="container">
 
+              <div class="input-field">
+                <i class="material-icons prefix">assignment_ind</i>
+                <input type="text" required disabled class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $row['matricula'] ) ) echo $row['matricula']; ?>'/>
+                <label data-error="Error" for="matricula">Matrícula</label>
+              </div>
+              
               <div class="input-field">
                 <!-- <div class="section"> -->
                   <i class="material-icons prefix">account_circle</i>

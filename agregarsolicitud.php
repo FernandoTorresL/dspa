@@ -38,7 +38,6 @@
 
     $error_msg = fnConnect( $dbc );
 
-
     /*$cmbLotes =             mysqli_real_escape_string( $dbc, trim( $_POST['cmbLotes'] ) );*/
     $cmbLotes = 0;
     $cmbValijas =           mysqli_real_escape_string( $dbc, trim( $_POST['cmbValijas'] ) );
@@ -352,11 +351,6 @@
                                 <label data-error="Error" for="nombre">Nombre(s)</label>
                               </div>
 
-                              <div class="input-field">
-                                <i class="material-icons prefix">assignment_ind</i>
-                                <input disabled type="text" required class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $rowB['matricula'] ) ) echo $rowB['matricula']; ?>'/>
-                                <label data-error="Error" for="matricula">Matrícula</label>
-                              </div>
 
                             </div>
                           </div>
@@ -366,6 +360,11 @@
                           <div class="signup-box">
                             <div class="container">
 
+                              <div class="input-field">
+                                <i class="material-icons prefix">assignment_ind</i>
+                                <input disabled type="text" required class="active validate" name="matricula" id="matricula" length="32" value='<?php if ( !empty( $rowB['matricula'] ) ) echo $rowB['matricula']; ?>'/>
+                                <label data-error="Error" for="matricula">Matrícula</label>
+                              </div>
 
                               <div class="input-field">
                                 <i class="material-icons prefix">account_circle</i>
@@ -546,8 +545,10 @@
                                   ctas_valijas.user_id
                                 FROM ctas_valijas, ctas_delegaciones 
                                 WHERE ctas_valijas.delegacion = ctas_delegaciones.delegacion
-                                AND   YEAR(ctas_valijas.fecha_recepcion_ca) = 2017 
-                                ORDER BY ctas_valijas.id_valija ";
+                                AND ctas_valijas.fecha_recepcion_ca > '2017-03-06'
+                                ORDER BY ctas_valijas.fecha_recepcion_ca DESC, ctas_valijas.id_valija";
+                                //AND   YEAR(ctas_valijas.fecha_recepcion_ca) = 2017 
+                                //AND   ( YEAR(ctas_valijas.fecha_recepcion_ca) = 2017 OR YEAR(ctas_valijas.fecha_recepcion_ca) = 2016 ) 
                       $result = mysqli_query( $dbc, $query );
                       while ( $row = mysqli_fetch_array( $result ) )
                         echo '<option value="' . $row['id_valija'] . '" ' . fnvalijaSelect( $row['id_valija'] ) . '>' . $row['num_oficio_ca'] . ': ' . $row['num_del'] . '-' . $row['delegacion_descripcion'] . '</option>';
