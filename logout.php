@@ -2,9 +2,9 @@
   // If the user is logged in, delete the session vars to log them out
   session_start();
 
-  $user_id = 0;
-  if ( isset( $_SESSION['user_id'] ) )
-    $user_id = $_SESSION['user_id'];
+  $id_user = 0;
+  if ( isset( $_SESSION['id_user'] ) )
+    $id_user = $_SESSION['id_user'];
   
 
   $ip = "";
@@ -13,11 +13,11 @@
   $ip_address_host = "EQUIPO:" . $host;
 
 
-  if ( isset( $_SESSION['user_id'] ) ) {
+  if ( isset( $_SESSION['id_user'] ) ) {
     
     require_once( 'lib/connectvars.php' );
     require_once( 'commonfiles/funciones.php');
-    $log = fnGuardaBitacora( 5, 2, $user_id,  $ip_address, $ip_address_host );
+    $log = fnGuardaBitacora( 5, 2, $id_user,  $ip_address, $ip_address_host );
     
     // Delete the session vars by clearing the $_SESSION array
     $_SESSION = array();
@@ -32,10 +32,10 @@
   }
 
   // Delete the user ID and username cookies by setting their expirations to an hour ago (3600)
-  setcookie('user_id', '', time() - 3600);
+  setcookie('id_user', '', time() - 3600);
   setcookie('username', '', time() - 3600);
-  setcookie('first_name', '', time() - 3600);
-  setcookie('first_last_name', '', time() - 3600);
+  setcookie('nombre', '', time() - 3600);
+  setcookie('primer_apellido', '', time() - 3600);
   setcookie('ip_address', '', time() - 3600);
   setcookie('host', '', time() - 3600);
 

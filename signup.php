@@ -17,16 +17,18 @@
 
   // Clear the error message
   $error_msg = "";
+  $output_form = 'yes';
 
   // Connect to the database
-  $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-  
-  /* check connection */
-  if ( mysqli_connect_errno() ) {
-      printf( "Connect failed: %s\n", mysqli_connect_error() );
-      exit();
+  $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+
+  if ( mysqli_connect_errno () ) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    return "Falló la conexión a base de datos";
+    require_once('footer.php');
+    exit(); 
   }
-    
+
   /* change character set to utf8 */
   if ( !$dbc->set_charset( "utf8" ) ) {
       printf( "Error loading character set utf8: %s\n", $dbc->error );
@@ -35,13 +37,17 @@
       /*printf( "Current character set: %s\n", $dbc->character_set_name() );*/
   }
 
-  if ( !isset( $_SESSION['user_id'] ) ) {
+  if ( !isset( $_SESSION['id_user'] ) ) {
     if ( isset( $_POST['submit'] ) ) {
 
       // Grab the user-entered log-in data
-      $username   = mysqli_real_escape_string( $dbc, strtoupper( trim($_POST['username'] ) ) );
-      $password1  = mysqli_real_escape_string( $dbc, trim( $_POST['password1'] ) );
-      $password2  = mysqli_real_escape_string( $dbc, trim( $_POST['password2'] ) );
+      $username   =           mysqli_real_escape_string( $dbc, strtoupper( trim($_POST['curp'] ) ) );
+      $cmbDelegaciones =      mysqli_real_escape_string( $dbc, trim( $_POST['cmbDelegaciones'] ) );
+      $cmbSubdelegaciones =   mysqli_real_escape_string( $dbc, trim( $_POST['cmbSubdelegaciones'] ) );
+      $cmbPuesto =            mysqli_real_escape_string( $dbc, trim( $_POST['cmbPuesto'] ) );
+      $email =                mysqli_real_escape_string( $dbc, trim( $_POST['email'] ) );
+      $password1  =           mysqli_real_escape_string( $dbc, trim( $_POST['password1'] ) );
+      $password2  =           mysqli_real_escape_string( $dbc, trim( $_POST['password2'] ) );
       
       // Check the CAPTCHA pass-phrase for verification
       $user_pass_phrase = SHA1( $_POST['verify'] );
@@ -50,17 +56,22 @@
 
         if ( !empty( $username ) && !empty( $password1 ) && !empty( $password2 ) && ( $password1 == $password2 ) ) {
           // Make sure someone isn't already registered using this username
-          $query = "SELECT * FROM ctas_usuarios WHERE username = '$username';";
+          $query = "SELECT * FROM dspa_usuarios WHERE username = '$username';";
+          /*echo $query;*/
           $data = mysqli_query( $dbc, $query );
           
           if ( mysqli_num_rows( $data ) == 0 ) {
             // The username is unique, so insert the data into the database
-            $query = "INSERT INTO ctas_usuarios ( username, password, join_date ) VALUES ( '$username', SHA('$password1'), NOW() );";
+            /*$query = "INSERT INTO dspa_usuarios ( username, password, join_date ) VALUES ( '$username', SHA('$password1'), NOW() );";*/
+            $query = "INSERT INTO dspa_usuarios 
+                        ( id_user, username, password, delegacion, subdelegacion, id_puesto, fecha_ini, email, fecha_registro, picture, id_estatus ) 
+                      VALUES 
+                        ( NULL, '$username', SHA('$password1'), '$cmbDelegaciones', '$cmbSubdelegaciones', '$cmbPuesto', NOW(), '$email', NOW(), NULL, '0' )";
             mysqli_query($dbc, $query);
             
             // Confirm success with the user
-            echo '<h5 class="green-text">La nueva cuenta  ' . $username . '. ha sido creada exitosamente. 
-              Ahora está listo para <a href="login.php">iniciar sesión</a></h5>';
+            echo '<h3 class="green-text">La nueva cuenta  ' . $username . '. ha sido creada exitosamente. 
+              Ahora está listo para <a href="login.php">iniciar sesión</a></h3>';
             // Insert the page footer
             mysqli_close($dbc);
             require_once('lib/footer.php');
@@ -82,76 +93,96 @@
       }
     }
   }
-  mysqli_close($dbc);
+  /*mysqli_close($dbc);*/
 
 // If the session var is empty, show any error message and the log-in form; otherwise confirm the log-in
-  if ( empty( $_SESSION['user_id'] ) ) {
-    echo '<h5 class="red-text">' . $error_msg . '</h5>';
+  if ( empty( $_SESSION['id_user'] ) ) {
+    echo '<h3 class="red-text">' . $error_msg . '</h3>';
 ?>
-
-    <section id="forma" class="forma contenedor">
-      <article class="forma">
-
-        <div class="contenedor-modulo-a">
-          <form class="signup-form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-
-              <div class="section">
-
-                <!-- <i class="small material-icons prefix teal-text">account_circle</i> -->
-                <div class="input-field teal-text">
-                  <input type="text" required class="active validate" length="18" name="username" id=username  value="<?php if ( !empty( $user_username ) ) echo $user_username; ?>" />
-                  <label data-error="Error al capturar CURP" for="curp">CURP</label>
-                </div>
-
-                <!-- <i class="small material-icons prefix teal-text">vpn_key</i> -->
-                <div class="input-field teal-text">
-                  <input type="password" required class="active validate" minlength=6 maxlength=12 id="password1" name="password1" />
-                  <label data-error="Error al capturar contraseña" for="password1">Contraseña (entre 6 y 12 caracteres)</label>
-                </div>
-
-                <div class="input-field teal-text">
-                  <input required class="active validate" id="password2" type="password" name="password2" />
-                  <label data-error="Error al repetir la contraseña" for="password2">Repite la contraseña</label>
-                </div>
-
-                <!-- <i class="small material-icons prefix teal-text">dialpad</i>  -->
-                  <img align="right" src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />
-
-                <div class="input-field teal-text">
-                  <input type="text" required class="active validate" length="6" id="verify" name="verify" />
-                  <label data-error="Error capturar CAPTCHA" for="verify">Captura la frase (CAPTCHA)</label>
-                </div>
-
-                <div class="input-field center">
-                  <button class="btn waves-effect waves-light btn-signup center white-text teal" type="submit" name="submit">Registra Solicitud de Usuario</button>
-                </div>
-
-              </div>
-
-            </form>
-
-        </div>
-
-      </article>
-    </section>
-    
-
-      <div class="col s4">
-        <div class="container">
-          <div class="login-box">
-            <h6 class="center teal-text">¿Ya tienes cuenta? <a href="login.php">Ingresa aquí</a></h6>
-          </div>
-        </div>
-      </div>
-
+  
+    <div class="contenedor">
+      <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <h2>Registro de nuevo usuario</h2>
+        <ul>
+          <li>
+            <label for="curp">CURP (Usuario)</label>
+            <input class="textinput" type="text" required id="curp" name="curp" length="18" placeholder="Escriba su CURP" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
+          </li>
+          <li>
+            <label for="cmbDelegaciones">Delegación IMSS</label>
+            <select class="textinput" id="cmbDelegaciones" name="cmbDelegaciones">
+              <option value="0">Seleccione Delegación</option>
+              <?php
+                $result = mysqli_query( $dbc, "SELECT * 
+                                                FROM dspa_delegaciones 
+                                                WHERE activo = 1 
+                                                ORDER BY delegacion" );
+                while ( $row = mysqli_fetch_array( $result ) )
+                  echo '<option value="' . $row['delegacion'] . '" ' . fntdelegacionSelect( $row['delegacion'] ) . '>' . $row['delegacion'] . ' - ' . $row['descripcion'] . '</option>';
+              ?>
+            </select>
+          </li>
+          <li>
+            <label for="cmbSubdelegaciones">Subdelegación IMSS</label>
+            <select id="cmbSubdelegaciones" name="cmbSubdelegaciones">
+              <option value="-1" >Seleccione Subdelegación</option>
+              <?php
+                if ( !empty( $_POST['cmbSubdelegaciones'] ) || $_POST['cmbSubdelegaciones'] == "0" ) 
+                $result = mysqli_query( $dbc, "SELECT * 
+                                                FROM dspa_subdelegaciones 
+                                                WHERE delegacion = " . $_POST['cmbDelegaciones'] . " ORDER BY subdelegacion" );
+                while ( $row = mysqli_fetch_array( $result ) )
+                  echo '<option value="' . $row['subdelegacion'] . '" ' . fntsubdelegacionSelect( $row['subdelegacion'] ) . '>' . $row['subdelegacion'] . ' - ' . $row['descripcion'] . '</option>';
+              ?>
+            </select>
+          </li>
+          <li>
+            <label for="cmbPuesto">Puesto</label>
+            <select id="cmbPuesto" name="cmbPuesto">
+              <option value="0">Seleccione Puesto</option>
+              <?php
+                $result = mysqli_query( $dbc, "SELECT * 
+                                                FROM dspa_puestos
+                                                ORDER BY id_puesto" );
+                while ( $row = mysqli_fetch_array( $result ) )
+                  echo '<option value="' . $row['id_puesto'] . '" ' . fntPuestoSelect( $row['id_puesto'] ) . '>' . $row['id_puesto'] . ' - ' . $row['descripcion'] . '</option>';
+              ?>
+            </select>
+          </li>
+          <li>
+            <label for="email">Correo electrónico</label>
+            <input class="textinput" type="email" required id="email" name="email" length="100" placeholder="Capture su correo IMSS" value="<?php if ( !empty( $email ) ) echo $email; ?>" />
+          </li>
+          <li>
+            <label for="password1">Contraseña</label>
+            <input class="textinput" type="password" required id="password1" name="password1" minlength=6 maxlength=20 placeholder="Capture su contraseña" />
+          </li>
+          <li>
+            <label for="password2">Repita la contraseña</label>
+            <input class="textinput" type="password" required id="password2" name="password2" minlength=6 maxlength=20 placeholder="Repita su contraseña"/>
+          </li>
+          <li>
+            <label for="verify">Captura la frase</label>
+            <input class="textinput" type="text" required id="verify" name="verify" length="6" placeholder="Captura la frase" />
+            <img src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />
+          </li>
+          <li class="buttons">
+            <input type="submit" name="submit" value="Registrar!">
+            <input type="reset" name="reset" value="Reset">
+          </li>
+          
+          <li>
+            <h4 class="center teal-text">¿Ya tienes cuenta? <a href="login.php">Ingresa aquí</a></h4>
+          </li>
+        </ul>
+      </form>
     </div>
-    </section>
 
 <?php
   }
   else {
     // Confirm the successful log-in
-    echo('<h5 class="center teal-text">Ya tienes sesión activa como ' . $_SESSION['first_name'] . ' ' . $_SESSION['first_last_name'] . '( ' . $_SESSION['username'] . ').  <a href="login.php">Ingresa aquí</a></h5>');
+    echo('<h3 class="center teal-text">Ya tienes sesión activa como ' . $_SESSION['nombre'] . ' ' . $_SESSION['primer_apellido'] . ' ( ' . $_SESSION['username'] . ').  <a href="login.php">Ingresa aquí</a></h3>');
   }
 
   // Insert the page footer

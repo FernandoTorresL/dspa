@@ -33,12 +33,12 @@
   }  
 
   // If the user isn't logged in, try to log them in
-  if ( !isset( $_SESSION['user_id'] ) ) {
+  if ( !isset( $_SESSION['id_user'] ) ) {
 
     if ( isset( $_POST['submit'] ) ) {
 
       // Grab the user-entered log-in data
-      $user_username    = mysqli_real_escape_string( $dbc, strtoupper( trim($_POST['username'] ) ) );
+      $username    = mysqli_real_escape_string( $dbc, strtoupper( trim($_POST['curp'] ) ) );
       $user_password    = mysqli_real_escape_string( $dbc, trim( $_POST['password'] ) );
       $user_pass_phrase = SHA1( $_POST['verify'] );
 
@@ -55,10 +55,10 @@
       /*setcookie('ip_address',       $ip_address,              $tiempo_cookie);
       setcookie('host',             $host,                    $tiempo_cookie);*/
 
-      if ( !empty( $user_username ) && !empty( $user_password )  
+      if ( !empty( $username ) && !empty( $user_password )  
         && ( $_SESSION['pass_phrase'] == $user_pass_phrase ) ) {
         // Look up the username and password in the database
-        $query = "SELECT user_id, username, first_name, first_last_name FROM ctas_usuarios WHERE username = '$user_username' AND password = SHA('$user_password');";
+        $query = "SELECT id_user, username, nombre, primer_apellido FROM dspa_usuarios WHERE username = '$username' AND password = SHA('$user_password');";
         /*echo $query;*/
         $data = mysqli_query($dbc, $query);
 
@@ -66,23 +66,23 @@
           // The log-in is OK so set the user ID and username session vars (and cookies), and redirect to the home page
           $row = mysqli_fetch_array( $data );
           
-          $_SESSION['user_id']          = $row['user_id'];
+          $_SESSION['id_user']          = $row['id_user'];
           $_SESSION['username']         = $row['username'];
-          $_SESSION['first_name']       = $row['first_name'];
-          $_SESSION['first_last_name']  = $row['first_last_name'];
+          $_SESSION['nombre']       = $row['nombre'];
+          $_SESSION['primer_apellido']  = $row['primer_apellido'];
           $_SESSION['ip_address']       = $ip_address;
           $_SESSION['host']             = $host;
 
           $tiempo_cookie = time() + MM_EXPIRE_COOKIE_VAL;
 
-          setcookie('user_id',          $row['user_id'],          $tiempo_cookie);
+          setcookie('id_user',          $row['id_user'],          $tiempo_cookie);
           setcookie('username',         $row['username'],         $tiempo_cookie);
-          setcookie('first_name',       $row['first_name'],       $tiempo_cookie);
-          setcookie('first_last_name',  $row['first_last_name'],  $tiempo_cookie);
+          setcookie('nombre',           $row['nombre'],           $tiempo_cookie);
+          setcookie('primer_apellido',  $row['primer_apellido'],  $tiempo_cookie);
           setcookie('ip_address',       $ip_address,              $tiempo_cookie);
           setcookie('host',             $host,                    $tiempo_cookie);
 
-          $log = fnGuardaBitacora( 5, 1, $_SESSION['user_id'],  $_SESSION['ip_address'], 'EQUIPO:' . $_SESSION['host'] );
+          $log = fnGuardaBitacora( 5, 1, $_SESSION['id_user'],  $_SESSION['ip_address'], 'EQUIPO:' . $_SESSION['host'] );
           /*echo "XX-X" . $log;*/
 
           $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
@@ -91,25 +91,27 @@
         else {
           // The username/password are incorrect so set an error message
           $error_msg = 'Lo siento, debes capturar un usuario y contraseña válidos para iniciar sesión.';
-          /*$log = fnGuardaBitacora( 1, 1, 0,  "00AA99AA99AA99FF", "CURP:" . $user_username . "|Captcha:" . $user_pass_phrase . "|" );*/
+          /*$log = fnGuardaBitacora( 1, 1, 0,  "00AA99AA99AA99FF", "CURP:" . $username . "|Captcha:" . $user_pass_phrase . "|" );*/
           $ip = "";
 /*          echo "IP:" . GetHostByName( $ip );*/
           /*echo $nombre_host;*/
-          $log = fnGuardaBitacora( 5, 3, 0,  $ip_address, 'CURP:' . $user_username . '|Captcha(Ok)|' . $ip_address_host );
+          $log = fnGuardaBitacora( 5, 3, 0,  $ip_address, 'CURP:' . $username . '|Captcha(Ok)|' . $ip_address_host );
+          /*echo $log;*/
         }
       }
       else {
         // The username/password weren't entered so set an error message
         $error_msg = 'Para iniciar sesión, debes capturar todos los datos y la frase de verificación (CAPTCHA) exactamente como se muestra.';
         /*$log = fnGuardaBitacora( 5, 3, 0,  "00AA99AA99AA99FF", "|Captcha:" . $user_pass_phrase . "|" );*/
-        /*$log = fnGuardaBitacora( 5, 3, 0,  '00AA99AA99AA99FF', 'CURP:' . $user_username . ' Captcha(Error):' );*/
-        $log = fnGuardaBitacora( 5, 3, 0,  $ip_address, 'CURP:' . $user_username . '|Captcha(Error)|' . $ip_address_host );
+        /*$log = fnGuardaBitacora( 5, 3, 0,  '00AA99AA99AA99FF', 'CURP:' . $username . ' Captcha(Error):' );*/
+        $log = fnGuardaBitacora( 5, 3, 0,  $ip_address, 'CURP:' . $username . '|Captcha(Error)|' . $ip_address_host );
+        /*echo $log;*/
       }
     }
   }
   
   // If the session var is empty, show any error message and the log-in form; otherwise confirm the log-in
-  if ( empty( $_SESSION['user_id'] ) ) {
+  if ( empty( $_SESSION['id_user'] ) ) {
     echo '<h5 class="red-text">' . $error_msg . '</h5>';
 ?>
 
@@ -133,7 +135,7 @@
 
                 <i class="small material-icons prefix teal-text">account_circle</i>
                 <div class="input-field teal-text">
-                  <input type="text" required class="active validate teal-text" length="18" name="username" id=username value="<?php if ( !empty( $user_username ) ) echo $user_username; ?>" />
+                  <input type="text" required class="active validate teal-text" length="18" name="curp" id=curp value="<?php if ( !empty( $username ) ) echo $username; ?>" />
                   <label data-error="Error al capturar CURP" for="curp">CURP</label>
                 </div>
 
@@ -179,7 +181,7 @@
   }
   else {
     // Confirm the successful log-in
-    echo(' <p class="center login teal-text">Ya tienes una sesión como ' . $_SESSION['first_name'] . ' ' . $_SESSION['first_last_name'] . ' (' . $_SESSION['username'] . '). ¿Deseas <a href="logout.php">cerrar sesión? </a> </p> ');
+    echo(' <p class="center login teal-text">Ya tienes una sesión como ' . $_SESSION['nombre'] . ' ' . $_SESSION['primer_apellido'] . ' (' . $_SESSION['username'] . '). ¿Deseas <a href="logout.php">cerrar sesión? </a> </p> ');
   }
 ?>
 
