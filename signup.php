@@ -106,7 +106,7 @@
         <ul>
           <li>
             <label for="curp">CURP (Usuario)</label>
-            <input class="textinput" type="text" required id="curp" name="curp" length="18" placeholder="Escriba su CURP" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
+            <input class="textinput" type="text" required id="curp" name="curp" maxlength="18" placeholder="Escriba su CURP" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
           </li>
           <li>
             <label for="cmbDelegaciones">Delegación IMSS</label>
@@ -155,11 +155,11 @@
           </li>
           <li>
             <label for="password1">Contraseña</label>
-            <input class="textinput" type="password" required id="password1" name="password1" minlength=6 maxlength=20 placeholder="Capture su contraseña" />
+            <input class="textinput" type="password" required id="password1" name="password1" maxlength=20 placeholder="Capture su contraseña" />
           </li>
           <li>
             <label for="password2">Repita la contraseña</label>
-            <input class="textinput" type="password" required id="password2" name="password2" minlength=6 maxlength=20 placeholder="Repita su contraseña"/>
+            <input class="textinput" type="password" required id="password2" name="password2" maxlength=20 placeholder="Repita su contraseña"/>
           </li>
           <li>
             <label for="verify">Captura la frase</label>
@@ -172,7 +172,7 @@
           </li>
           
           <li>
-            <h4 class="center teal-text">¿Ya tienes cuenta? <a href="login.php">Ingresa aquí</a></h4>
+            <h4 class="center teal-text">¿Ya tienes cuenta? <a href="login.php"><underlined>Ingresa aquí<underlined></a></h4>
           </li>
         </ul>
       </form>

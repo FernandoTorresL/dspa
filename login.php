@@ -38,7 +38,7 @@
     if ( isset( $_POST['submit'] ) ) {
 
       // Grab the user-entered log-in data
-      $username    = mysqli_real_escape_string( $dbc, strtoupper( trim($_POST['curp'] ) ) );
+      $username    =      mysqli_real_escape_string( $dbc, strtoupper( trim($_POST['curp'] ) ) );
       $user_password    = mysqli_real_escape_string( $dbc, trim( $_POST['password'] ) );
       $user_pass_phrase = SHA1( $_POST['verify'] );
 
@@ -68,7 +68,7 @@
           
           $_SESSION['id_user']          = $row['id_user'];
           $_SESSION['username']         = $row['username'];
-          $_SESSION['nombre']       = $row['nombre'];
+          $_SESSION['nombre']           = $row['nombre'];
           $_SESSION['primer_apellido']  = $row['primer_apellido'];
           $_SESSION['ip_address']       = $ip_address;
           $_SESSION['host']             = $host;
@@ -112,70 +112,37 @@
   
   // If the session var is empty, show any error message and the log-in form; otherwise confirm the log-in
   if ( empty( $_SESSION['id_user'] ) ) {
-    echo '<h5 class="red-text">' . $error_msg . '</h5>';
+    echo '<p class="red-text">' . $error_msg . '</p>';
 ?>
 
-  <section id="main-container">
-    <div class="row">
-
-      <div class="col s4">
-        <div class="container">
-          <img class="iphone" src="images/login.png" />
-          <h6 class="bold center teal-text">Ingresa los datos para iniciar sesión</h6>
-        </div>
-      </div>
-
-      <div class="col s4">
-        <div class="row">
-          <div class="signup-box">
-
-            <form class="signup-form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-              
-              <div class="section">
-
-                <i class="small material-icons prefix teal-text">account_circle</i>
-                <div class="input-field teal-text">
-                  <input type="text" required class="active validate teal-text" length="18" name="curp" id=curp value="<?php if ( !empty( $username ) ) echo $username; ?>" />
-                  <label data-error="Error al capturar CURP" for="curp">CURP</label>
-                </div>
-
-                <i class="small material-icons prefix teal-text">vpn_key</i>
-                <div class="input-field teal-text">
-                  <input type="password" required class="active validate" minlength=6 maxlength=12 id="password" name="password" />
-                  <label data-error="Error al capturar contraseña" for="password1">Contraseña (entre 6 y 12 caracteres)</label>
-                </div>
-
-                <i class="small material-icons prefix teal-text">dialpad</i>
-                  <img align="right" src="./commonfiles/captcha.php" alt="Verificación CAPTCHA" />
-                <div class="input-field teal-text">
-                  <input type="text" required class="active validate" length="6" id="verify" name="verify" />
-                  <label data-error="Error capturar CAPTCHA" for="verify">Captura la frase (CAPTCHA)</label>
-                </div>
-
-                <div class="input-field center">
-                  <button class="btn waves-effect waves-light btn-signup center white-text teal" type="submit" name="submit">Iniciar sesión
-                    <i class="material-icons right white-text">send</i>
-                  </button>
-                </div>
-
-              </div>
-
-            </form>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="col s4">
-        <div class="container">
-          <div class="login-box">
-            <h6 class= "center teal-text">¿No tienes cuenta? <a href="signup.php">Regístrate aquí</a></h6>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
+  <div class="contenedor">
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <h2>Ingresa los datos para iniciar sesión</h2>
+      <ul>
+        <li>
+          <label for="curp">CURP (Usuario)</label>
+          <input class="textinput" type="text" required id="curp" name="curp" maxlength="18" placeholder="Escriba su CURP" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
+        </li>
+        <li>
+          <label for="password">Contraseña</label>
+          <input class="textinput" type="password" required id="password" name="password" maxlength=20 placeholder="Capture su contraseña" />
+        </li>
+        <li>
+          <label for="verify">Captura la frase</label>
+          <input class="textinput" type="text" required id="verify" name="verify" length="6" placeholder="Captura la frase" />
+          <img src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />
+        </li>
+        <li class="buttons">
+          <input type="submit" name="submit" value="Iniciar sesión">
+          <input type="reset" name="reset" value="Reset">
+        </li>
+        
+        <li>
+          <h4 class="center teal-text">¿No tienes cuenta? <a href="signup.php">Registrate aquí</a></h4>
+        </li>
+      </ul>
+    </form>
+  </div>
 
 <?php
   }
