@@ -41,28 +41,35 @@
 
   }
 
-
   //FUNCION DE CONEXIÓN:
-  function fnConnectBD( $tmp_string )
+  function fnConnectBD( $pid_user, $pip_address, $phost, $pInformacion )
   {
+    $resultado_fnConnectBD = "Error";
     // Conectarse a la BD
-    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
+    $pInformacion = $pInformacion . '|HOST:' . DB_HOST . '|USER:' . DB_USER . '|DB_NAME:' . DB_NAME;
+    $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+    $log = fnGuardaBitacora( 5, 6, $pid_user,  $pip_address, '|ConnectDB(Ok)|' . $phost . ' ' . $pInformacion );
+    
     /* check connection */
     if ( mysqli_connect_errno () ) {
         printf("Connect failed: %s\n", mysqli_connect_error());
-        return "Falló la conexión a base de datos";
+
+        $resultado_fnConnectBD = "Falló la conexión a base de datos. Contacte al administrador del sitio.";
+
+        $log = fnGuardaBitacora( 5, 6, $pid_user, $pip_address, '|ConnectDB(Error)|EQUIPO:' . $phost . ' ' . $pInformacion );
     }
       
     /* change character set to utf8 */
     if ( !$dbc->set_charset( "utf8" ) ) {
         printf("Error loading character set utf8: %s\n", $dbc->error);
-        return "Error al cargar set de caracteres utf8. Contacte al administrador del sitio.";
-    } else {
-        //printf("Current character set: %s\n", $dbc->character_set_name () );
-        return "";
+        $resultado_fnConnectBD = "Error al cargar set de caracteres utf8. Contacte al administrador del sitio.";
+        $log = fnGuardaBitacora( 5, 6, $pid_user, $pip_address, '|ConnectDB(Error-utf8)|EQUIPO:' . $phost . ' ' . $pInformacion );
+    } 
+    else {
+      //printf("Current character set: %s\n", $dbc->character_set_name () );
+      $resultado_fnConnectBD = "";
     }
-
+    return $dbc;
   }
 
   //FUNCIONES PARA COMBOBOX

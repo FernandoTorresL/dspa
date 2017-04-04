@@ -182,7 +182,7 @@
   }
   else {
     // Confirm the successful log-in
-    echo('<h3 class="center teal-text">Ya tienes sesión activa como ' . $_SESSION['nombre'] . ' ' . $_SESSION['primer_apellido'] . ' ( ' . $_SESSION['username'] . ').  <a href="login.php">Ingresa aquí</a></h3>');
+    echo('<h3 class="center teal-text">Ya tienes sesión activa como ' . $_SESSION['nombre'] . ' ' . $_SESSION['primer_apellido'] . ' ( ' . $_SESSION['username'] . ').  <a href="index.php">Regresa a HOME</a></h3>');
   }
 
   // Insert the page footer

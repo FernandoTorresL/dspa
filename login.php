@@ -5,6 +5,8 @@
   require_once('lib/appvars.php');
   require_once('lib/connectvars.php');
 
+  require_once( 'commonfiles/funciones.php');
+
   // Insert the page header
   $page_title = MM_APPNAME;
   require_once('lib/header.php');
@@ -13,25 +15,24 @@
   require_once('lib/navmenu.php');
 
   // Clear the error message
-  $error_msg = "";
+  /*$ip_address_host = "IP:" . $ip_address . "|EQUIPO:" . $host;*/
 
-  // Connect to the database
-  $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $error_msg        = "";
+  $ip               = "";
+  $ip_address       = GetHostByName( $ip );
+  $host             = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+  $ip_address_host  = "EQUIPO:" . $host;
+
+  $ResultadoConexion = fnConnectBD( 0,  $ip_address, $ip_address_host, '' );
+  if ( !$ResultadoConexion ) {
+    // Hubo un error en la conexión a la base de datos;
+    printf( " Connect failed: %s", mysqli_connect_error() );
+    require_once('./lib/footer.php');
+    exit();
+  }
+
+  $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
   
-  /* check connection */
-  if ( mysqli_connect_errno() ) {
-      printf( "Connect failed: %s\n", mysqli_connect_error() );
-      exit();
-  }
-    
-  /* change character set to utf8 */
-  if ( !$dbc->set_charset( "utf8" ) ) {
-      printf( "Error loading character set utf8: %s\n", $dbc->error );
-  }
-  else {
-      /*printf( "Current character set: %s\n", $dbc->character_set_name() );*/
-  }  
-
   // If the user isn't logged in, try to log them in
   if ( !isset( $_SESSION['id_user'] ) ) {
 
@@ -42,13 +43,12 @@
       $user_password    = mysqli_real_escape_string( $dbc, trim( $_POST['password'] ) );
       $user_pass_phrase = SHA1( $_POST['verify'] );
 
-      require_once( 'commonfiles/funciones.php');
+      /*require_once( 'commonfiles/funciones.php');*/
 
-      $ip = "";
+      /*$ip = "";
       $ip_address = GetHostByName( $ip );
       $host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-      /*$ip_address_host = "IP:" . $ip_address . "|EQUIPO:" . $host;*/
-      $ip_address_host = "EQUIPO:" . $host;
+      $ip_address_host = "EQUIPO:" . $host;*/
 
       /*$_SESSION['ip_address']       = $ip_address;
       $_SESSION['host']             = $host;*/
