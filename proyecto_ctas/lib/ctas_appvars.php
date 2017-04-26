@@ -7,7 +7,7 @@
     //$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 	define('MM_UPLOADPATH_VAL', '../files/');
-	define('MM_UPLOADPATH_CTASSINDO', '../filesctasSINDO/');
+	define('MM_UPLOADPATH_CTASSINDO', './filesctasSINDO/');
 	define('MM_UPLOADPATH_PROFILE', '../imagesprofile/');
 	// define('MM_UPLOADPATH_IMG', 'images/');
 

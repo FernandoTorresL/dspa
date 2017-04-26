@@ -15,7 +15,7 @@
         <!-- <li> -->
         <!-- </li> -->
         <li>
-          <a href="index.php">Home</a>
+          <a href="../index.php">Home</a>
         </li>
 
         <?php
@@ -27,7 +27,7 @@
             </li> -->
             <?php
               //Si ya ha iniciado sesión ...
-              if ( $_SESSION['username'] == 'T' ) {
+              if ( $_SESSION['username'] == 'TOLF781016HDFRGR01' ) {
             ?>
                 <li>
                   <a href="./proyecto_ctas/indexCuentasSINDO.php">Claves Usuario</a>
@@ -37,17 +37,17 @@
             ?>
 
             <li>
-              <a href="logout.php">Cerrar Sesión (<?php if ( !empty( $_SESSION['username'] ) ) echo $_SESSION['username'] ?>)</a>
+              <a href="../logout.php">Cerrar Sesión (<?php if ( !empty( $_SESSION['username'] ) ) echo $_SESSION['username'] ?>)</a>
             </li>
         <?php
           }
           else {
         ?>
             <li>
-              <a href="login.php">Iniciar sesión</a>
+              <a href="../login.php">Iniciar sesión</a>
             </li>
             <li>
-              <a href="signup.php">Registrar nuevo usuario</a>
+              <a href="../signup.php">Registrar nuevo usuario</a>
             </li>
         <?php
           }
