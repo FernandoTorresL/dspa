@@ -58,7 +58,7 @@
       if ( !empty( $username ) && !empty( $user_password )  
         && ( $_SESSION['pass_phrase'] == $user_pass_phrase ) ) {
         // Look up the username and password in the database
-        $query = "SELECT id_user, username, nombre, primer_apellido FROM dspa_usuarios WHERE username = '$username' AND password = SHA('$user_password');";
+        $query = "SELECT id_user, username, nombre, primer_apellido FROM dspa_usuarios WHERE username = '$username' AND password = SHA('$user_password') AND id_estatus=1";
         /*echo $query;*/
         $data = mysqli_query($dbc, $query);
 
@@ -82,7 +82,7 @@
           setcookie('ip_address',       $ip_address,              $tiempo_cookie);
           setcookie('host',             $host,                    $tiempo_cookie);
 
-          $log = fnGuardaBitacora( 5, 1, $_SESSION['id_user'],  $_SESSION['ip_address'], 'EQUIPO:' . $_SESSION['host'] );
+          $log = fnGuardaBitacora( 5, 1, $_SESSION['id_user'],  $_SESSION['ip_address'], 'CURP:' . $_SESSION['username'] . '|EQUIPO:' . $_SESSION['host'] );
           /*echo "XX-X" . $log;*/
 
           $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';

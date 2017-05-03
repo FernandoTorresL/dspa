@@ -20,7 +20,7 @@
 
   // Make sure the user is logged in before going any further.
   if ( !isset( $_SESSION['id_user'] ) ) {
-    echo '<p class="error">Por favor <a href="../login.php">inicia sesión</a> para acceder a esta página.</p>';
+    echo '<p class="error">Por favor <a href="login.php">inicia sesión</a> para acceder a esta página.</p>';
     require_once('lib/footer.php');
     exit();
   }
@@ -120,7 +120,8 @@
               $output_form = 'yes';
             }
 
-            if ( ( empty( $cmbSubdelegaciones ) || $cmbSubdelegaciones == -1 ) && $cmbSubdelegaciones <> 0 )  {
+            // if ( ( empty( $cmbSubdelegaciones ) || $cmbSubdelegaciones == -1 ) && $cmbSubdelegaciones <> 0 )  {
+            if ( ( empty( $cmbSubdelegaciones ) ) )  {
               echo '<p class="error">Olvidaste seleccionar una Subdelegación.</p>';
               $output_form = 'yes';
             }
@@ -229,10 +230,13 @@
                       $query = "SELECT LAST_INSERT_ID()";
                       /*$result = mysqli_query( $dbc, $query );*/
                       $data = mysqli_query( $dbc, $query );
-
                       if ( mysqli_num_rows( $data ) == 1 ) {
                         // The user row was found so display the user data
                         $row = mysqli_fetch_array($data);
+
+                        $id_solicitud_bitacora = $row['LAST_INSERT_ID()'];
+                        $log = fnGuardaBitacora( 1, 103, $_SESSION['id_user'],  $_SESSION['ip_address'], 'id_solicitud:' . $id_solicitud_bitacora . '|CURP:' . $_SESSION['username'] . '|EQUIPO:' . $_SESSION['host'] );
+
                         echo '<p class="nota"><strong>¡La nueva solicitud ha sido creada correctamente!</strong></p>';
                         echo '<p class="titulo2">¿Hubo un error? Puede EDITAR la <a href="editarsolicitud.php?id_solicitud=' . $row['LAST_INSERT_ID()'] . '">solicitud</a></p>';
                         echo '<p class="titulo2">Puede agregar una <a href="agregarsolicitud.php">nueva solicitud</a></p>';
@@ -552,8 +556,9 @@
                                 ctas_valijas.id_user
                               FROM ctas_valijas, dspa_delegaciones 
                               WHERE ctas_valijas.delegacion = dspa_delegaciones.delegacion
-                              AND   ( YEAR(ctas_valijas.fecha_recepcion_ca) = 2017 OR YEAR(ctas_valijas.fecha_recepcion_ca) = 2016 ) 
+                              AND ctas_valijas.fecha_recepcion_ca > '2017-04-24'
                               ORDER BY ctas_valijas.fecha_recepcion_ca DESC, ctas_valijas.id_valija";
+/*                              AND   ( YEAR(ctas_valijas.fecha_recepcion_ca) = 2017 OR YEAR(ctas_valijas.fecha_recepcion_ca) = 2016 ) */
                     $result = mysqli_query( $dbc, $query );
                     while ( $row = mysqli_fetch_array( $result ) )
                       echo '<option value="' . $row['id_valija'] . '" ' . fnvalijaSelect( $row['id_valija'] ) . '>' . $row['num_oficio_ca'] . ': ' . $row['num_del'] . '-' . $row['delegacion_descripcion'] . '</option>';
@@ -602,11 +607,13 @@
                 <select id="cmbSubdelegaciones" name="cmbSubdelegaciones">
                   <option value="-1">Seleccione Subdelegación</option>
                   <?php
-                      if ( !empty( $_POST['cmbSubdelegaciones'] ) || $_POST['cmbSubdelegaciones'] == "0" ) {
+                      if ( !empty( $_POST['cmbSubdelegaciones'] ) ) {
+                        if ( $_POST['cmbSubdelegaciones'] == "0" ) {
                         $query = "SELECT * 
                                   FROM dspa_subdelegaciones 
                                   WHERE delegacion = " . $_POST['cmbDelegaciones'] . " ORDER BY subdelegacion";
                         $result = mysqli_query( $dbc, $query );
+                        }
                       }
                       while ( $row = mysqli_fetch_array( $result ) )
                         echo '<option value="' . $row['subdelegacion'] . '" ' . fntsubdelegacionSelect( $row['subdelegacion'] ) . '>' . $row['subdelegacion'] . ' - ' . $row['descripcion'] . '</option>';

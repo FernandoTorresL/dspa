@@ -16,7 +16,7 @@
       $("document").ready(function() {
         $( "#cmbDelegaciones" ).change(function(){
           var id = $("#cmbDelegaciones").val();
-          $.get('./commonfiles/subdelegaciones.php', {param_id:id})
+          $.get('http://mto02447wsftl08/dspa/commonfiles/subdelegaciones.php', {param_id:id})
           .done(function(data){
             //alert($("#cmbDelegaciones").val());
             $("#cmbSubdelegaciones").html(data);

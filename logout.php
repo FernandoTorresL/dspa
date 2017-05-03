@@ -21,7 +21,7 @@
   $ip               = "";
   $ip_address       = GetHostByName( $ip );
   $host             = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-  $ip_address_host  = "EQUIPO:" . $host;
+  $ip_address_host  = "|EQUIPO:" . $host;
 
   $ResultadoConexion = fnConnectBD( 0,  $ip_address, $ip_address_host, '' );
   if ( !$ResultadoConexion ) {
@@ -35,7 +35,7 @@
 
   if ( isset( $_SESSION['id_user'] ) ) {
     
-    $log = fnGuardaBitacora( 5, 2, $_SESSION['id_user'],  $ip_address, $ip_address_host );
+    $log = fnGuardaBitacora( 5, 2, $_SESSION['id_user'],  $ip_address, 'CURP:' . $_SESSION['username'] . $ip_address_host );
     
     // Delete the session vars by clearing the $_SESSION array
     $_SESSION = array();

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
   <head>
 
@@ -7,19 +7,22 @@
       echo '<title>' . MM_APPNAME . '</title>';
     ?>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8"/>
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto" rel="stylesheet">
-    <link href="css/dspa_app.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/dspa_app.css" rel="stylesheet"/>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5-els.js"></script>
+
     <script type="text/javascript">
-      $("document").ready(function() {
-        $( "#cmbDelegaciones" ).change(function(){
-          var id = $("#cmbDelegaciones").val();
+      $('document').ready(function() {
+        $( '#cmbDelegaciones' ).change(function(){
+          var id = $('#cmbDelegaciones').val();
           $.get('./commonfiles/subdelegaciones.php', {param_id:id})
           .done(function(data){
             //alert($("#cmbDelegaciones").val());
-            $("#cmbSubdelegaciones").html(data);
+            $('#cmbSubdelegaciones').html(data);
           })
         })
       })

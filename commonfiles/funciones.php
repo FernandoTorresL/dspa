@@ -48,7 +48,7 @@
     // Conectarse a la BD
     $pInformacion = $pInformacion . '|HOST:' . DB_HOST . '|USER:' . DB_USER . '|DB_NAME:' . DB_NAME;
     $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-    $log = fnGuardaBitacora( 5, 6, $pid_user,  $pip_address, '|ConnectDB(Ok)|' . $phost . ' ' . $pInformacion );
+    /*$log = fnGuardaBitacora( 5, 6, $pid_user,  $pip_address, '|ConnectDB(Ok)|' . $phost . ' ' . $pInformacion );*/
     
     /* check connection */
     if ( mysqli_connect_errno () ) {

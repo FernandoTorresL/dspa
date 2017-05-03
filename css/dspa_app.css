@@ -1,16 +1,15 @@
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  color: darkslategrey;
+  color: royalblue;
 }
 
 .background {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#627d4d+0,1f3b08+63 */
-  background: rgb(98,125,77); /* Old browsers */
-  background: -moz-linear-gradient(top,  rgba(98,125,77,1) 0%, rgba(31,59,8,1) 63%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top,  rgba(98,125,77,1) 0%,rgba(31,59,8,1) 63%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom,  rgba(98,125,77,1) 0%,rgba(31,59,8,1) 63%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#627d4d', endColorstr='#1f3b08',GradientType=0 ); /* IE6-9 */
+  /*background: royalblue; /* Old browsers */*/
+  background-image: url('../images/Pandemic 01.JPG');
+  background-size: cover;
+  
 }
 
 .contenedor {
@@ -35,7 +34,7 @@ body {
   font-size: 70px;
   margin-bottom: 20px;
   margin-top: 10px;
-  color: darkslategrey;
+/*  color: darkslategrey;*/
   text-align: center;
 }
 
@@ -62,7 +61,7 @@ body {
 
 /*guitarras*/
 .modulos {
-  color: #1F313C;
+  color: royalblue;
   margin-bottom: 20px;
 }
 
@@ -109,7 +108,7 @@ body {
 }
 
 a {
-  color: darkslategrey;
+  color: royalblue;
   text-decoration: none;
 }
 
@@ -139,7 +138,7 @@ a {
   margin: 10px 10px 30px 10px;
   padding: 20px;
   /*overflow: hidden;*/
-  border: 2px solid darkslategrey;
+  border: 2px solid royalblue;
   border-radius: 10px;
 }
 
@@ -193,6 +192,7 @@ a {
   /*padding: 5px 5px;*/
   margin-top: 80px;
   text-align: center;
+  background: royalblue;
 }
 
 .footer .contenedor2 {
@@ -246,7 +246,7 @@ label {
   text-align: right;
   margin-right: .5em;
   /*color: #04699d;*/
-  color: darkslategrey;
+  color: royalblue;
 }
 
 input.textinput {

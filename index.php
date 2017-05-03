@@ -65,12 +65,12 @@
       <article class="modulo a"> <!-- guitarra 1 -->
         <img class="derecha" src="images/login.png" alt="Login" width="250"/>
         <div class="contenedor-modulo-a">
-          <h4 class="title-a"><a href="./proyecto_ctas/agregarsolicitud.php">Agregar Solicitud</a></h4>
+          <h4 class="title-a"><a href="agregarsolicitud.php">Agregar Solicitud</a></h4>
           <ol>
             <li>Ingresar a Capturar Solicitudes</li>
             <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
           </ol>
-            <a class="button background" href="./proyecto_ctas/agregarsolicitud.php">Agregar Solicitud</a>
+            <a class="button background" href="agregarsolicitud.php">Agregar Solicitud</a>
         </div>
       </article>
 
