@@ -74,6 +74,19 @@
         </div>
       </article>
 
+      <article class="modulo a"> <!-- guitarra 1 -->
+        <!-- <img class="derecha" src="images/sign_up_256.png" alt="Ver Listado" width="250"/> -->
+        <div class="contenedor-modulo-a">
+          <h4 class="title-a"><a href="verDetalleCuentasSINDO.php">Ver Listado</a></h4>
+          <ul>
+            <li>Consultar Solicitudes</li>
+            <li>Editar Solicitudes</li>
+            <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
+          </ul>
+            <a class="button background" href="verDetalleCuentasSINDO.php">Ver Listado de Solicitudes</a>
+        </div>
+      </article>
+
     </section>
 
 <?php

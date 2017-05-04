@@ -46,10 +46,10 @@
 
   $data = mysqli_query($dbc, $query);
 
-  echo '<p class="titulo1">Lote D000</p>';
+/*  echo '<p class="titulo1">Lote D000</p>';
   
   echo '<p class="titulo2">Agregar <a href="">nuevo lote</a></p>';
-
+*/
   echo '<table class="striped" border="1">';
   echo '<tr class="dato">';
     echo '<th># Lote</th>';
@@ -115,10 +115,10 @@
     AND   ctas_solicitudes.id_user = dspa_usuarios.id_user
     AND   ctas_solicitudes.id_causarechazo = ctas_causasrechazo.id_causarechazo
     AND   ctas_solicitudes.id_lote = 0
-    ORDER BY ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC, ctas_solicitudes.id_movimiento ASC";
+    ORDER BY ctas_solicitudes.id_movimiento ASC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC";
+    //ORDER BY ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC, ctas_solicitudes.id_movimiento ASC";
     
     //ORDER BY ctas_valijas.id_valija DESC, ctas_solicitudes.id_solicitud DESC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC ";
-    //ORDER BY ctas_solicitudes.id_movimiento ASC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC";
     //AND   ctas_solicitudes.id_causarechazo = 0
     //AND   ctas_valijas.ID_VALIJA BETWEEN 2259 AND 2284
     //2259 AND 2284
@@ -180,7 +180,7 @@
     //echo '<td class="lista">' . $row['id_solicitud'] . '</td>';
     echo '<td class="lista">' . $row['id_valija'] . '</td>';
     echo '<td>' . $row['num_lote_anio'] . '</td>';
-    /*echo '<td>' . $row['num_oficio_ca'] . '</td>';*/
+    echo '<td>' . $row['num_oficio_ca'] . '</td>';
     echo '<td>' . $row['fecha_recepcion_ca'] . '</td>';
     echo '<td>' . $row['creada_por'] . '</td>';
     /*echo '<td>' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';*/
