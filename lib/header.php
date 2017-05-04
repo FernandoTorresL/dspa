@@ -11,10 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto" rel="stylesheet">
     <link href="css/dspa_app.css" rel="stylesheet"/>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5-els.js"></script>
-
     <script type="text/javascript">
       $('document').ready(function() {
         $( '#cmbDelegaciones' ).change(function(){

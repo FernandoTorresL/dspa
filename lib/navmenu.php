@@ -6,11 +6,11 @@
       <img src="images/logo-imss-vector.png" width="75" height="60" alt="IMSS logo">
     </figure>
     <nav class="menu"> <!-- menu -->
-      <!-- <div class="title">
+      <div class="title">
         <?php
           echo MM_APPNAME ;
         ?>
-      </div> -->
+      </div>
       <ul>
         <li>
           <a href="index.php">Home</a>

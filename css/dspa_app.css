@@ -4,16 +4,36 @@ body {
   color: royalblue;
 }
 
+div {
+  display: block;
+}
+
+.error {
+  font-weight: bold;
+    color: #FF0000;
+}
+
+.advertencia {
+  font-weight: bold;
+  color: orange;
+}
+
+.mensaje {
+  font-weight: bold;
+  color: green;
+}
+
+table {
+  font-family: 'Courier', sans-serif;
+  font-size: 12px;
+}
+
 .background {
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#627d4d+0,1f3b08+63 */
-  /*background: royalblue; /* Old browsers */*/
-  background-image: url('../images/Pandemic 01.JPG');
-  background-size: cover;
-  
+  background: royalblue; /* Old browsers */
 }
 
 .contenedor {
-  width: 900px;
+  width: 700px;
   margin: auto;
   position: relative;
 }
@@ -109,7 +129,7 @@ body {
 
 a {
   color: royalblue;
-  text-decoration: none;
+  /*text-decoration: none;*/
 }
 
 .logotipo {
@@ -251,6 +271,23 @@ label {
 
 input.textinput {
   width: 18em;
+  height: 17px;
+  border: 1px solid #666;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+textarea.textarea {
+  width: 290px;
+  height: 80px;
+  border: 1px solid #666;
+  margin: 0px;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+input.textinputsmall {
+  width: 11em;
   height: 17px;
   border: 1px solid #666;
   font-family: Courier New;

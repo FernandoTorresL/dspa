@@ -23,7 +23,7 @@
                     ( id_audita_act, id_audita_accion, id_user, dir_ip, informacion, fecha_pista_aud ) 
               VALUES ( " . $pid_audita_act . ", " . $pid_audita_accion . ", " . $pUserId . ", '" . $pdir_ip . "', '" . $pInformacion . "|', NOW() ); ";
     $timeNOW = date('D d-M-Y H:i:s T', $timeNOW );
-
+    /*echo $sql_query;*/
     mysqli_query( $dbc, $sql_query );
 
     $sql_query = "SELECT LAST_INSERT_ID()";

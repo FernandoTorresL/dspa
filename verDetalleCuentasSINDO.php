@@ -115,10 +115,11 @@
     AND   ctas_solicitudes.id_user = dspa_usuarios.id_user
     AND   ctas_solicitudes.id_causarechazo = ctas_causasrechazo.id_causarechazo
     AND   ctas_solicitudes.id_lote = 0
-    ORDER BY ctas_valijas.id_valija DESC, ctas_solicitudes.id_solicitud DESC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC ";
+    ORDER BY ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC, ctas_solicitudes.id_movimiento ASC";
+    
+    //ORDER BY ctas_valijas.id_valija DESC, ctas_solicitudes.id_solicitud DESC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC ";
     //ORDER BY ctas_solicitudes.id_movimiento ASC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC";
     //AND   ctas_solicitudes.id_causarechazo = 0
-    //ORDER BY ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC, ctas_solicitudes.id_movimiento ASC";
     //AND   ctas_valijas.ID_VALIJA BETWEEN 2259 AND 2284
     //2259 AND 2284
     

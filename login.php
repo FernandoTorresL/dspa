@@ -58,7 +58,11 @@
       if ( !empty( $username ) && !empty( $user_password )  
         && ( $_SESSION['pass_phrase'] == $user_pass_phrase ) ) {
         // Look up the username and password in the database
-        $query = "SELECT id_user, username, nombre, primer_apellido FROM dspa_usuarios WHERE username = '$username' AND password = SHA('$user_password') AND id_estatus=1";
+        $query = "SELECT id_user, username, nombre, primer_apellido 
+                  FROM dspa_usuarios 
+                  WHERE username = '$username' 
+                  AND password = SHA('$user_password') 
+                  AND id_estatus=1";
         /*echo $query;*/
         $data = mysqli_query($dbc, $query);
 
@@ -154,5 +158,5 @@
 
 <?php
   // Insert the page footer
-  require_once('./lib/footer.php');
+  require_once('lib/footer.php');
 ?>
