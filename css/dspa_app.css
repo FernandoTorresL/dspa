@@ -10,7 +10,7 @@ div {
 
 .error {
   font-weight: bold;
-    color: #FF0000;
+  color: #FF0000;
 }
 
 .advertencia {
@@ -26,6 +26,11 @@ div {
 table {
   font-family: 'Courier', sans-serif;
   font-size: 12px;
+}
+
+td .error {
+  font-weight: bold;
+  color: #FF0000;
 }
 
 .background {

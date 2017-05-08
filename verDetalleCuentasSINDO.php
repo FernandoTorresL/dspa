@@ -102,7 +102,7 @@
     ctas_movimientos.descripcion AS movimiento_descripcion, 
     grupos1.descripcion AS grupo_nuevo, grupos2.descripcion AS grupo_actual, 
     ctas_solicitudes.comentario, ctas_causasrechazo.id_causarechazo, ctas_causasrechazo.descripcion AS causa_rechazo, ctas_solicitudes.archivo,
-    CONCAT(dspa_usuarios.nombre) AS creada_por
+    CONCAT(dspa_usuarios.nombre, ' ', dspa_usuarios.primer_apellido) AS creada_por
     FROM ctas_solicitudes, ctas_valijas, ctas_lotes, dspa_delegaciones, dspa_subdelegaciones, ctas_movimientos, ctas_grupos grupos1, ctas_grupos grupos2, dspa_usuarios, ctas_causasrechazo
     WHERE ctas_solicitudes.id_lote       = ctas_lotes.id_lote
     AND   ctas_solicitudes.id_valija     = ctas_valijas.id_valija
@@ -115,15 +115,21 @@
     AND   ctas_solicitudes.id_user = dspa_usuarios.id_user
     AND   ctas_solicitudes.id_causarechazo = ctas_causasrechazo.id_causarechazo
     AND   ctas_solicitudes.id_lote = 0
-    ORDER BY ctas_solicitudes.id_movimiento ASC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC";
+    ORDER BY ctas_solicitudes.id_solicitud DESC, ctas_solicitudes.fecha_modificacion DESC";
+
+    //ORDER BY ctas_solicitudes.fecha_captura_ca DESC, ctas_solicitudes.id_solicitud ASC, ctas_solicitudes.fecha_modificacion DESC";
+    //ORDER BY ctas_solicitudes.id_movimiento ASC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC";
     //ORDER BY ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC, ctas_solicitudes.id_movimiento ASC";
-    
     //ORDER BY ctas_valijas.id_valija DESC, ctas_solicitudes.id_solicitud DESC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC ";
     //AND   ctas_solicitudes.id_causarechazo = 0
     //AND   ctas_valijas.ID_VALIJA BETWEEN 2259 AND 2284
     //2259 AND 2284
+    /*AND   ctas_solicitudes.id_movimiento = 2*/
     
-    
+    /*AND   ctas_solicitudes.id_user = 19
+    AND   ctas_solicitudes.subdelegacion = 0
+    AND   ctas_solicitudes.id_movimiento = 1*/
+
     
     
     
@@ -144,12 +150,12 @@
   echo '<table class="striped" border="1">';
   /*echo '<thead>';*/
   echo '<tr>';
-  echo '<th># Valija</th>';
-  echo '<th># de Lote</th>';
+  /*echo '<th># Valija</th>';*/
+  /*echo '<th># de Lote</th>';*/
   echo '<th># Área de Gestión</th>';
   echo '<th>Fecha Recepción CA</th>';
-  echo '<th>Creada por</th>';
-  /*echo '<th>Delegación - Subdelegación</th>';*/
+  echo '<th>Creada/Modificada por</th>';
+  echo '<th>Delegación - Subdelegación</th>';
   echo '<th>Nombre completo</th>';
   /*echo '<th>Matrícula</th>';*/
   /*echo '<th>CURP</th>';*/
@@ -178,12 +184,13 @@
     echo '<tr class="dato condensed">';
     //echo '<td class="lista"><a href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['id_solicitud'] . '</a></td>';
     //echo '<td class="lista">' . $row['id_solicitud'] . '</td>';
-    echo '<td class="lista">' . $row['id_valija'] . '</td>';
-    echo '<td>' . $row['num_lote_anio'] . '</td>';
+    /*echo '<td class="lista">' . $row['id_valija'] . '</td>';*/
+    /*echo '<td>' . $row['num_lote_anio'] . '</td>';*/
     echo '<td>' . $row['num_oficio_ca'] . '</td>';
-    echo '<td>' . $row['fecha_recepcion_ca'] . '</td>';
+    /*echo '<td>' . $row['fecha_recepcion_ca'] . '</td>';*/
+    echo '<td>' . $row['fecha_captura_ca'] . '</td>';
     echo '<td>' . $row['creada_por'] . '</td>';
-    /*echo '<td>' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';*/
+    echo '<td class="mensaje">' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';
     echo '<td class="dato condensed">' . $row['primer_apellido'] . '-' . $row['segundo_apellido'] . '-' . $row['nombre'] . '</td>';
     //echo '<td>' . $row['primer_apellido'] . '</td>'; 
     //echo '<td>' . $row['segundo_apellido'] . '</td>'; 
@@ -192,12 +199,16 @@
     /*echo '<td>' . $row['curp'] . '</td>'; */
     //echo '<td>' . $row['curp_correcta'] . '</td>'; 
     //echo '<td>' . $row['cargo'] . '</td>';
-    echo '<td><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . ' (' . $row['movimiento_descripcion'] . ')</a></td>';
+    echo '<td class="mensaje"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . ' (' . $row['movimiento_descripcion'] . ')</a></td>';
     /*echo '<td>' . $row['movimiento_descripcion'] . '</td>'; */
     echo '<td>' . $row['grupo_actual'] . '>' . $row['grupo_nuevo'] . '</td>'; 
     echo '<td>' . $row['comentario'] . '</td>';
     /*echo '<td><a target="_blank" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">Ver</a>' . '</td>';*/
-    echo '<td>' . $row['id_causarechazo'] .'-' . $row['causa_rechazo'] . '</td>';
+    
+    if ( !empty( $row['id_causarechazo'] ) && $row['id_causarechazo'] <> 0 )
+      echo '<td class="error">' . $row['id_causarechazo'] .'-' . $row['causa_rechazo'] . '</td>';
+    else echo '<td>' . $row['id_causarechazo'] .'-' . $row['causa_rechazo'] . '</td>';
+
     if (!empty($row['archivo'])) {
       echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo'] . '"  target="_new">PDF</a></td>';
     }

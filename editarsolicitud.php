@@ -144,8 +144,9 @@
               $output_form = 'yes';
             }
 
-            /*if ( ( empty( $cmbSubdelegaciones ) || $cmbSubdelegaciones == -1 ) && $cmbSubdelegaciones <> 0 )  {*/
-            if ( ( empty( $cmbSubdelegaciones ) ) )  {
+            // if ( ( empty( $cmbSubdelegaciones ) ) )  {
+            
+            if ( ( empty( $cmbSubdelegaciones ) || $cmbSubdelegaciones == -1 ) && $cmbSubdelegaciones <> 0 )  {
               echo '<p class="error">Olvidaste seleccionar una Subdelegación.</p>';
               $output_form = 'yes';
             }
@@ -261,6 +262,12 @@
 
                 // Conectarse a la BD
                 $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
+
+                $query = "INSERT INTO ctas_hist_solicitudes (id_solicitud, id_valija, id_lote, fecha_solicitud_del, delegacion, subdelegacion, nombre, primer_apellido, segundo_apellido, matricula, curp, usuario, id_movimiento, id_grupo_nuevo, id_grupo_actual, comentario, id_causarechazo, archivo, id_user) SELECT id_solicitud, id_valija, id_lote, fecha_solicitud_del, delegacion, subdelegacion, nombre, primer_apellido, segundo_apellido, matricula, curp, usuario, id_movimiento, id_grupo_nuevo, id_grupo_actual, comentario, id_causarechazo, archivo, id_user FROM ctas_solicitudes WHERE id_solicitud = " . $id_solicitud . " LIMIT 1";
+
+                mysqli_query( $dbc, $query );
+
+                $log = fnGuardaBitacora( 1, 109, $_SESSION['id_user'],  $_SESSION['ip_address'], 'id_solicitud:' . $id_solicitud . '|CURP:' . $_SESSION['username'] . '|EQUIPO:' . $_SESSION['host'] );
 
                 $query = "UPDATE ctas_solicitudes
                         SET id_valija = '$cmbValijas', 

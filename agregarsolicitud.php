@@ -136,8 +136,9 @@
             }
 
             //Para que puedan trabajar en IE las capturas:
-            // if ( ( empty( $cmbSubdelegaciones ) || $cmbSubdelegaciones == -1 ) && $cmbSubdelegaciones <> 0 )  {
-            if ( ( empty( $cmbSubdelegaciones ) ) )  {
+            /*if ( ( empty( $cmbSubdelegaciones ) ) )  {*/
+              
+            if ( ( empty( $cmbSubdelegaciones ) || $cmbSubdelegaciones == -1 ) && $cmbSubdelegaciones <> 0 )  {
               echo '<p class="error">Olvidaste seleccionar una Subdelegación.</p>';
               $output_form = 'yes';
             }
@@ -450,8 +451,8 @@
                               </li>
                            
                           </ul>
-                        </form>
-                      </div>
+                          </form>
+                        </div>
 
                       <?php
                       }
