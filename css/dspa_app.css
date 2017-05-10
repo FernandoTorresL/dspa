@@ -302,6 +302,22 @@ input.textinputsmall {
   font-size: 13px;
 }
 
+input.textinputmini {
+  width: 2em;
+  height: 17px;
+  border: 1px solid #444;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+span.etiquetaCourier {
+  width: 2em;
+  height: 17px;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+
 select.combo0 {
   width: 18em;
   height: 19px;

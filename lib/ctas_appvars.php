@@ -6,13 +6,13 @@
 	//define('MM_DBC', mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     //$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-	define('MM_UPLOADPATH_VAL', '../files/');
+	define('MM_UPLOADPATH_VAL', './files/');
 	define('MM_UPLOADPATH_CTASSINDO', './filesctasSINDO/');
-	define('MM_UPLOADPATH_PROFILE', '../imagesprofile/');
+	define('MM_UPLOADPATH_PROFILE', './imagesprofile/');
 	// define('MM_UPLOADPATH_IMG', 'images/');
 
-	define('MM_MAXFILESIZE_VAL', 512000000);      // 500 Mb, 500,000 Kb
-	define('MM_MAXFILESIZE_VALIJA', 4194304);      // 4 Mb | 4,096 Kb | 4,194,304 bytes
+	define('MM_MAXFILESIZE_VAL', 4194304);      // 4 Mb | 4,096 Kb | 4,194,304 bytes
+	define('MM_MAXFILESIZE_VALIJA', 4194304);   // 4 Mb | 4,096 Kb | 4,194,304 bytes
 	//Watch out for the variable upload_max_filesize in php.ini config file
 	
 	//define('MM_MAXFILESIZE_PROFILE', 32768);      // 32 Kb | 32,768 bytes

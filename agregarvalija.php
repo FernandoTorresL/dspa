@@ -54,33 +54,20 @@
 
     if ( isset( $_POST['submit'] ) ) {
 
-    $num_oficio_ca      = mysqli_real_escape_string( $dbc, trim( $_POST['num_oficio_ca'] ) );
-    $num_oficio_del     = mysqli_real_escape_string( $dbc, trim( $_POST['num_oficio_del'] ) );
-    $fecha_recepcion_ca = mysqli_real_escape_string( $dbc, trim( $_POST['fecha_recepcion_ca'] ) );
-    $fecha_valija_del   = mysqli_real_escape_string( $dbc, trim( $_POST['fecha_valija_del'] ) );
-    $cmbDelegaciones    = mysqli_real_escape_string( $dbc, trim( $_POST['cmbDelegaciones'] ) );
-    $comentario         = mysqli_real_escape_string( $dbc, trim( $_POST['comentario'] ) );
-    /*$timetime           = time();*/
-    $new_file           = mysqli_real_escape_string( $dbc, trim( $_FILES['new_file']['name'] ) );
-    $new_file_type      = $_FILES['new_file']['type'];
-    $new_file_size      = $_FILES['new_file']['size']; 
+      $num_oficio_ca      = mysqli_real_escape_string( $dbc, trim( $_POST['num_oficio_ca'] ) );
+      $num_oficio_del     = mysqli_real_escape_string( $dbc, trim( $_POST['num_oficio_del'] ) );
+      $fecha_recepcion_ca = mysqli_real_escape_string( $dbc, trim( $_POST['fecha_recepcion_ca'] ) );
+      $fecha_valija_del   = mysqli_real_escape_string( $dbc, trim( $_POST['fecha_valija_del'] ) );
+      $cmbDelegaciones    = mysqli_real_escape_string( $dbc, trim( $_POST['cmbDelegaciones'] ) );
+      $comentario         = mysqli_real_escape_string( $dbc, trim( $_POST['comentario'] ) );
+      /*$timetime           = time();*/
+      $new_file           = mysqli_real_escape_string( $dbc, trim( $_FILES['new_file']['name'] ) );
+      $new_file_type      = $_FILES['new_file']['type'];
+      $new_file_size      = $_FILES['new_file']['size']; 
 
-    $output_form = 'no';
-  }
+      $output_form = 'no';
+    }
 
-?>
-
-  <div class="contenedor">
-
-  </div>
-
-  <section id="main-container">
-    <div class="row">
-      <div class="col s2">
-        <div class="signup-box">
-          <div class="container">
-        
-          <?php
 
           if ( isset( $_POST['submit'] ) ) {
 
@@ -108,11 +95,12 @@
                 echo ' Día:'  . $dia  . '</p>';
                 $output_form = 'yes';
               }
-
-              if ( $anio < 2017 ) {
-                echo '<p class="advertencia">El año en Fecha de Área de Gestión no es el actual. ';
-                echo ' Año:'  . $anio . '  ¿Es correcto?</p>';
-                /*$output_form = 'yes'; */
+              else {
+                if ( $anio < 2017 ) {
+                  echo '<p class="advertencia">El año en Fecha de Área de Gestión no es el actual. ';
+                  echo ' Año:'  . $anio . '  ¿Es correcto?</p>';
+                  /*$output_form = 'yes'; */
+                }
               }
             }
 
@@ -140,11 +128,12 @@
                 echo ' Día:'  . $dia  . '</p>';
                 $output_form = 'yes';
               }
-
-              if ( $anio < 2017 ) {
-                echo '<p class="advertencia">El año en Fecha de Oficio Delegación no es el actual. ';
-                echo ' Año:'  . $anio . '  ¿Es correcto?</p>';
-                /*$output_form = 'yes'; */
+              else {
+                if ( $anio < 2017 ) {
+                  echo '<p class="advertencia">El año en Fecha de Oficio Delegación no es el actual. ';
+                  echo ' Año:'  . $anio . '  ¿Es correcto?</p>';
+                  /*$output_form = 'yes'; */
+                }
               }
             }
 
@@ -333,9 +322,9 @@
 
             ?>
               
-            </div>
+<!--             </div>
           </div>
-        </div>
+        </div> -->
 
 
 <?php
@@ -385,7 +374,6 @@
               <li>
                 <label for="comentario">Comentario</label>
                 <textarea class="textarea" id="comentario" name="comentario" maxlength="256" placeholder="Escriba comentarios (opcional)"><?php if ( !empty( $comentario ) ) echo $comentario; ?></textarea>
-                <!-- <textarea class="textarea" id="comentario" name="comentario" maxlength="256" placeholder="Escriba comentarios (opcional)"  style="margin: 0px; height: 80px; width: 294px;"><?php if ( !empty( $comentario ) ) echo $comentario; ?></textarea> -->
               </li>
 
               <li>
@@ -409,8 +397,6 @@
     ?>
 
     </div>
-
-  </section>
 
   <?php
     //mysqli_close( $dbc );

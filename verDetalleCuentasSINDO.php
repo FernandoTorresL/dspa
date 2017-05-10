@@ -65,8 +65,8 @@
 
   if (mysqli_num_rows($data) == 0) {
     echo '</table></br><p class="error">No hay lotes capturados</p></br>';
-    require_once('footer.php');
-    exit();
+  /*  require_once('footer.php');
+    exit();*/
   }
 
   while ( $row = mysqli_fetch_array($data) ) {
