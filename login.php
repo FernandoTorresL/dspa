@@ -58,17 +58,24 @@
       if ( !empty( $username ) && !empty( $user_password )  
         && ( $_SESSION['pass_phrase'] == $user_pass_phrase ) ) {
         // Look up the username and password in the database
-        $query = "SELECT id_user, username, nombre, primer_apellido 
+        $query = "SELECT id_user, username, nombre, primer_apellido, id_estatus
                   FROM dspa_usuarios 
                   WHERE username = '$username' 
                   AND password = SHA('$user_password') 
-                  AND id_estatus=1";
+                  AND id_estatus IN ( 0, 1 )";
         /*echo $query;*/
         $data = mysqli_query($dbc, $query);
 
         if ( mysqli_num_rows( $data ) == 1 ) {
-          // The log-in is OK so set the user ID and username session vars (and cookies), and redirect to the home page
+
           $row = mysqli_fetch_array( $data );
+          if ( $row['id_estatus'] == 0 ) {
+            echo '<p class="advertencia">Su usuario y password son correctos, sin embargo, su cuenta no ha sido activada por el administrador de este sitio. Por favor contacte al Administrador del sitio. </p>';
+            require_once('lib/footer.php');
+            $log = fnGuardaBitacora( 5, 3, $row['id_user'],  $ip_address, 'CURP:' . $row['username'] . '|EQUIPO:' . $host );
+            exit(); 
+          }
+          // The log-in is OK so set the user ID and username session vars (and cookies), and redirect to the home page
           
           $_SESSION['id_user']          = $row['id_user'];
           $_SESSION['username']         = $row['username'];
