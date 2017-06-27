@@ -81,7 +81,7 @@
       /*echo '<td class="lista">' . $row['fecha_modificacion'] . '</td>';
       echo '<td class="lista">' . $row['fecha_creacion'] . '</td>';*/
       echo '<td class="lista">' . $row['num_solicitudes']  . '</td>';
-      echo '<td class="lista">' . $row['comentario'] . '</td>';
+      echo '<td width="10px" class="lista">' . $row['comentario'] . '</td>';
       /*echo '<td class="lista">' . $row['creado_por'] . '</td>';*/
     echo '</tr>';
   }
@@ -91,7 +91,7 @@
 //Mostrar solicitudes del lote 0
   // Obtener todas las solicitudes capturadas al momento para el penúltimo lote modificado
   $query = "SELECT 
-    ctas_solicitudes.id_solicitud, ctas_solicitudes.id_valija, ctas_valijas.num_oficio_ca, ctas_valijas.fecha_recepcion_ca, 
+    ctas_solicitudes.id_solicitud, ctas_solicitudes.id_valija, ctas_valijas.archivo AS archivo_valija, ctas_valijas.num_oficio_ca, ctas_valijas.fecha_recepcion_ca, 
     ctas_solicitudes.fecha_captura_ca, ctas_solicitudes.fecha_solicitud_del, ctas_solicitudes.fecha_modificacion,
     ctas_lotes.lote_anio AS num_lote_anio, 
     ctas_solicitudes.delegacion AS num_del, dspa_delegaciones.descripcion AS delegacion_descripcion, 
@@ -100,7 +100,7 @@
     ctas_solicitudes.nombre, ctas_solicitudes.primer_apellido, ctas_solicitudes.segundo_apellido, 
     ctas_solicitudes.matricula, ctas_solicitudes.curp, ctas_solicitudes.curp_correcta, ctas_solicitudes.cargo, ctas_solicitudes.usuario, 
     ctas_movimientos.descripcion AS movimiento_descripcion, 
-    grupos1.descripcion AS grupo_nuevo, grupos2.descripcion AS grupo_actual, 
+    grupos1.descripcion AS grupo_actual, grupos2.descripcion AS grupo_nuevo, 
     ctas_solicitudes.comentario, ctas_causasrechazo.id_causarechazo, ctas_causasrechazo.descripcion AS causa_rechazo, ctas_solicitudes.archivo,
     CONCAT(dspa_usuarios.nombre, ' ', dspa_usuarios.primer_apellido) AS creada_por
     FROM ctas_solicitudes, ctas_valijas, ctas_lotes, dspa_delegaciones, dspa_subdelegaciones, ctas_movimientos, ctas_grupos grupos1, ctas_grupos grupos2, dspa_usuarios, ctas_causasrechazo
@@ -110,16 +110,16 @@
     AND   ctas_solicitudes.subdelegacion = dspa_subdelegaciones.subdelegacion
     AND   ctas_solicitudes.delegacion    = dspa_delegaciones.delegacion
     AND   ctas_solicitudes.id_movimiento = ctas_movimientos.id_movimiento
-    AND   ctas_solicitudes.id_grupo_nuevo= grupos1.id_grupo
-    AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
+    AND   ctas_solicitudes.id_grupo_actual= grupos1.id_grupo
+    AND   ctas_solicitudes.id_grupo_nuevo= grupos2.id_grupo
     AND   ctas_solicitudes.id_user = dspa_usuarios.id_user
     AND   ctas_solicitudes.id_causarechazo = ctas_causasrechazo.id_causarechazo
     AND   ctas_solicitudes.id_lote = 0
-    ORDER BY ctas_solicitudes.id_solicitud DESC, ctas_solicitudes.fecha_modificacion DESC";
+    ORDER BY ctas_solicitudes.id_movimiento ASC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC";
+    //ORDER BY ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC, ctas_solicitudes.id_movimiento ASC";
+    //ORDER BY ctas_solicitudes.id_solicitud DESC, ctas_solicitudes.fecha_modificacion DESC";
 
     //ORDER BY ctas_solicitudes.fecha_captura_ca DESC, ctas_solicitudes.id_solicitud ASC, ctas_solicitudes.fecha_modificacion DESC";
-    //ORDER BY ctas_solicitudes.id_movimiento ASC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC";
-    //ORDER BY ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC, ctas_solicitudes.id_movimiento ASC";
     //ORDER BY ctas_valijas.id_valija DESC, ctas_solicitudes.id_solicitud DESC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC ";
     //AND   ctas_solicitudes.id_causarechazo = 0
     //AND   ctas_valijas.ID_VALIJA BETWEEN 2259 AND 2284
@@ -144,7 +144,7 @@
     //AND   ctas_solicitudes.rechazado <> 1
   $data = mysqli_query($dbc, $query);
 
-  echo '<p class="titulo1">Solicitudes Capturadas sin lote</p>';
+  echo '<p class="titulo1">Solicitudes Capturadas sin lote (Lote D00)</p>';
   //echo '<p class="titulo2">Agregar <a href="agregarsolicitud.php">nueva solicitud</a></p>';
 
   echo '<table class="striped" border="1">';
@@ -186,7 +186,9 @@
     //echo '<td class="lista">' . $row['id_solicitud'] . '</td>';
     /*echo '<td class="lista">' . $row['id_valija'] . '</td>';*/
     /*echo '<td>' . $row['num_lote_anio'] . '</td>';*/
-    echo '<td>' . $row['num_oficio_ca'] . '</td>';
+    /*echo '<td>' . $row['num_oficio_ca'] . '</td>';*/
+    echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">Editar ' . $row['num_oficio_ca'] . '
+    </a></td>';
     /*echo '<td>' . $row['fecha_recepcion_ca'] . '</td>';*/
     echo '<td>' . $row['fecha_captura_ca'] . '</td>';
     echo '<td>' . $row['creada_por'] . '</td>';
@@ -277,7 +279,7 @@
 
   /*echo '<p class="titulo2">Agregar <a href="">nuevo lote</a></p>';*/
 
-  echo '<table class="striped" border="1">';
+  echo '<table class="lote" border="1">';
   echo '<tr class="dato">';
     echo '<th># Lote</th>';
     echo '<th># Oficio CA</th>';
@@ -331,7 +333,7 @@
     ctas_movimientos.descripcion AS movimiento_descripcion, 
     grupos1.descripcion AS grupo_nuevo, grupos2.descripcion AS grupo_actual, 
     ctas_solicitudes.comentario, ctas_causasrechazo.id_causarechazo, ctas_causasrechazo.descripcion AS causa_rechazo, ctas_solicitudes.archivo,
-    CONCAT(dspa_usuarios.nombre) AS creada_por
+    CONCAT(dspa_usuarios.nombre) AS creada_por, (SELECT id_lote from ctas_lotes ORDER BY fecha_creacion DESC LIMIT 1) AS lote
     FROM ctas_solicitudes, ctas_valijas, ctas_lotes, dspa_delegaciones, dspa_subdelegaciones, ctas_movimientos, ctas_grupos grupos1, ctas_grupos grupos2, dspa_usuarios, ctas_causasrechazo
     WHERE ctas_solicitudes.id_lote       = ctas_lotes.id_lote
     AND   ctas_solicitudes.id_valija     = ctas_valijas.id_valija
@@ -364,7 +366,7 @@
     //AND   ctas_solicitudes.rechazado <> 1
   $data = mysqli_query($dbc, $query);
 
-  echo '<p class="titulo1">Solicitudes Capturadas - Último lote</p>';
+  echo '<p class="titulo1">Solicitudes Capturadas - Último Lote</p>';
   //echo '<p class="titulo2">Agregar <a href="agregarsolicitud.php">nueva solicitud</a></p>';
 
   echo '<table class="striped" border="1">';
@@ -440,35 +442,41 @@
   //Mostrar valijas
   // Obtener todas las valijas capturadas al momento
   $query = "SELECT ctas_valijas.id_valija, ctas_valijas.delegacion AS num_del, dspa_delegaciones.descripcion AS delegacion_descripcion, 
-    ctas_valijas.num_oficio_ca, ctas_valijas.fecha_recepcion_ca, ctas_valijas.num_oficio_del, 
+    ctas_valijas.num_oficio_ca, ctas_valijas.fecha_recepcion_ca, ctas_valijas.num_oficio_del, ctas_valijas.fecha_captura_ca,
     ctas_valijas.fecha_valija_del, ctas_valijas.comentario, ctas_valijas.archivo,
     (SELECT COUNT(*) FROM ctas_solicitudes WHERE ctas_solicitudes.id_valija = ctas_valijas.id_valija) AS num_solicitudes,
+    (SELECT L.lote_anio FROM ctas_lotes L, ctas_solicitudes S WHERE S.id_valija = ctas_valijas.id_valija AND L.id_lote = S.id_lote ORDER BY L.id_lote DESC limit 1 ) AS lotes,
     CONCAT(dspa_usuarios.nombre, ' ', dspa_usuarios.primer_apellido) AS creada_por
   FROM ctas_valijas, dspa_delegaciones, dspa_usuarios
   WHERE ctas_valijas.delegacion = dspa_delegaciones.delegacion 
   AND   ctas_valijas.id_user = dspa_usuarios.id_user
-  ORDER BY ctas_valijas.id_valija DESC LIMIT 100";
+  AND   ctas_valijas.archivo = ''
+  ORDER BY ctas_valijas.id_valija DESC LIMIT 500";
   //ORDER BY ctas_valijas.fecha_captura_ca DESC LIMIT 300";
 
   $data = mysqli_query($dbc, $query);
 
-  echo '<p class="titulo1">&Uacuteltimas valijas capturadas</p>';
+  echo '<p class="titulo1">Últimas valijas capturadas que no tienen adjunto</p>';
   echo '<p class="titulo2">Agregar <a href="">nueva valija</a></p>';
   
   echo '<table class="striped" border="1">';
   echo '<tr class="dato">';
-  echo '<tr class="dato"><th># Valija</th>';
-  echo '<th># &Aacute;rea de Gesti&oacute;n</th>';
-  echo '<th>Fecha &Aacute;rea de Gesti&oacute;n</th>';
-  
-  echo '<th># Oficio Delegaci&oacute;n</th>';
-  echo '<th>Fecha Oficio Delegaci&oacute;n</th>';
+  /*echo '<tr class="dato"><th># Valija</th>';*/
+  echo '<th># Área de Gestión</th>';
+  echo '<th>Fecha Área de Gestión</th>';
 
-  echo '<th>Delegaci&oacute;n que env&iacute;a</th>';
-  echo '<th>Comentario</th>';
-  /*echo '<th>Archivo</th>';*/
+  echo '<th>Creada/Modificada por</th>';
+  echo '<th>Fecha Captura/Modificación</th>';
+  
+  echo '<th># Oficio Delegación</th>';
+  echo '<th>Fecha Oficio Delegación</th>';
+
+  echo '<th>Delegación que envía</th>';
+  /*echo '<th>Comentario</th>';*/
+  echo '<th>Archivo</th>';
+  echo '<th>Lote</th>';
   echo '<th>Cantidad de solicitudes</th>';
-  /*echo '<th>Creada por</th>';*/
+  
   echo '</tr>';
 
   if (mysqli_num_rows($data) == 0) {
@@ -481,31 +489,110 @@
     //$id_valija = $row['id_valija'];
     //echo '<tr class="dato"><td class="lista"><a href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['id_valija'] . '</a></td>';
     echo '<tr class="dato">';
-    echo '<td class="lista">' . $row['id_valija'] . '</td>';
-    echo '<td class="lista">' . $row['num_oficio_ca'] . '</td>';
-    echo '<td class="lista">' . $row['fecha_recepcion_ca'] . '</td>';
+    /*echo '<td class="lista">' . $row['id_valija'] . '</td>';*/
+    echo '<td class="mensaje"><a target="_blank" alt="Ver/Editar" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '</a></td>';
+    echo '<td class="valijas">' . $row['fecha_recepcion_ca'] . '</td>';
+    echo '<td class="valijas">' . $row['creada_por'] . '</td>';
+    echo '<td class="valijas">' . $row['fecha_captura_ca'] . '</td>';
 
-    echo '<td class="lista">' . $row['num_oficio_del'] . '</td>';
-    echo '<td class="lista">' . $row['fecha_valija_del'] . '</td>';
+    echo '<td class="valijas">' . $row['num_oficio_del'] . '</td>';
+    echo '<td class="valijas">' . $row['fecha_valija_del'] . '</td>';
 
-    echo '<td class="lista">' . '(' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . '</td>';
+    echo '<td class="valijas">' . '(' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . '</td>';
     
-    echo '<td class="lista">' . $row['comentario'] . '</td>';    
-    //echo '<td class="lista">' . $row['archivo'] . '</td>';
-    /*if (!empty($row['archivo'])) {
-      echo '<td class="lista"><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo'] . '"  target="_blank">Ver</a></td>';
+    /*echo '<td class="valijas">' . $row['comentario'] . '</td>';    */
+    //echo '<td class="valijas">' . $row['archivo'] . '</td>';
+    if (!empty($row['archivo'])) {
+      echo '<td class="mensaje"><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo'] . '"  target="_new">PDF</a></td>';
     }
     else {
-      echo '<td class="lista">(Vac&iacute;o)</a></td>';
-    }*/
-    echo '<td class="lista">' . $row['num_solicitudes']  . '</td>';
-    /*echo '<td class="lista">' . $row['creada_por'] . '</td>';*/
+      echo '<td class="error">(Vacío)</a></td>';
+    } 
+    echo '<td class="valijas">' . $row['lotes'] . '</td>';
+    echo '<td class="valijas">' . $row['num_solicitudes']  . '</td>';
     echo '</tr>';
   }
 
   echo '</table></br></br>';
   
   
+  //Mostrar valijas con adjunto
+  // Obtener todas las valijas capturadas al momento
+  $query = "SELECT ctas_valijas.id_valija, ctas_valijas.delegacion AS num_del, dspa_delegaciones.descripcion AS delegacion_descripcion, 
+    ctas_valijas.num_oficio_ca, ctas_valijas.fecha_recepcion_ca, ctas_valijas.num_oficio_del, ctas_valijas.fecha_captura_ca,
+    ctas_valijas.fecha_valija_del, ctas_valijas.comentario, ctas_valijas.archivo,
+    (SELECT COUNT(*) FROM ctas_solicitudes WHERE ctas_solicitudes.id_valija = ctas_valijas.id_valija) AS num_solicitudes,
+    (SELECT L.lote_anio FROM ctas_lotes L, ctas_solicitudes S WHERE S.id_valija = ctas_valijas.id_valija AND L.id_lote = S.id_lote ORDER BY L.id_lote DESC limit 1 ) AS lotes,
+    CONCAT(dspa_usuarios.nombre, ' ', dspa_usuarios.primer_apellido) AS creada_por
+  FROM ctas_valijas, dspa_delegaciones, dspa_usuarios
+  WHERE ctas_valijas.delegacion = dspa_delegaciones.delegacion 
+  AND   ctas_valijas.id_user = dspa_usuarios.id_user
+  AND   ctas_valijas.archivo <> ''
+  ORDER BY ctas_valijas.id_valija DESC LIMIT 100";
+  //ORDER BY ctas_valijas.fecha_captura_ca DESC LIMIT 300";
+
+  $data = mysqli_query($dbc, $query);
+
+  echo '<p class="titulo1">Últimas valijas capturadas con adjuntos</p>';
+  echo '<p class="titulo2">Agregar <a href="">nueva valija</a></p>';
+  
+  echo '<table class="striped" border="1">';
+  echo '<tr class="dato">';
+  /*echo '<tr class="dato"><th># Valija</th>';*/
+  echo '<th># Área de Gestión</th>';
+  echo '<th>Fecha Área de Gestión</th>';
+
+  echo '<th>Creada/Modificada por</th>';
+  echo '<th>Fecha Captura/Modificación</th>';
+  
+  echo '<th># Oficio Delegación</th>';
+  echo '<th>Fecha Oficio Delegación</th>';
+
+  echo '<th>Delegación que envía</th>';
+  echo '<th>Comentario</th>';
+  echo '<th>Archivo</th>';
+  echo '<th>Lote</th>';
+  echo '<th>Cantidad de solicitudes</th>';
+  
+  echo '</tr>';
+
+  if (mysqli_num_rows($data) == 0) {
+    echo '</table></br><p class="error">No hay valijas capturadas</p></br>';
+    require_once('lib/footer.php');
+    exit();
+  }
+
+  while ( $row = mysqli_fetch_array($data) ) {
+    //$id_valija = $row['id_valija'];
+    //echo '<tr class="dato"><td class="lista"><a href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['id_valija'] . '</a></td>';
+    echo '<tr class="dato">';
+    /*echo '<td class="lista">' . $row['id_valija'] . '</td>';*/
+    echo '<td class="mensaje"><a target="_blank" alt="Ver/Editar" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '</a></td>';
+    echo '<td class="valijas">' . $row['fecha_recepcion_ca'] . '</td>';
+    echo '<td class="valijas">' . $row['creada_por'] . '</td>';
+    echo '<td class="valijas">' . $row['fecha_captura_ca'] . '</td>';
+
+    echo '<td class="valijas">' . $row['num_oficio_del'] . '</td>';
+    echo '<td class="valijas">' . $row['fecha_valija_del'] . '</td>';
+
+    echo '<td class="valijas">' . '(' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . '</td>';
+    
+    echo '<td class="valijas">' . $row['comentario'] . '</td>';    
+    //echo '<td class="valijas">' . $row['archivo'] . '</td>';
+    if (!empty($row['archivo'])) {
+      echo '<td class="mensaje"><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo'] . '"  target="_new">PDF</a></td>';
+    }
+    else {
+      echo '<td class="error">(Vacío)</a></td>';
+    } 
+    echo '<td class="valijas">' . $row['lotes'] . '</td>';
+    echo '<td class="valijas">' . $row['num_solicitudes']  . '</td>';
+    echo '</tr>';
+  }
+
+  echo '</table></br></br>';
+
+
       echo '</div>';
     echo '</div>';
   echo '</div>';

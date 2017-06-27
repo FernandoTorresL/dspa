@@ -345,7 +345,7 @@
 
                       <li>
                         <label for="cmbValijas">Número de Valija/Oficio</label>
-                        <select disabled class="textinput" id="cmbValijas" name="cmbValijas">
+                        <select disabled class="combo0" class="textinput" id="cmbValijas" name="cmbValijas">
                           <?php
                             $query = "SELECT ctas_valijas.id_valija AS id_valija2, 
                                         ctas_valijas.delegacion AS num_del, 
@@ -373,7 +373,7 @@
 
                       <li>
                         <label for="cmbtipomovimiento">Tipo de Movimiento</label>
-                        <select disabled="" id="cmbtipomovimiento" name="cmbtipomovimiento">
+                        <select disabled class="combo0" id="cmbtipomovimiento" name="cmbtipomovimiento">
                           <?php
                             $query = "SELECT * 
                                       FROM ctas_movimientos 
@@ -387,7 +387,7 @@
 
                       <li>
                         <label for="cmbDelegaciones">Delegación IMSS</label>
-                        <select disabled class="textinput" id="cmbDelegaciones" name="cmbDelegaciones">
+                        <select disabled class="combo0" class="textinput" id="cmbDelegaciones" name="cmbDelegaciones">
                           <?php
                             $query = "SELECT * 
                                       FROM dspa_delegaciones 
@@ -401,7 +401,7 @@
 
                       <li>
                         <label for="cmbSubdelegaciones">Subdelegación IMSS</label>
-                        <select disabled id="cmbSubdelegaciones" name="cmbSubdelegaciones">
+                        <select disabled class="combo0" id="cmbSubdelegaciones" name="cmbSubdelegaciones">
                           <?php
                             $query = "SELECT * 
                                       FROM dspa_subdelegaciones 
@@ -445,7 +445,7 @@
 
                       <li>
                         <label for="cmbgpoactual">Grupo Actual</label>
-                        <select disabled id="cmbgpoactual" name="cmbgpoactual">
+                        <select disabled class="combo0" id="cmbgpoactual" name="cmbgpoactual">
                             <?php
                               $query = "SELECT * 
                                         FROM ctas_grupos 
@@ -459,7 +459,7 @@
 
                       <li>
                         <label for="cmbgponuevo">Grupo Nuevo</label>
-                        <select disabled id="cmbgponuevo" name="cmbgponuevo">
+                        <select disabled class="combo0" id="cmbgponuevo" name="cmbgponuevo">
                             <?php
                               $query = "SELECT * 
                                         FROM ctas_grupos 
@@ -635,12 +635,12 @@
             <ul>
 
               <li>
-                <input hidden class="textinput" type="text" required name="id_solicitud" id="id_solicitud" value="<?php if ( !empty( $id_solicitud ) ) echo $id_solicitud; ?>"/>
+                <input class="textinput" type="hidden" required name="id_solicitud" id="id_solicitud" value="<?php if ( !empty( $id_solicitud ) ) echo $id_solicitud; ?>"/>
               </li>
 
               <li>
                 <label for="cmbValijas">Número de Valija/Oficio</label>
-                <select class="textinput" id="cmbValijas" name="cmbValijas">
+                <select class="combo0" id="cmbValijas" name="cmbValijas">
                   <option value="0">Seleccione # de Valija/Oficio</option>
                   <?php
                     $query = "SELECT ctas_valijas.id_valija, 
@@ -673,7 +673,7 @@
 
               <li>
                 <label for="cmbtipomovimiento">Tipo de Movimiento</label>
-                <select id="cmbtipomovimiento" name="cmbtipomovimiento">
+                <select class="combo0" id="cmbtipomovimiento" name="cmbtipomovimiento">
                   <option value="0">Seleccione Tipo de Movimiento</option>
                   <?php
                     $query = "SELECT * 
@@ -694,7 +694,7 @@
 
               <li>
                 <label for="cmbDelegaciones">Delegación IMSS</label>
-                <select class="textinput" id="cmbDelegaciones" name="cmbDelegaciones">
+                <select class="combo0" id="cmbDelegaciones" name="cmbDelegaciones">
                   <option value="0">Seleccione Delegación</option>
                   <?php
                     $query = "SELECT * 
@@ -716,7 +716,7 @@
 
               <li>
                 <label for="cmbSubdelegaciones">Subdelegación IMSS</label>
-                <select id="cmbSubdelegaciones" name="cmbSubdelegaciones">
+                <select class="combo0" id="cmbSubdelegaciones" name="cmbSubdelegaciones">
                   <option value="-1">Seleccione Subdelegación</option>
                   <?php
                       if ( !empty( $cmbSubdelegaciones ) || $cmbSubdelegaciones == "0" ) {
@@ -769,7 +769,7 @@
 
               <li>
                 <label for="cmbgpoactual">Grupo Actual</label>
-                <select id="cmbgpoactual" name="cmbgpoactual">
+                <select class="combo0" id="cmbgpoactual" name="cmbgpoactual">
                     <option value="0">Seleccione Grupo Actual</option>
                     <?php
                       $query = "SELECT * 
@@ -791,7 +791,7 @@
 
               <li>
                 <label for="cmbgponuevo">Grupo Nuevo</label>
-                <select id="cmbgponuevo" name="cmbgponuevo">
+                <select class="combo0" id="cmbgponuevo" name="cmbgponuevo">
                     <option value="0">Seleccione Grupo Nuevo</option>
                     <?php
                       $query = "SELECT * 

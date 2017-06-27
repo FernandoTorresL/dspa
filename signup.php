@@ -9,7 +9,7 @@
   require_once( 'commonfiles/funciones.php');
 
   // Insert the page header
-  $page_title = MM_APPNAME;
+  /*$page_title = MM_APPNAME;*/
   require_once('lib/header.php');
 
   // Show the navigation menu
@@ -19,23 +19,24 @@
   $error_msg = "";
   $output_form = 'yes';
 
+  /*$ip_address_host = "IP:" . $ip_address . "|EQUIPO:" . $host;*/
+
+  $error_msg        = "";
+  $ip               = "";
+  $ip_address       = GetHostByName( $ip );
+  $host             = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+  $ip_address_host  = "EQUIPO:" . $host;
+
   // Connect to the database
+  $ResultadoConexion = fnConnectBD( 0,  $ip_address, $ip_address_host, 'Conn-SignUp' );
+  if ( !$ResultadoConexion ) {
+    // Hubo un error en la conexión a la base de datos;
+    printf( " Connect failed: %s", mysqli_connect_error() );
+    require_once('lib/footer.php');
+    exit();
+  }
+
   $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-
-  if ( mysqli_connect_errno () ) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    return "Falló la conexión a base de datos";
-    require_once('footer.php');
-    exit(); 
-  }
-
-  /* change character set to utf8 */
-  if ( !$dbc->set_charset( "utf8" ) ) {
-      printf( "Error loading character set utf8: %s\n", $dbc->error );
-  }
-  else {
-      /*printf( "Current character set: %s\n", $dbc->character_set_name() );*/
-  }
 
   if ( !isset( $_SESSION['id_user'] ) ) {
     if ( isset( $_POST['submit'] ) ) {
@@ -68,14 +69,28 @@
                       VALUES 
                         ( NULL, '$username', SHA('$password1'), '$cmbDelegaciones', '$cmbSubdelegaciones', '$cmbPuesto', NOW(), '$email', NOW(), NULL, '0' )";
             mysqli_query($dbc, $query);
-            
-            // Confirm success with the user
-            echo '<h3 class="green-text">La nueva cuenta  ' . $username . '. ha sido creada exitosamente. 
-              Ahora está listo para <a href="login.php">iniciar sesión</a></h3>';
-            // Insert the page footer
-            mysqli_close($dbc);
-            require_once('lib/footer.php');
-            exit();
+
+            $query = "SELECT LAST_INSERT_ID()";
+            /*$result = mysqli_query( $dbc, $query );*/
+            $data = mysqli_query( $dbc, $query );
+            if ( mysqli_num_rows( $data ) == 1 ) {
+              // The user row was found so display the user data
+              $row = mysqli_fetch_array($data);
+
+              $id_user_nuevo = $row['LAST_INSERT_ID()'];
+              $log = fnGuardaBitacora( 1, 20, $id_user_nuevo,  $ip_address, 'id_user:' . $id_user_nuevo . '|CURP:' . $username . '|EQUIPO:' . $ip_address_host );
+
+              // Confirm success with the user
+              echo '<h3 class="green-text">La nueva cuenta  ' . $username . '. ha sido creada exitosamente. 
+                Ahora está listo para <a href="login.php">iniciar sesión</a></h3>';
+              // Insert the page footer
+              mysqli_close($dbc);
+              require_once('lib/footer.php');
+              exit();
+            }
+            else {
+              echo '<p class="error"><strong>El registro no ha podido realizarse. Contactar al administrador.</strong></p>';
+            }
           }
           else {
             // An account already exists for this username, so display an error message

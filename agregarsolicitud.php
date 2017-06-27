@@ -252,7 +252,7 @@
                         $row = mysqli_fetch_array($data);
 
                         $id_solicitud_bitacora = $row['LAST_INSERT_ID()'];
-                        $log = fnGuardaBitacora( 1, 102, $_SESSION['id_user'],  $_SESSION['ip_address'], 'id_solicitud:' . $id_solicitud_bitacora . '|CURP:' . $_SESSION['username'] . '|EQUIPO:' . $_SESSION['host'] );
+                        $log = fnGuardaBitacora( 1, 103, $_SESSION['id_user'],  $_SESSION['ip_address'], 'id_solicitud:' . $id_solicitud_bitacora . '|CURP:' . $_SESSION['username'] . '|EQUIPO:' . $_SESSION['host'] );
 
                         echo '<p class="mensaje"><strong>¡La nueva solicitud ha sido creada correctamente!</strong></p>';
                         echo '<p class="mensaje">¿Hubo un error? Puede EDITAR la <a href="editarsolicitud.php?id_solicitud=' . $row['LAST_INSERT_ID()'] . '">solicitud</a></p>';

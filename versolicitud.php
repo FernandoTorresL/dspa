@@ -101,7 +101,7 @@
       <ul>
         <li>
           <label for="cmbValijas">Número de Valija/Oficio</label>
-          <select disabled class="textinput" id="cmbValijas" name="cmbValijas">
+          <select disabled class="combo0" class="textinput" id="cmbValijas" name="cmbValijas">
             <?php
               $query = "SELECT ctas_valijas.id_valija AS id_valija2, 
                           ctas_valijas.delegacion AS num_del, 
@@ -126,7 +126,7 @@
 
         <li>
           <label for="cmbtipomovimiento">Tipo de Movimiento</label>
-          <select disabled="" id="cmbtipomovimiento" name="cmbtipomovimiento">
+          <select disabled class="combo0" id="cmbtipomovimiento" name="cmbtipomovimiento">
             <?php
               $query = "SELECT * 
                         FROM ctas_movimientos 
@@ -140,7 +140,7 @@
 
         <li>
           <label for="cmbDelegaciones">Delegación IMSS</label>
-          <select disabled class="textinput" id="cmbDelegaciones" name="cmbDelegaciones">
+          <select disabled class="combo0" class="textinput" id="cmbDelegaciones" name="cmbDelegaciones">
             <?php
               $query = "SELECT * 
                         FROM dspa_delegaciones 
@@ -154,7 +154,7 @@
 
         <li>
           <label for="cmbSubdelegaciones">Subdelegación IMSS</label>
-          <select disabled id="cmbSubdelegaciones" name="cmbSubdelegaciones">
+          <select disabled class="combo0" id="cmbSubdelegaciones" name="cmbSubdelegaciones">
             <?php
               $query = "SELECT * 
                         FROM dspa_subdelegaciones 
@@ -198,7 +198,7 @@
 
         <li>
           <label for="cmbgpoactual">Grupo Actual</label>
-          <select disabled id="cmbgpoactual" name="cmbgpoactual">
+          <select disabled class="combo0" id="cmbgpoactual" name="cmbgpoactual">
               <?php
                 $query = "SELECT * 
                           FROM ctas_grupos 
@@ -212,7 +212,7 @@
 
         <li>
           <label for="cmbgponuevo">Grupo Nuevo</label>
-          <select disabled id="cmbgponuevo" name="cmbgponuevo">
+          <select disabled class="combo0" id="cmbgponuevo" name="cmbgponuevo">
               <?php
                 $query = "SELECT * 
                           FROM ctas_grupos 

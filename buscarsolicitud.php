@@ -94,7 +94,7 @@
                   ctas_solicitudes.nombre, ctas_solicitudes.primer_apellido, ctas_solicitudes.segundo_apellido, 
                   ctas_solicitudes.matricula, ctas_solicitudes.curp, ctas_solicitudes.curp_correcta, ctas_solicitudes.cargo, ctas_solicitudes.usuario, 
                   ctas_movimientos.descripcion AS movimiento_descripcion, 
-                  grupos1.descripcion AS grupo_nuevo, grupos2.descripcion AS grupo_actual, 
+                  grupos1.descripcion AS grupo_actual, grupos2.descripcion AS grupo_nuevo, 
                   ctas_solicitudes.comentario, ctas_causasrechazo.id_causarechazo, ctas_causasrechazo.descripcion AS causa_rechazo, ctas_solicitudes.archivo,
                   CONCAT(dspa_usuarios.nombre, ' ', dspa_usuarios.primer_apellido) AS creada_por,
                   ctas_valijas.archivo AS archivovalija
@@ -105,8 +105,8 @@
                 AND   ctas_solicitudes.subdelegacion = dspa_subdelegaciones.subdelegacion
                 AND   ctas_solicitudes.delegacion    = dspa_delegaciones.delegacion
                 AND   ctas_solicitudes.id_movimiento = ctas_movimientos.id_movimiento
-                AND   ctas_solicitudes.id_grupo_nuevo= grupos1.id_grupo
-                AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
+                AND   ctas_solicitudes.id_grupo_actual= grupos1.id_grupo
+                AND   ctas_solicitudes.id_grupo_nuevo= grupos2.id_grupo
                 AND   ctas_solicitudes.id_user = dspa_usuarios.id_user
                 AND   ctas_solicitudes.id_causarechazo = ctas_causasrechazo.id_causarechazo
                 AND   ctas_solicitudes.usuario LIKE '%" . $usuario . "%' 
@@ -119,10 +119,11 @@
         echo '<table class="striped" border="1">';
         echo '<tr>';
         echo '<th>#</th>';
-        echo '<th>Valija</th>';
+        /*echo '<th># Valija</th>';*/
         echo '<th>Lote</th>';
         echo '<th># Área de Gestión</th>';
-        echo '<th>Fecha Captura</th>';
+        echo '<th>PDF Valija</th>';
+        echo '<th>Fecha Captura Solicitud</th>';
         echo '<th>Creada/Modificada por</th>';
         echo '<th>Delegación - Subdelegación</th>';
         echo '<th>Nombre completo</th>';
@@ -144,6 +145,9 @@
           echo '<tr class="dato condensed">';
           /*echo '<td class="lista">' . $row['id_valija'] . '</td>';*/
           echo '<td>' . $i. '</td>';
+          echo '<td>' . $row['num_lote_anio'] . '</td>';
+          echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '
+            </a></td>';
           if ( !empty( $row['archivovalija'] ) ) {
             echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivovalija'] . '"  target="_new">PDF Valija</a></td>';
           }
@@ -151,8 +155,9 @@
             echo '<td>(Sin PDF aún)</a></td>';
           }
           /*echo '<td><a href="vervalija.php?id_valija=' . $row['id_valija'] . '">' . $row['id_valija'] . '</a></td>';*/
-          echo '<td>' . $row['num_lote_anio'] . '</td>';
-          echo '<td>' . $row['num_oficio_ca'] . '</td>';
+
+
+/*          echo '<td>' . $row['num_oficio_ca'] . '</td>';*/
           echo '<td>' . $row['fecha_captura_ca'] . '</td>';
           echo '<td>' . $row['creada_por'] . '</td>';
           echo '<td class="mensaje">' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';

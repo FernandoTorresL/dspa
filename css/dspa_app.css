@@ -23,14 +23,31 @@ div {
   color: green;
 }
 
+.valijas {
+  font-weight: bold;
+  color: blue;
+}
+
 table {
   font-family: 'Courier', sans-serif;
   font-size: 12px;
 }
 
+table .lote {
+  font-family: 'Courier', sans-serif;
+  font-size: 12px;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
 td .error {
   font-weight: bold;
   color: #FF0000;
+}
+
+td .lista {
+  font-weight: bold;
+  color: green;
 }
 
 .background {

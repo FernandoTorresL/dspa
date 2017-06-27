@@ -7,6 +7,7 @@
     //$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 	define('MM_UPLOADPATH_VAL', './files/');
+	define('MM_UPLOADPATH_MSG', './files/resultadolotes/');
 	define('MM_UPLOADPATH_CTASSINDO', './filesctasSINDO/');
 	define('MM_UPLOADPATH_PROFILE', './imagesprofile/');
 	// define('MM_UPLOADPATH_IMG', 'images/');
@@ -23,9 +24,9 @@
 	define('MM_MAXIMGWIDTH_PROFILE', 12000);        // 12000 pixels
 	define('MM_MAXIMGHEIGHT_PROFILE', 12000);       // 12000 pixels
 
-	/*define('MM_EXPIRE_COOKIE_VAL', (60 * 60 ) );      // expires in 1 hour*/
+	define('MM_EXPIRE_COOKIE_VAL', (60 * 60 ) );      // expires in 1 hour
 	//define('MM_EXPIRE_COOKIE_VAL', (60 * 1));      // expires in 1 MINUTE
-	define('MM_EXPIRE_COOKIE_VAL', ( 60 * 10 ) );      // expires in 10 MINUTES
+	/*define('MM_EXPIRE_COOKIE_VAL', ( 60 * 10 ) );      // expires in 10 MINUTES*/
 
   	// define('MM_FILE', '100registros.txt');       // Nombre de archivo
   //define('MM_FILE', 'NOT_ACR_2015_05_02.TXT');       // Nombre de archivo

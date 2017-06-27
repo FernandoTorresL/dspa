@@ -102,11 +102,11 @@
     echo '<td>' . $row['primer_apellido'] . '</td>';
     echo '<td>' . $row['segundo_apellido'] . '</td>';
     echo '<td>' . $row['nombre'] . '</td>';
-    echo '<td>' . $row['movimiento_descripcion'] . '</td>';
-    echo '<td>' . $row['grupo_nuevo'] . '</td>';
-    echo '<td class="mensaje"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . '</a></td>';
+    echo '<td align="center">' . $row['movimiento_descripcion'] . '</td>';
+    echo '<td align="center">' . $row['grupo_nuevo'] . '</td>';
+    echo '<td class="mensaje" align="center"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . '</a></td>';
     /*echo '<td>' . $row['usuario'] . '</td>';*/
-    echo '<td>' . $row['matricula'] . '</td>';
+    echo '<td align="right">' . $row['matricula'] . '</td>';
 
 
     if (!empty($row['archivo'])) {
@@ -125,79 +125,6 @@
   echo '</table>';
 
   echo '<p class="mensaje">TOTAL: ' . $i . ' ALTAS</p>';
-  echo '</br></br>';
-
-  //CAMBIOS
-  $query = "SELECT  ctas_solicitudes.primer_apellido, ctas_solicitudes.segundo_apellido, ctas_solicitudes.nombre, 
-                    ctas_movimientos.descripcion AS movimiento_descripcion, 
-                    grupos2.descripcion AS grupo_actual, grupos1.descripcion AS grupo_nuevo, 
-                    ctas_solicitudes.usuario, ctas_solicitudes.matricula,
-                    ctas_solicitudes.archivo, ctas_solicitudes.id_solicitud
-            FROM    ctas_solicitudes, ctas_valijas, ctas_lotes, dspa_delegaciones, dspa_subdelegaciones, 
-                    ctas_movimientos, ctas_grupos grupos1, ctas_grupos grupos2
-            WHERE ctas_solicitudes.id_lote       = ctas_lotes.id_lote
-            AND   ctas_solicitudes.id_valija     = ctas_valijas.id_valija
-            AND   ctas_solicitudes.delegacion    = dspa_subdelegaciones.delegacion
-            AND   ctas_solicitudes.subdelegacion = dspa_subdelegaciones.subdelegacion
-            AND   ctas_solicitudes.delegacion    = dspa_delegaciones.delegacion
-            AND   ctas_solicitudes.id_movimiento = ctas_movimientos.id_movimiento
-            AND   ctas_solicitudes.id_grupo_nuevo= grupos1.id_grupo
-            AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
-            AND   ctas_solicitudes.id_causarechazo = 0
-            AND   ctas_solicitudes.id_movimiento = 3
-            AND   ctas_solicitudes.id_lote       = 0
-            ORDER BY ctas_solicitudes.usuario ASC";
-
-  $data = mysqli_query($dbc, $query);
-  echo '<p class="mensaje">CAMBIOS</p>';
-  //echo '<p class="titulo2">Agregar <a href="agregarsolicitud.php">nueva solicitud</a></p>';
-# Primer Apellido Segundo Apellido  Nombre(s) Tipo de Movimiento  Grupo Actual  Grupo Nuevo Usuario Matrícula
-  echo '<table class="striped" border="1">';
-  echo '<tr>';
-  echo '<th>#</th>';
-  echo '<th>Primer Apellido</th>';
-  echo '<th>Segundo Apellido</th>';
-  echo '<th>Nombre(s)</th>';
-  echo '<th>Tipo de Movimiento</th>';
-  echo '<th>Grupo Actual</th>';
-  echo '<th>Grupo Nuevo</th>';
-  echo '<th>Usuario</th>';
-  echo '<th>Matrícula</th>';
-  echo '<th>PDF</th>';
-  echo '</tr>';
-
-  if (mysqli_num_rows($data) == 0) {
-    echo '</table></br><p class="error">No hay nuevas solicitudes para CAMBIOS.</p></br>';
-  }
-  $i = 1;
-  while ( $row = mysqli_fetch_array($data) ) {
-    
-    echo '<tr class="dato condensed">';
-    echo '<td>' . $i . '</td>';
-    echo '<td>' . $row['primer_apellido'] . '</td>';
-    echo '<td>' . $row['segundo_apellido'] . '</td>';
-    echo '<td>' . $row['nombre'] . '</td>';
-    echo '<td>' . $row['movimiento_descripcion'] . '</td>';
-    echo '<td>' . $row['grupo_actual'] . '</td>';
-    echo '<td>' . $row['grupo_nuevo'] . '</td>';
-    echo '<td class="mensaje"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . '</a></td>';
-    echo '<td>' . $row['matricula'] . '</td>';
-    if (!empty($row['archivo'])) {
-      echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo'] . '"  target="_new">PDF</a></td>';
-    }
-    else {
-      echo '<td>(Vacío)</a></td>';
-    } 
-    echo '</tr>';
-
-    $i = $i + 1;
-  }
-
-  $i = $i -1;
-
-  echo '</table>';
-
-  echo '<p class="mensaje">TOTAL: ' . $i . ' CAMBIOS</p>';
   echo '</br></br>';
 
   //BAJAS
@@ -249,10 +176,10 @@
     echo '<td>' . $row['primer_apellido'] . '</td>';
     echo '<td>' . $row['segundo_apellido'] . '</td>';
     echo '<td>' . $row['nombre'] . '</td>';
-    echo '<td>' . $row['movimiento_descripcion'] . '</td>';
-    echo '<td>' . $row['grupo_actual'] . '</td>';
-    echo '<td class="mensaje"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . '</a></td>';
-    echo '<td>' . $row['matricula'] . '</td>';
+    echo '<td align="center">' . $row['movimiento_descripcion'] . '</td>';
+    echo '<td align="center">' . $row['grupo_actual'] . '</td>';
+    echo '<td class="mensaje" align="center"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . '</a></td>';
+    echo '<td align="right">' . $row['matricula'] . '</td>';
     if (!empty($row['archivo'])) {
       echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo'] . '"  target="_new">PDF</a></td>';
     }
@@ -270,6 +197,81 @@
 
   echo '<p class="mensaje">TOTAL: ' . $i . ' BAJAS</p>';
   echo '</br></br>';
+
+
+  //CAMBIOS
+  $query = "SELECT  ctas_solicitudes.primer_apellido, ctas_solicitudes.segundo_apellido, ctas_solicitudes.nombre, 
+                    ctas_movimientos.descripcion AS movimiento_descripcion, 
+                    grupos1.descripcion AS grupo_actual, grupos2.descripcion AS grupo_nuevo, 
+                    ctas_solicitudes.usuario, ctas_solicitudes.matricula,
+                    ctas_solicitudes.archivo, ctas_solicitudes.id_solicitud
+            FROM    ctas_solicitudes, ctas_valijas, ctas_lotes, dspa_delegaciones, dspa_subdelegaciones, 
+                    ctas_movimientos, ctas_grupos grupos1, ctas_grupos grupos2
+            WHERE ctas_solicitudes.id_lote       = ctas_lotes.id_lote
+            AND   ctas_solicitudes.id_valija     = ctas_valijas.id_valija
+            AND   ctas_solicitudes.delegacion    = dspa_subdelegaciones.delegacion
+            AND   ctas_solicitudes.subdelegacion = dspa_subdelegaciones.subdelegacion
+            AND   ctas_solicitudes.delegacion    = dspa_delegaciones.delegacion
+            AND   ctas_solicitudes.id_movimiento = ctas_movimientos.id_movimiento
+            AND   ctas_solicitudes.id_grupo_actual= grupos1.id_grupo
+            AND   ctas_solicitudes.id_grupo_nuevo= grupos2.id_grupo
+            AND   ctas_solicitudes.id_causarechazo = 0
+            AND   ctas_solicitudes.id_movimiento = 3
+            AND   ctas_solicitudes.id_lote       = 0
+            ORDER BY ctas_solicitudes.usuario ASC";
+
+  $data = mysqli_query($dbc, $query);
+  echo '<p class="mensaje">CAMBIOS</p>';
+  //echo '<p class="titulo2">Agregar <a href="agregarsolicitud.php">nueva solicitud</a></p>';
+# Primer Apellido Segundo Apellido  Nombre(s) Tipo de Movimiento  Grupo Actual  Grupo Nuevo Usuario Matrícula
+  echo '<table class="striped" border="1">';
+  echo '<tr>';
+  echo '<th>#</th>';
+  echo '<th>Primer Apellido</th>';
+  echo '<th>Segundo Apellido</th>';
+  echo '<th>Nombre(s)</th>';
+  echo '<th>Tipo de Movimiento</th>';
+  echo '<th>Grupo Actual</th>';
+  echo '<th>Grupo Nuevo</th>';
+  echo '<th>Usuario</th>';
+  echo '<th>Matrícula</th>';
+  echo '<th>PDF</th>';
+  echo '</tr>';
+
+  if (mysqli_num_rows($data) == 0) {
+    echo '</table></br><p class="error">No hay nuevas solicitudes para CAMBIOS.</p></br>';
+  }
+  $i = 1;
+  while ( $row = mysqli_fetch_array($data) ) {
+    
+    echo '<tr class="dato condensed">';
+    echo '<td>' . $i . '</td>';
+    echo '<td>' . $row['primer_apellido'] . '</td>';
+    echo '<td>' . $row['segundo_apellido'] . '</td>';
+    echo '<td>' . $row['nombre'] . '</td>';
+    echo '<td align="center">' . $row['movimiento_descripcion'] . '</td>';
+    echo '<td align="center">' . $row['grupo_actual'] . '</td>';
+    echo '<td align="center">' . $row['grupo_nuevo'] . '</td>';
+    echo '<td class="mensaje" align="center"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . '</a></td>';
+    echo '<td align="right">' . $row['matricula'] . '</td>';
+    if (!empty($row['archivo'])) {
+      echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo'] . '"  target="_new">PDF</a></td>';
+    }
+    else {
+      echo '<td>(Vacío)</a></td>';
+    } 
+    echo '</tr>';
+
+    $i = $i + 1;
+  }
+
+  $i = $i -1;
+
+  echo '</table>';
+
+  echo '<p class="mensaje">TOTAL: ' . $i . ' CAMBIOS</p>';
+  echo '</br></br>';
+
 
 
 /*CONNECT*/
