@@ -89,6 +89,7 @@
   echo '<th>Matrícula</th>';
 
   echo '<th>PDF</th>';
+  echo '<th>#</th>';
   echo '</tr>';
 
   if (mysqli_num_rows($data) == 0) {
@@ -114,7 +115,8 @@
     }
     else {
       echo '<td>(Vacío)</a></td>';
-    } 
+    }
+    echo '<td>' . $i . '</td>'; 
     echo '</tr>';
 
     $i = $i + 1;
@@ -163,6 +165,7 @@
   echo '<th>Usuario</th>';
   echo '<th>Matrícula</th>';
   echo '<th>PDF</th>';
+  echo '<th>#</th>';
   echo '</tr>';
 
   if (mysqli_num_rows($data) == 0) {
@@ -185,7 +188,8 @@
     }
     else {
       echo '<td>(Vacío)</a></td>';
-    } 
+    }
+    echo '<td>' . $i . '</td>'; 
     echo '</tr>';
 
     $i = $i + 1;
@@ -236,6 +240,7 @@
   echo '<th>Usuario</th>';
   echo '<th>Matrícula</th>';
   echo '<th>PDF</th>';
+  echo '<th>#</th>';
   echo '</tr>';
 
   if (mysqli_num_rows($data) == 0) {
@@ -260,6 +265,7 @@
     else {
       echo '<td>(Vacío)</a></td>';
     } 
+    echo '<td>' . $i . '</td>';
     echo '</tr>';
 
     $i = $i + 1;
@@ -311,6 +317,7 @@
   echo '<th>Usuario</th>';
   echo '<th>Matrícula</th>';
   echo '<th>PDF</th>';
+  echo '<th>#</th>';
   echo '</tr>';
 
   if (mysqli_num_rows($data) == 0) {
@@ -334,6 +341,7 @@
     else {
       echo '<td>(Vacío)</a></td>';
     } 
+    echo '<td>' . $i . '</td>';
     echo '</tr>';
 
     $i = $i + 1;
@@ -347,7 +355,9 @@
   echo '</br></br>';
 
   //OFICIOS PARA DESCARGO
-  $query = "SELECT DISTINCT concat('[', SUBSTR( CONCAT( '00', ctas_valijas.delegacion ), -2), 
+  $query = "SELECT DISTINCT 
+                  IF ( DATE_FORMAT( ctas_valijas.fecha_captura_ca, '%Y' ) <> DATE_FORMAT( NOW(), '%Y' ), CONCAT( '(AÑO:', DATE_FORMAT( ctas_valijas.fecha_captura_ca, '%Y' ), ')' ), '' ) AS Anio_oficio,
+                  concat('[', SUBSTR( CONCAT( '00', ctas_valijas.delegacion ), -2), 
                   IF( ctas_valijas.delegacion <> ctas_solicitudes.delegacion, 
                   concat( '(', SUBSTR( CONCAT( '00', ctas_solicitudes.delegacion ), -2), ')-' ), '-' ), 
                   ctas_valijas.num_oficio_del, '-', ctas_valijas.num_oficio_ca, ']') AS valija_descargo
@@ -362,7 +372,7 @@
             AND   ctas_solicitudes.id_grupo_nuevo= grupos1.id_grupo
             AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
             AND   ctas_solicitudes.id_lote = 0
-            ORDER BY ctas_valijas.num_oficio_ca ASC, ctas_valijas.delegacion, ctas_solicitudes.delegacion, ctas_valijas.num_oficio_del";
+            ORDER BY 1 DESC, ctas_valijas.num_oficio_ca ASC, ctas_valijas.delegacion, ctas_solicitudes.delegacion, ctas_valijas.num_oficio_del";
 
   $data = mysqli_query($dbc, $query);
   echo '<p class="mensaje">LISTADO DE VALIJAS PARA DESCARGO (ACEPTADAS Y RECHAZADAS)</p>';
@@ -371,7 +381,7 @@
   echo '<table class="striped" border="1">';
   echo '<tr>';
   echo '<th>#</th>';
-  echo '<th>[Delegación solicitante (Delegación origen)- # Oficio Delegación - # Gestión DSPA] </th>';
+  echo '<th>[Delegación solicitante (Delegación origen)- # Oficio Delegación - # Gestión DSPA] (AÑO:YYYY) </th>';
   /*echo '<th>Segundo Apellido</th>';
   echo '<th>Nombre(s)</th>';
   echo '<th>Tipo de Movimiento</th>';
@@ -390,7 +400,7 @@
     
     echo '<tr class="dato condensed">';
     echo '<td>' . $i . '</td>';
-    echo '<td>' . $row['valija_descargo'] . '</td>';
+    echo '<td>' . $row['valija_descargo'] . $row['Anio_oficio'] . '</td>';
     /*echo '<td>' . $row['segundo_apellido'] . '</td>';
     echo '<td>' . $row['nombre'] . '</td>';
     echo '<td>' . $row['movimiento_descripcion'] . '</td>';
@@ -406,7 +416,7 @@
     echo '</tr>';
 
     $i = $i + 1;
-    $total_descargo = $total_descargo . ' ' . $row['valija_descargo'];
+    $total_descargo = $total_descargo . ' ' . $row['valija_descargo'] . $row['Anio_oficio'];
   }
 
   $i = $i -1;
