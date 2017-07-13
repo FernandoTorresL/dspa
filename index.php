@@ -1,74 +1,96 @@
 <?php
   // Start the session
-  require_once('startsession.php');
+  require_once('commonfiles/startsession.php');
 
-  require_once('appvars.php');
-  require_once('connectvars.php');
+  require_once('lib/appvars.php');
+  require_once('lib/connectvars.php');
+
+  require_once( 'commonfiles/funciones.php');
 
   // Insert the page header
   $page_title = MM_APPNAME;
-  require_once('header.php');
+  require_once('lib/header.php');
 
   // Show the navigation menu
-  require_once('navmenu.php');
+  require_once('lib/navmenu.php');
+  
 ?>
 
-  <div class="section no-pad-bot" id="index-banner">
-    <div class="container">
-      <div class="row center">
-      
-        <h1 class="header center orange-text">
-      <!-- <a id="logo-container" href="" class="brand-logo"></a> -->
-          <?php
-            echo $page_title;
-          ?>
-        </h1>
-        <h5 class="header col s12">Bienvenido a la página de la División de Soporte a los Procesos de Afiliación (DSPA)</h5>
-        <!-- <h6 class="header col s12">Se requiere un usuario autorizado para ingresar al sitio completo</h6> -->
-      <!-- </div> -->
-      <!-- <div class="row center"> -->
-      </div>
-    </div>
+<section id="modulos" class="modulos contenedor">
+  <div class="contenedor">
+    <h2 class="title">Bienvenido al Portal de la División de Soporte a los Procesos de Afiliación</h2>
+    <!-- <button>Conoce mas</button> -->
   </div>
-
-  <div class="container">
-    <!-- <div class="section"> -->
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">radio</i></h2>
-            <span class="new badge yellow black-text" data-badge-caption="En construcción"></span>
-            <h5 class="center">Noticias</h5>
-            <p class="light">Podrás consultar los últimos avisos y noticias de caracter general que publique la División; avisos de mantenimiento, de incidencias generales, etc.</p>
-          </div>
+</section>
+  
+<?php
+// Make sure the user is logged in before going any further.
+  if ( !isset( $_SESSION['id_user'] ) ) {
+?>
+    <section id="modulos" class="modulos contenedor">
+  
+      <article class="modulo a"> <!-- guitarra 1 -->
+        <img class="derecha" src="images/login.png" alt="Login" width="250"/>
+        <div class="contenedor-modulo-a">
+          <h4 class="title-a"><a href="login.php">Iniciar sesión</a></h4>
+          <ol>
+            <li>Ingresa con tu usuario y contraseña.</li>
+            <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
+          </ol>
+            <a class="button background" href="login.php">Iniciar</a>
         </div>
+      </article>
 
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">work</i></h2>
-            <span class="new badge yellow black-text" data-badge-caption="En construcción"></span>
-            <h5 class="center">Herramientas</h5>
-            <p class="light">Aquí encontrarás herramientas útiles para la operación diaria como consulta de catálogos, validación de archivos DISPMAG, dígito verificador, etc.</p>
-          </div>
+      <article class="modulo b"> <!-- guitarra 2 -->
+        <img class="izquierda" src="images/sign_up_256.png" alt="Sign Up" width="250"/>
+        <div class="contenedor-modulo-b">
+          <h4 class="title-b"><a href="signup.php">Registrar nuevo usuario</a></h4>
+          <ol>
+            <li>Ingresa una solicitud de usuario.</li>
+            <li>Será revisada por la administración de este portal.</li>
+          </ol>
+          <a class="button background" href="signup.php">Registrar</a>
         </div>
+      </article>
 
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center light-blue-text"><i class="material-icons">supervisor_account</i></h2>
-            <h5 class="center">Claves de Usuario</h5>
-            <p class="light">Información referente a las solicitudes de cuentas SINDO de su delegación. Consulte estatus, inventario, grupos, etc.</p>
-          </div>
-        </div>
-      </div>
-
-    <!-- </div> -->
-    <!-- <div class="section">
-    </div> -->
-    <h6 class="header col s12">Se requiere un usuario autorizado para ingresar al sitio. Esta página se visualiza mejor en Google Chrome <a href="./resources/ChromeStandaloneSetup.zip" id="download-button" class="btn waves-effect waves-light orange">Descarga</a></h6>
-  </div>
+    </section>
 
 <?php
-  // Insert the page footer
-  require_once('footer.php');
+
+  }
+  else {
+?>
+    <section id="modulos" class="modulos contenedor">
+  
+      <article class="modulo a"> <!-- guitarra 1 -->
+        <img class="derecha" src="images/login.png" alt="Login" width="250"/>
+        <div class="contenedor-modulo-a">
+          <h4 class="title-a"><a href="agregarsolicitud.php">Agregar Solicitud</a></h4>
+          <ol>
+            <li>Ingresar a Capturar Solicitudes</li>
+            <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
+          </ol>
+            <a class="button background" href="agregarsolicitud.php">Agregar Solicitud</a>
+        </div>
+      </article>
+
+      <article class="modulo a"> <!-- guitarra 1 -->
+        <!-- <img class="derecha" src="images/sign_up_256.png" alt="Ver Listado" width="250"/> -->
+        <div class="contenedor-modulo-a">
+          <h4 class="title-a"><a href="verDetalleCuentasSINDO.php">Ver Listado</a></h4>
+          <ul>
+            <li>Consultar Solicitudes</li>
+            <li>Editar Solicitudes</li>
+            <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
+          </ul>
+            <a class="button background" href="verDetalleCuentasSINDO.php">Ver Listado de Solicitudes</a>
+        </div>
+      </article>
+
+    </section>
+
+<?php
+  }
+      // Insert the page footer
+      require_once('lib/footer.php');
 ?>

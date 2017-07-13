@@ -1,0 +1,407 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  color: royalblue;
+}
+
+div {
+  display: block;
+}
+
+.error {
+  font-weight: bold;
+  color: #FF0000;
+}
+
+.advertencia {
+  font-weight: bold;
+  color: orange;
+}
+
+.mensaje {
+  font-weight: bold;
+  color: green;
+}
+
+.valijas {
+  font-weight: bold;
+  color: blue;
+}
+
+table {
+  font-family: 'Courier', sans-serif;
+  font-size: 12px;
+}
+
+table .lote {
+  font-family: 'Courier', sans-serif;
+  font-size: 12px;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+td .error {
+  font-weight: bold;
+  color: #FF0000;
+}
+
+td .lista {
+  font-weight: bold;
+  color: green;
+}
+
+.background {
+  background: royalblue; /* Old browsers */
+}
+
+.contenedor {
+  width: 700px;
+  margin: auto;
+  margin-top: 10px;
+  position: relative;
+}
+
+.button {
+  border-radius: 12px;
+  border: none;
+  color: white;
+  padding: 7px 12px;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  /*background: linear-gradient(to left, black, darkslategrey);*/
+  /*background: #fd324e;*/
+}
+
+.titulo {
+  font-size: 70px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+/*  color: darkslategrey;*/
+  text-align: center;
+}
+
+.title {
+  font-size: 38px;
+  padding-left: 44px;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.title-a {
+  font-size: 25px;
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
+
+.title-b {
+  font-size: 25px;
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
+/*guitarras*/
+.modulos {
+  color: royalblue;
+  margin-bottom: 20px;
+}
+
+.modulos h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 35px;
+  margin-top: 20px;
+}
+
+.portada2 {
+  /*background-color: darkslategrey;*/
+  color: white;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+.portada2 button {
+  margin-bottom: 70px;
+}
+
+.menu {
+  /*font-size: 18px;*/
+  display: inline-block;
+  position: absolute;
+  right: -200;
+  margin-top: 10px;
+}
+
+.menu li {
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.menu li:before{
+  /*content: '.';*/
+  content: '∘';
+  font-size: 25px;
+  line-height: 20px;
+  color: white;
+  /*position: fixed;*/
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+}
+
+a {
+  color: royalblue;
+  /*text-decoration: none;*/
+}
+
+.logotipo {
+  margin-left: -100px;
+  margin-top:7px;
+  margin-bottom: initial;
+  width: 75px;
+  height: 75px;
+  display: inline-block;
+  /*margin-left: 0;*/
+  background-color: #fafafa;
+  border-radius: 50%;
+  border: 0 solid #dbdbdb;
+  box-sizing: border-box;
+  overflow: hidden;
+ /* position: fixed;*/
+}
+
+.logotipo img {
+  margin-top: 7px;
+  margin-left: 0px;
+}
+
+
+.modulo {
+  margin: 10px 10px 30px 10px;
+  padding: 20px;
+  /*overflow: hidden;*/
+  border: 2px solid royalblue;
+  border-radius: 10px;
+}
+
+.modulo ol {
+  padding: 0;
+}
+
+.modulo.b {
+  height: 120px;
+}
+
+.derecha {
+  float: right;
+  position: relative;
+  top: -60px;
+  margin-right: -25px;
+}
+
+.izquierda {
+  float: left;
+  position: relative;
+  top: -65px;
+}
+
+.contenedor-modulo-a {
+ /* margin-left: 370px;*/
+  padding-left: 20px;
+}
+
+.contenedor-modulo-b {
+  margin-left: 285px;
+  position: relative;
+  /*bottom: 100px;*/
+}
+
+.header {
+  /*width: 800px;
+  height: 90px;*/
+  /*margin: auto;*/
+  position: relative;
+}
+
+.contenedor2 {
+  width: 900px;
+  margin: auto;
+  position: relative;
+}
+
+.footer {
+  color: white;
+  /*padding: 5px 5px;*/
+  margin-top: 80px;
+  text-align: center;
+  background: royalblue;
+}
+
+.footer .contenedor2 {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.footer a {
+  color: white;
+  text-decoration: none;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+
+.footer-copyright a {
+  color: white;
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  clear: both;
+  margin-bottom: 10px;
+}
+
+ul li img{
+  margin-left: 169px;
+}
+
+form {
+  width: 40em;
+  border: 1px solid #666;
+  border-radius: 10px;
+  box-shadow: .2em .2em .5em #999;
+  /*background-color: #d0e9f6;
+  background-color: darkseagreen;*/
+  background-color: white;
+  padding: 1em;
+  overflow: hidden;
+}
+
+label {
+  display: block;
+  float: left;
+  width: 10em;
+  text-align: right;
+  margin-right: .5em;
+  /*color: #04699d;*/
+  color: royalblue;
+}
+
+input.textinput {
+  width: 18em;
+  height: 17px;
+  border: 1px solid #666;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+textarea.textarea {
+  width: 290px;
+  height: 80px;
+  border: 1px solid #666;
+  margin: 0px;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+input.textinputsmall {
+  width: 11em;
+  height: 17px;
+  border: 1px solid #666;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+input.textinputmini {
+  width: 2em;
+  height: 17px;
+  border: 1px solid #444;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+span.etiquetaCourier {
+  width: 2em;
+  height: 17px;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+
+select.combo0 {
+  width: 18em;
+  height: 19px;
+  border: 1px solid #666;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+
+input[type="submit"], input[type="reset"] {
+  display: block;
+  width: 10em;
+  height: 2em;
+  float: left;
+  background: white;
+  font-size: inherit;
+  border: 1px solid #04699d;
+  border-radius: 4px;
+  box-shadow: 2px 2px 3px rgba(0,0,0,.5);
+}
+
+input[type="submit"] {
+  margin-left: 6.5em;
+  margin-right: 1em;
+  margin-bottom: 25px;
+  color: #C00;
+}
+
+.red-text {
+    color: #F44336 !important;
+}
+
+/*
+
+
+
+.signup-box {
+  background-color: white;
+  border: 1px solid #edeeee;
+  border-radius: 3px;
+  padding: 10px 0;
+  text-align: left;
+}
+
+.signup-form {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.signup-form h2 {
+  color: #a5a7aa;
+  font-size: 1.2em;
+}
+
+.signup-form .btn.btn-fb {
+  background-color: #4090db;
+  font-size: .9em;
+}
+
+.signup-form .btn.btn-fb:hover {
+  background-color: #2d6599;
+}
+
+.signup-form .btn.btn-signup {
+  background-color: #125688;
+}*/
+
+/*.forma .contenedor .formulario {
+  display:flex;
+}*/

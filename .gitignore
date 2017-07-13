@@ -6,6 +6,7 @@
 *.exe
 *.o
 *.so
+*.bak
 
 # Packages #
 ############
@@ -30,7 +31,7 @@
 ######################
 .DS_Store
 .DS_Store?
-._*
+#._*
 .Spotlight-V100
 .Trashes
 ehthumbs.db
@@ -39,6 +40,7 @@ Thumbs.db
 
 # Archivos específicos del usuario #
 ####################################
+log2.txt
 agregarsolicitud3.php
 agregarvalija_tmp.php
 agregarvalija_tmp2.php
@@ -57,7 +59,6 @@ originalagregarsolicitud.php
 generareporte.php
 valindex.php
 files/
-images/
 imagesprofile/*
 sql/
 tmp/
@@ -69,8 +70,13 @@ parallax-template/
 parallax-template2/
 starter-template/
 starter-template2/
+filesctasSINDO/
+
+Bitácora GIT FTL.txt
 
 
 !imagesprofile/nopic.jpg
 !filesctasSINDO/Blank_Document.pdf
+lib/connectvars.php
+
 
