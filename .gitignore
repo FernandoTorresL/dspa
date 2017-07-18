@@ -26,6 +26,7 @@
 *.log
 *.sql
 *.sqlite
+!sql/dspaSQL.sql
 
 # OS generated files #
 ######################
@@ -60,7 +61,6 @@ generareporte.php
 valindex.php
 files/
 imagesprofile/*
-sql/
 tmp/
 filesctasSINDO/*
 filesctasSINDO_BAK_GIT
