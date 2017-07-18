@@ -65,25 +65,25 @@
       <article class="modulo a"> <!-- guitarra 1 -->
         <img class="derecha" src="images/login.png" alt="Login" width="250"/>
         <div class="contenedor-modulo-a">
-          <h4 class="title-a"><a href="agregarsolicitud.php">Agregar Solicitud</a></h4>
-          <ol>
+          <h4 class="title-a"><a href="agregarlote.php">Crear nuevo lote</a></h4>
+          <h4 class="title-a"><a href="generatablas.php">Generar tablas</a></h4>
+
+          <h6 class="title-a"><a href="agregarsolicitud.php">Agregar solicitud</a>
+            <a class="button background" href="agregarsolicitud.php">Agregar Solicitud</a></h6>
+          <h4 class="title-a"><a href="agregarvalija.php">Agregar valija</a></h4>
+
+          <h4 class="title-a"><a href="verDetalleCuentasSINDO.php">Ver Resumen</a>
+            <a class="button background" href="verDetalleCuentasSINDO.php">Resumen</a></h4>
+          <h4 class="title-a"><a href="buscarsolicitud.php">Buscar solicitud por usuario</a></h4>
+          <h4 class="title-a"><a href="verstatuslote.php">Ver estatus lote</a></h4>
+
+          <h4 class="title-a"><a href="leearchivovalijas.php">Leer archivo valijas</a></h4>
+
+          <!-- <ol>
             <li>Ingresar a Capturar Solicitudes</li>
             <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
-          </ol>
-            <a class="button background" href="agregarsolicitud.php">Agregar Solicitud</a>
-        </div>
-      </article>
-
-      <article class="modulo a"> <!-- guitarra 1 -->
-        <!-- <img class="derecha" src="images/sign_up_256.png" alt="Ver Listado" width="250"/> -->
-        <div class="contenedor-modulo-a">
-          <h4 class="title-a"><a href="verDetalleCuentasSINDO.php">Ver Listado</a></h4>
-          <ul>
-            <li>Consultar Solicitudes</li>
-            <li>Editar Solicitudes</li>
-            <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
-          </ul>
-            <a class="button background" href="verDetalleCuentasSINDO.php">Ver Listado de Solicitudes</a>
+          </ol> -->
+            <!-- <a class="button background" href="agregarsolicitud.php">Agregar Solicitud</a> -->
         </div>
       </article>
 

@@ -542,7 +542,7 @@
                                 ctas_valijas.id_user
                               FROM ctas_valijas, dspa_delegaciones 
                               WHERE ctas_valijas.delegacion = dspa_delegaciones.delegacion
-                              AND ctas_valijas.fecha_recepcion_ca > '2017-04-11'
+                              AND ctas_valijas.fecha_recepcion_ca > '2017-07-10'
                               ORDER BY ctas_valijas.fecha_recepcion_ca DESC, ctas_valijas.id_valija";
 /*                              AND   ( YEAR(ctas_valijas.fecha_recepcion_ca) = 2017 OR YEAR(ctas_valijas.fecha_recepcion_ca) = 2016 ) */
                     $result = mysqli_query( $dbc, $query );

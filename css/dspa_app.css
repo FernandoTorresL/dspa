@@ -192,13 +192,13 @@ a {
 }
 
 .modulo.b {
-  height: 120px;
+  height: 165px;
 }
 
 .derecha {
   float: right;
   position: relative;
-  top: -60px;
+  top: 0px;
   margin-right: -25px;
 }
 
@@ -235,15 +235,19 @@ a {
 .footer {
   color: white;
   /*padding: 5px 5px;*/
-  margin-top: 80px;
+  margin-top:50px;
   text-align: center;
   background: royalblue;
 }
 
 .footer .contenedor2 {
+  /*display: flex;
+  justify-content: space-between;*/
   display: flex;
+  width: 900px;
+  margin: auto;
+  position: relative;
   justify-content: space-between;
-  margin-bottom: 18px;
 }
 
 .footer a {
