@@ -3,7 +3,7 @@
   require_once('commonfiles/startsession.php');
 
   require_once('lib/ctas_appvars.php');
-  require_once('lib/connectvars.php');
+  require_once('lib/connectBD.php');
 
   require_once('commonfiles/funciones.php');
 

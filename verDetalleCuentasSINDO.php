@@ -4,7 +4,7 @@
   require_once( 'commonfiles/startsession.php' );
 
   require_once( 'lib/ctas_appvars.php' );
-  require_once( 'lib/connectvars.php' );
+  require_once( 'lib/connectBD.php' );
   
   // Insert the page header
   $page_title = 'Gestión Cuentas SINDO - Ver Solicitud';
