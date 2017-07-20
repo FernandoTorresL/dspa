@@ -45,6 +45,16 @@ td .error {
   color: #FF0000;
 }
 
+td .advertencia {
+  font-weight: bold;
+  color: orange;
+}
+
+td .pendiente {
+  font-weight: bold;
+  color: yellow;
+}
+
 td .lista {
   font-weight: bold;
   color: green;

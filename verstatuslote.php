@@ -87,8 +87,13 @@
       // Obtener todas las solicitudes capturadas al momento para el penúltimo lote modificado
       $query = 'SELECT  
                   S.id_solicitud, S.id_valija, V.num_oficio_ca, V.fecha_recepcion_ca, 
-                  S.fecha_captura_ca, S.fecha_solicitud_del, S.fecha_modificacion,
+                  S.fecha_captura_ca, 
+                  DATE_FORMAT(S.fecha_captura_ca, "%d%M%y %H:%i") AS fecha_cap_formato,
+                  S.fecha_solicitud_del, 
+                  S.fecha_modificacion,
+                  DATE_FORMAT(S.fecha_modificacion, "%d%M%y %H:%i") AS fecha_mod_formato,
                   L.lote_anio AS num_lote_anio, 
+                  L.id_lote   AS id_lote,
                   S.delegacion AS num_del, D.descripcion AS delegacion_descripcion, 
                   V.delegacion AS num_del_val, 
                   S.subdelegacion AS num_subdel, SD.descripcion AS subdelegacion_descripcion, 
@@ -103,33 +108,16 @@
                   RM.descripcion as descripcion_causa_rechazo_MAINFRAME,
                   L.fecha_atendido as fecha_atendido,
                   RS.usuario_mainframe as usuario_MAINFRAME,
-CASE 
-WHEN ( S.id_causarechazo <> 0 ) THEN S.comentario
-WHEN ( S.id_causarechazo = 0 AND RS.id_rechazomainframe <> 0 ) THEN CONCAT( IF( S.comentario IS NULL, "", CONCAT( S.comentario, " " ) ), "/", RM.descripcion, IF( RS.comentario IS NULL, "", CONCAT( " (", RS.comentario, ")" ) ) ) 
-WHEN ( S.id_causarechazo = 0 AND RS.id_rechazomainframe = 0 ) THEN CONCAT ( IF( S.comentario IS NULL, "", CONCAT( S.comentario,"-FX", " " ) ), IF( RS.comentario IS NULL, "", CONCAT( "(", RS.comentario, ")" ) ) )
-ELSE "OTRO"
-END AS "Observaciones",
+                  S.comentario          AS comentarioDSPA,
+                  RS.comentario         AS comentarioMAINFRAME,
                   S.archivo, 
                   CONCAT(DU.nombre, " ", DU.primer_apellido) AS creada_por,
                   V.archivo AS archivovalija,
-                CASE 
-                    WHEN ( RS.marca_reintento <> 0 ) THEN "PENDIENTE"
-                    WHEN ( RS.id_rechazomainframe = 0 ) THEN "ATENDIDA"
-                    WHEN ( S.id_causarechazo <> 0 ) THEN "NO PROCEDE"
-                    WHEN ( S.id_causarechazo = 0 AND RS.id_rechazomainframe <> 0 ) THEN "NO PROCEDE"
-                    WHEN ( S.id_causarechazo = 0 AND RS.id_rechazomainframe = 0 ) THEN "ATENDIDA"
-                    ELSE "OTRO."
-                  END AS "Estatusx", 
-                CASE 
-                    WHEN ( S.id_causarechazo <> 0 ) THEN S.comentario
-                    WHEN ( S.id_causarechazo = 0 AND RS.id_rechazomainframe <> 0 ) THEN CONCAT( IF( S.comentario IS NULL, "", CONCAT( S.comentario, " " ) ), "/", RM.descripcion, IF( RS.comentario IS NULL, "", CONCAT( " (", RS.comentario, ")" ) ) ) 
-                    WHEN ( S.id_causarechazo = 0 AND RS.id_rechazomainframe = 0 ) THEN CONCAT ( IF( S.comentario IS NULL, "", CONCAT( S.comentario, " " ) ), IF( RS.comentario IS NULL, "", CONCAT( "(", RS.comentario, ")" ) ) )
-                    WHEN ( S.id_causarechazo = 0 AND ISNULL(RS.id_rechazomainframe) ) THEN S.comentario
-                    ELSE "OTRO ."
-                  END AS "Observacionesx"
-
+                  RS.marca_reintento    AS marca_reintento,
+                  (select id_user from ctas_hist_solicitudes where id_solicitud=S.id_solicitud ORDER BY id_hist_solicitud LIMIT 1) AS sol_creada_por,
+                  (select id_user from ctas_hist_solicitudes where id_solicitud=S.id_solicitud ORDER BY id_hist_solicitud DESC LIMIT 1) AS sol_ult_mod_por
                 FROM 
-                ( ( ( ( ( ( ( ( ( (
+                ( ( ( ( ( ( ( ( ( ( (
                   ( ctas_solicitudes S LEFT JOIN ( ctas_resultadosolicitudes RS, ctas_rechazosmainframe RM )
                     ON ( ( S.id_solicitud = RS.id_solicitud AND RM.id_rechazomainframe = RS.id_rechazomainframe )  ) )
                     JOIN dspa_usuarios DU
@@ -152,6 +140,8 @@ END AS "Observaciones",
                                                     ON V.delegacion = D2.delegacion )
                                                       JOIN ctas_causasrechazo CR
                                                         ON S.id_causarechazo = CR.id_causarechazo )
+                                                          LEFT JOIN ctas_hist_solicitudes HS 
+                                                            ON S.id_solicitud = HS.id_solicitud )
                                                          
                 WHERE   
                   S.id_lote = "' . $lote . '" ';
@@ -160,27 +150,30 @@ END AS "Observaciones",
           
         /*echo( $query );*/
         $data = mysqli_query($dbc, $query);
+        $row = mysqli_fetch_array($data);
+        /*echo '<tr>' . $row['num_lote_anio'] . '</tr>';*/
 
-        echo '<p class="mensaje">Solicitudes localizadas</p>';
+        echo '<p class="mensaje">Solicitudes localizadas del lote ' . $row['num_lote_anio'] . ' (id:' . $row['id_lote'] . ')</p>';
         echo '<table class="striped" border="1">';
         echo '<tr>';
         echo '<th>#</th>';
         /*echo '<th># Valija</th>';*/
-        echo '<th>Lote</th>';
-        echo '<th># Área de Gestión</th>';
-        echo '<th>PDF Valija</th>';
-        echo '<th>Fecha Captura Solicitud</th>';
+        /*echo '<th>Lote</th>';*/
+        echo '<th># Área de Gestión - PDF</th>';
+        /*echo '<th>PDF Valija</th>';*/
+        echo '<th>Fecha de Captura/Fecha Modificación</th>';
         echo '<th>Creada/Modificada por</th>';
         echo '<th>Delegación - Subdelegación</th>';
         echo '<th>Nombre completo</th>';
         /*echo '<th>Matrícula</th>';*/
         echo '<th>Usuario(Mov)</th>';
         echo '<th>Grupo Actual->Nuevo</th>';
+        
         echo '<th>Causa Rechazo DSPA</th>';
         echo '<th>Causa Rechazo Mainframe</th>';
-        /*echo '<th>Comentario</th>';*/
-        echo '<th>Estatusx</th>';
-        echo '<th>Observacionesx</th>';
+
+        echo '<th>Estatus</th>';
+        echo '<th>Comentario DSPA / Comentario Mainframe</th>';
         echo '<th>PDF</th>';
         echo '</tr>';
 
@@ -189,22 +182,28 @@ END AS "Observaciones",
         }
 
         $i = 1;
+
         while ( $row = mysqli_fetch_array($data) ) {
 
-          echo '<tr class="dato condensed">';
-          /*echo '<td class="lista">' . $row['id_valija'] . '</td>';*/
-          echo '<td>' . $i. '</td>';
-          echo '<td>' . $row['num_lote_anio'] . '</td>';
-          echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '
-            </a></td>';
-          if ( !empty( $row['archivovalija'] ) ) {
-            echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivovalija'] . '"  target="_new">PDF Valija</a></td>';
-          }
-          else {
-            echo '<td>(Sin PDF aún)</a></td>';
-          }
+          //Preparar texto de columna Comentario = ComentarioDSPA + // + ComentarioMAINFRAME
+          if  ( (is_null($row['comentarioDSPA']) OR $row['comentarioDSPA'] == '') AND (is_null($row['comentarioMAINFRAME']) OR $row['comentarioMAINFRAME'] == '') )
+                $observacionesXX = NULL;
+          elseif ( !(is_null($row['comentarioDSPA']) OR $row['comentarioDSPA'] == '') AND (is_null($row['comentarioMAINFRAME']) OR $row['comentarioMAINFRAME'] == '') )
+                $observacionesXX = $row['comentarioDSPA'];
+          else  
+                $observacionesXX = $row['comentarioDSPA'] . ' / ' . $row['comentarioMAINFRAME']; 
 
-          echo '<td>' . $row['fecha_captura_ca'] . '</td>';
+          echo '<tr class="dato condensed">';
+          echo '<td align=center>' . $i. '</td>';
+          if ( !empty( $row['archivovalija'] ) ) 
+            $archivoPDF = '<a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivovalija'] . '"  target="_new">PDF</a>';
+          else
+            $archivoPDF = '(Sin PDF)';
+          echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '</a>-' . $archivoPDF . '</td>';
+          if ( $row['fecha_captura_ca'] == $row['fecha_modificacion'] )
+            echo '<td>' . $row['fecha_cap_formato'] . '</td>';
+          else
+            echo '<td>' . $row['fecha_cap_formato'] . '<br>' . $row['fecha_mod_formato'] . '</td>';
           echo '<td>' . $row['creada_por'] . '</td>';
           echo '<td class="mensaje">' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';
           echo '<td class="dato condensed">' . $row['primer_apellido'] . '-' . $row['segundo_apellido'] . '-' . $row['nombre'] . '</td>';
@@ -212,36 +211,72 @@ END AS "Observaciones",
           echo '<td class="mensaje"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . ' (' . $row['movimiento_descripcion'] . ')</a></td>';
           echo '<td>' . $row['grupo_actual'] . '>' . $row['grupo_nuevo'] . '</td>'; 
           
+          //Columna Causa Rechazo DSPA
           switch ( $row['causa_rechazo'] ) {
             case 0:
-              echo '<td>' . $row['causa_rechazo'] .'-' . $row['descripcion_causa_rechazo'] . '</td>';
-              if ( is_null( $row['fecha_atendido'] ) && is_null( $row['causa_rechazo_MAINFRAME'] ) )
-                echo '<td>EN ESPERA RESPUESTA MAINFRAME</td>';
-              elseif ( !is_null( $row['fecha_atendido'] ) && is_null( $row['causa_rechazo_MAINFRAME'] ) )
-                echo '<td>SIN DOCUMENTAR AÚN RESPUESTA MAINFRAME</td>';
-              else
-                switch ( $row['causa_rechazo_MAINFRAME'] ) {
-                  case 0:
-                    /*echo '<td class="mensaje" align=center>ATENDIDA</td>';*/
-                    echo '<td class="mensaje" align=center>ATENDIDA (' . $row['usuario_MAINFRAME'] . ')</td>';
-                    break;
-                  default:
-                    # code...
-                    echo '<td class="error">' . $row['Estatusx'] . '(' . $row['causa_rechazo_MAINFRAME'] .'-' . $row['descripcion_causa_rechazo_MAINFRAME'] . ')</td>';
-                    break;
-                }
+              echo '<td></td>';
               break;
-
             default:
               # code...
-              echo '<td class="error">' . $row['Estatusx'] . '(' . $row['causa_rechazo'] . '-' . $row['descripcion_causa_rechazo'] . ')</td>';
-              echo '<td class="error">SIN TRAMITAR A MAINFRAME-SIN DOCUMENTAR</td>';
+              echo '<td class="error">(' . $row['causa_rechazo'] . ') ' . $row['descripcion_causa_rechazo'] . '</td>';
               break;
           }
 
-          /*echo '<td>' . $row['comentario'] . '</td>';*/
-          echo '<td>' . $row['Estatusx'] . '</td>';
-          echo '<td>' . $row['Observacionesx'] . '</td>';
+          //Columna Causa Rechazo MainframeXX
+          switch ( $row['causa_rechazo_MAINFRAME'] ) {
+            case 0:
+              echo '<td></td>';
+              break;
+
+            //Si no hay valor en 'Causa de Rechazo Mainframe'...
+            case NULL:
+              //... y el lote NO HA SIDO atendido
+              if ( is_null( $row['fecha_atendido'] ) )
+                echo '<td>EN ESPERA RESPUESTA MAINFRAME</td>';
+              //...si el lote ya fue atendido
+              elseif ( !is_null( $row['fecha_atendido'] ) )
+                echo '<td class="advertencia">FALTA REGISTRAR RESPUESTA MAINFRAME</td>';
+              break;
+
+            default:
+              //Si hay valor, muestra la 'Causa de Rechazo Mainframe'
+              echo '<td class="error">(' . $row['causa_rechazo_MAINFRAME'] .') ' . $row['descripcion_causa_rechazo_MAINFRAME'] . '</td>';
+              break;
+            }
+
+          //Columna Estatus
+          switch ( $row['causa_rechazo'] ) {
+            case 0:
+              if ( is_null( $row['fecha_atendido'] ) AND is_null( $row['causa_rechazo_MAINFRAME'] ) )
+                echo '<td>EN ESPERA RESPUESTA MAINFRAME</td>';
+              elseif ( !is_null( $row['fecha_atendido'] ) AND is_null( $row['causa_rechazo_MAINFRAME'] ) )
+              {
+                echo '<td class="advertencia">FALTA REGISTRAR RESPUESTA MAINFRAME</td>';
+              }
+              else
+              {
+                switch ( $row['causa_rechazo_MAINFRAME'] ) {
+                  case 0:
+                    echo '<td class="mensaje" align=center>ATENDIDA (' . $row['usuario_MAINFRAME'] . ')</td>';
+                    break;
+                  default:
+                  //...si fue rechazada por Mainframe, indicar causa de rechazo y valor de Estatus: NO PROCEDE o PENDIENTE.
+                  if ( $row['marca_reintento'] <> 0 )
+                    // ...marcar como "PENDIENTE"
+                    echo '<td class="advertencia" align=center>PENDIENTE</td>';
+                  else
+                    echo '<td class="error" align=center>NO PROCEDE</td>';
+                  break;
+                }
+              }
+              break;
+            case !0:
+              /*echo '<td></td>';*/
+              echo '<td class="error" align=center>NO PROCEDE</td>';
+              break;
+          }
+
+          echo '<td>' . $observacionesXX . '</td>';
 
           if (!empty($row['archivo'])) {
             echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo'] . '"  target="_new">Ver PDF</a></td>';
