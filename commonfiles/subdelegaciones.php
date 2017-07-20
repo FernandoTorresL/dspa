@@ -4,7 +4,7 @@
 	header('Content-Type: text/html; charset=utf8'); // Para que devuelva correctamente los acentos de los registros
 	
 	require_once('../lib/appvars.php');
-	require_once('../lib/connectvars.php');
+	require_once('../lib/connectBD.php');
 
 	function subdelegacionSelected( $var_subdelegacion )
 	{
