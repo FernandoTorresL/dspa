@@ -33,7 +33,6 @@
       exit();
     }
 
-
     $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
 
     $query = "SELECT id_user 
@@ -53,246 +52,301 @@
       exit(); 
     }
 
-    ?>
-    <div class="contenedor">
-      <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <h2>Búsqueda de RESULTADOS LOTE</h2>
-        <ul>
-          <li>
-            <label for="lote">ID_LOTE ###: </label>
-            <input class="textinputsmall" type="text" required name="lote" id="lote" maxlength="3" placeholder="Captura id_lote" value="<?php if ( !empty( $lote ) ) echo $lote; ?>" />
-          </li>
-          <br/>
-          <li class="buttons">
-            <input type="submit" name="submit" value="Buscar lote">
-            <input type="reset" name="reset" value="Reset">
-          </li>
-        </ul>
-      </form>
-    </div>
-    
-    <?php
-      
+    if ( isset( $_POST['submit'] ) ) {
+      $cmbLotes = mysqli_real_escape_string( $dbc, trim( $_POST['cmbLotes'] ) );
+      $output_form = 'no';
+    }
+
+    //Realizar validaciones
     if ( isset( $_POST['submit'] ) ) {
 
-      $lote = mysqli_real_escape_string( $dbc, trim( $_POST['lote'] ) );
-
-      $output_form = 'no';
-
-      if ( empty( $lote ) ) {
-        echo '<p class="error">Olvidaste capturar el dato a buscar</p>';
+      if ( $cmbLotes == -1 ) 
+      {
+        echo '<p class="error">Olvidaste seleccionar un lote</p>';
         $output_form = 'yes';
       }
 
-      // Obtener todas las solicitudes capturadas al momento para el penúltimo lote modificado
-      $query = 'SELECT  
-                  S.id_solicitud, S.id_valija, V.num_oficio_ca, V.fecha_recepcion_ca, 
-                  S.fecha_captura_ca, 
-                  DATE_FORMAT(S.fecha_captura_ca, "%d%M%y %H:%i") AS fecha_cap_formato,
-                  S.fecha_solicitud_del, 
-                  S.fecha_modificacion,
-                  DATE_FORMAT(S.fecha_modificacion, "%d%M%y %H:%i") AS fecha_mod_formato,
-                  L.lote_anio AS num_lote_anio, 
-                  L.id_lote   AS id_lote,
-                  S.delegacion AS num_del, D.descripcion AS delegacion_descripcion, 
-                  V.delegacion AS num_del_val, 
-                  S.subdelegacion AS num_subdel, SD.descripcion AS subdelegacion_descripcion, 
-                  S.nombre, S.primer_apellido, S.segundo_apellido, 
-                  S.matricula, S.curp, S.curp_correcta, S.cargo, S.usuario, 
-                  M.descripcion AS movimiento_descripcion, 
-                  G2.descripcion AS grupo_actual, G1.descripcion AS grupo_nuevo, 
-                  S.comentario, 
-                  CR.id_causarechazo AS causa_rechazo,
-                  CR.descripcion AS descripcion_causa_rechazo,
-                  RM.id_rechazomainframe as causa_rechazo_MAINFRAME,
-                  RM.descripcion as descripcion_causa_rechazo_MAINFRAME,
-                  L.fecha_atendido as fecha_atendido,
-                  RS.usuario_mainframe as usuario_MAINFRAME,
-                  S.comentario          AS comentarioDSPA,
-                  RS.comentario         AS comentarioMAINFRAME,
-                  S.archivo, 
-                  CONCAT(DU.nombre, " ", DU.primer_apellido) AS creada_por,
-                  V.archivo AS archivovalija,
-                  RS.marca_reintento    AS marca_reintento,
-                  (select id_user from ctas_hist_solicitudes where id_solicitud=S.id_solicitud ORDER BY id_hist_solicitud LIMIT 1) AS sol_creada_por,
-                  (select id_user from ctas_hist_solicitudes where id_solicitud=S.id_solicitud ORDER BY id_hist_solicitud DESC LIMIT 1) AS sol_ult_mod_por
-                FROM 
-                ( ( ( ( ( ( ( ( ( ( (
-                  ( ctas_solicitudes S LEFT JOIN ( ctas_resultadosolicitudes RS, ctas_rechazosmainframe RM )
-                    ON ( ( S.id_solicitud = RS.id_solicitud AND RM.id_rechazomainframe = RS.id_rechazomainframe )  ) )
-                    JOIN dspa_usuarios DU
-                        ON S.id_user = DU.id_user ) 
-                      JOIN `ctas_valijas` V
-                        ON S.id_valija = V.id_valija )
-                          JOIN `ctas_lotes` L
-                            ON S.id_lote = L.id_lote )
-                              JOIN ctas_movimientos M
-                                ON S.id_movimiento = M.id_movimiento )
-                                  JOIN ctas_grupos G1
-                                    ON S.id_grupo_nuevo = G1.id_grupo )
-                                      JOIN ctas_grupos G2
-                                        ON S.id_grupo_actual = G2.id_grupo )
-                                          JOIN dspa_delegaciones D
-                                            ON S.delegacion = D.delegacion ) 
-                                              JOIN dspa_subdelegaciones SD
-                                                ON ( S.subdelegacion = SD.subdelegacion AND D.delegacion = SD.delegacion ) )
-                                                  JOIN dspa_delegaciones D2
-                                                    ON V.delegacion = D2.delegacion )
-                                                      JOIN ctas_causasrechazo CR
-                                                        ON S.id_causarechazo = CR.id_causarechazo )
-                                                          LEFT JOIN ctas_hist_solicitudes HS 
-                                                            ON S.id_solicitud = HS.id_solicitud )
-                                                         
-                WHERE   
-                  S.id_lote = "' . $lote . '" ';
+      /*if ( empty( $lote ) ) {
+        echo '<p class="error">Olvidaste capturar el dato a buscar</p>';
+        $output_form = 'yes';
+      }*/
 
-        $query = $query . " ORDER BY M.descripcion, S.usuario ;";
-          
-        /*echo( $query );*/
-        $data = mysqli_query($dbc, $query);
-        $row = mysqli_fetch_array($data);
-        /*echo '<tr>' . $row['num_lote_anio'] . '</tr>';*/
+      if ( $output_form == 'no' ) {
 
-        echo '<p class="mensaje">Solicitudes localizadas del lote ' . $row['num_lote_anio'] . ' (id:' . $row['id_lote'] . ')</p>';
-        echo '<table class="striped" border="1">';
-        echo '<tr>';
-        echo '<th>#</th>';
-        /*echo '<th># Valija</th>';*/
-        /*echo '<th>Lote</th>';*/
-        echo '<th># Área de Gestión - PDF</th>';
-        /*echo '<th>PDF Valija</th>';*/
-        echo '<th>Fecha de Captura/Fecha Modificación</th>';
-        echo '<th>Creada/Modificada por</th>';
-        echo '<th>Delegación - Subdelegación</th>';
-        echo '<th>Nombre completo</th>';
-        /*echo '<th>Matrícula</th>';*/
-        echo '<th>Usuario(Mov)</th>';
-        echo '<th>Grupo Actual->Nuevo</th>';
-        
-        echo '<th>Causa Rechazo DSPA</th>';
-        echo '<th>Causa Rechazo Mainframe</th>';
+        // Obtener todas las solicitudes capturadas al momento para el penúltimo lote modificado
+        $query = 'SELECT DISTINCT
+                    D2.delegacion AS num_del_val, V.id_valija AS id_valija, V.num_oficio_ca AS num_oficio_ca,
+                    V.archivo AS archivo_valija, S.archivo AS archivo_solicitud,
+                    S.delegacion AS num_del, D.descripcion AS delegacion_descripcion, V.num_oficio_del AS num_oficio_deleg, 
+                    S.subdelegacion AS num_subdel, SD.descripcion AS subdelegacion_descripcion, 
+                    L.lote_anio AS num_lote_anio, L.id_lote AS id_lote, L.fecha_atendido as fecha_atendido,
+                    S.fecha_captura_ca, DATE_FORMAT(S.fecha_captura_ca, "%d%M%y %H:%i") AS fecha_cap_formato,
+                    S.fecha_solicitud_del, DATE_FORMAT(S.fecha_solicitud_del, "%d%M%y %H:%i") AS fecha_sol_del_formato,
+                    S.fecha_modificacion, DATE_FORMAT(S.fecha_modificacion, "%d%M%y %H:%i") AS fecha_mod_formato,
+                    S.primer_apellido, S.segundo_apellido, S.nombre,
+                    CONCAT(DU.nombre, " ", DU.primer_apellido) AS creada_por,
+                    S.matricula AS matricula, S.curp, S.curp_correcta, S.cargo, S.usuario AS usuario,
+                    IF( RS.usuario_mainframe IS NULL, S.usuario, RS.usuario_mainframe ) AS usuario_MAINFRAME,
+                    M.descripcion AS movimiento_descripcion, 
+                    G2.descripcion AS grupo_actual, G1.descripcion AS grupo_nuevo,
+                    S.id_solicitud, S.comentario, 
+                    CR.id_causarechazo AS causa_rechazo, CR.descripcion AS descripcion_causa_rechazo,
+                    RM.id_rechazomainframe as causa_rechazo_MAINFRAME, RM.descripcion as descripcion_causa_rechazo_MAINFRAME,
+                    RS.marca_reintento AS marca_reintento,
+                    S.comentario AS comentarioDSPA, RS.comentario AS comentarioMAINFRAME
+                  FROM
+                    ( ( ( ( ( ( ( ( ( ( (
+                      ( ctas_solicitudes S LEFT JOIN ( ctas_resultadosolicitudes RS, ctas_rechazosmainframe RM )
+                        ON ( ( S.id_solicitud = RS.id_solicitud AND RM.id_rechazomainframe = RS.id_rechazomainframe )  ) )
+                        JOIN dspa_usuarios DU
+                            ON S.id_user = DU.id_user ) 
+                          JOIN `ctas_valijas` V
+                            ON S.id_valija = V.id_valija )
+                              JOIN `ctas_lotes` L
+                                ON S.id_lote = L.id_lote )
+                                  JOIN ctas_movimientos M
+                                    ON S.id_movimiento = M.id_movimiento )
+                                      JOIN ctas_grupos G1
+                                        ON S.id_grupo_nuevo = G1.id_grupo )
+                                          JOIN ctas_grupos G2
+                                            ON S.id_grupo_actual = G2.id_grupo )
+                                              JOIN dspa_delegaciones D
+                                                ON S.delegacion = D.delegacion ) 
+                                                  JOIN dspa_subdelegaciones SD
+                                                    ON ( S.subdelegacion = SD.subdelegacion AND D.delegacion = SD.delegacion ) )
+                                                      JOIN dspa_delegaciones D2
+                                                        ON V.delegacion = D2.delegacion )
+                                                          JOIN ctas_causasrechazo CR
+                                                            ON S.id_causarechazo = CR.id_causarechazo )
+                                                              LEFT JOIN ctas_hist_solicitudes HS 
+                                                                ON S.id_solicitud = HS.id_solicitud )
+                    WHERE S.id_lote = "' . $cmbLotes . '" ';
 
-        echo '<th>Estatus</th>';
-        echo '<th>Comentario DSPA / Comentario Mainframe</th>';
-        echo '<th>PDF</th>';
-        echo '</tr>';
+          $query = $query . " ORDER BY M.descripcion, S.usuario ;";
+          /*echo( $query );*/
 
-        if (mysqli_num_rows($data) == 0) {
-          echo '</table></br><p class="error">No se localizaron solicitudes.</p></br>';
-        }
+          $data = mysqli_query($dbc, $query);
+          echo '<p class="mensaje">Solicitudes localizadas del id_lote ' . $cmbLotes . '</p>';
+          echo '<table class="striped" border="1">';
+          echo '<tr>';
+          echo '<th>#</th>';
+          echo '<th>Lote</th>';
+          echo '<th># Área de Gestión - PDF</th>';
+          echo '<th>Fecha de Captura / Fecha de Modificación</th>';
+          echo '<th>Última modificación por</th>';
+          echo '<th>Delegación - Subdelegación</th>';
+          echo '<th>Nombre completo</th>';
+          /*echo '<th>Matrícula</th>';*/
+          echo '<th>Usuario(Mov)</th>';
+          echo '<th>Grupo Actual->Nuevo</th>';
+          echo '<th>Causas Rechazo</th>';
+          /*echo '<th>Causa Rechazo Mainframe</th>';*/
+          echo '<th>Estatus</th>';
+          echo '<th>Comentario DSPA / Comentario Mainframe</th>';
+          echo '<th>PDF</th>';
+          echo '</tr>';
 
-        $i = 1;
+          if (mysqli_num_rows($data) == 0) 
+            echo '</table></br><p class="error">No se localizaron solicitudes.</p></br>';
 
-        while ( $row = mysqli_fetch_array($data) ) {
+          $i = 1;
 
-          //Preparar texto de columna Comentario = ComentarioDSPA + // + ComentarioMAINFRAME
-          if  ( (is_null($row['comentarioDSPA']) OR $row['comentarioDSPA'] == '') AND (is_null($row['comentarioMAINFRAME']) OR $row['comentarioMAINFRAME'] == '') )
-                $observacionesXX = NULL;
-          elseif ( !(is_null($row['comentarioDSPA']) OR $row['comentarioDSPA'] == '') AND (is_null($row['comentarioMAINFRAME']) OR $row['comentarioMAINFRAME'] == '') )
-                $observacionesXX = $row['comentarioDSPA'];
-          else  
-                $observacionesXX = $row['comentarioDSPA'] . ' / ' . $row['comentarioMAINFRAME']; 
+          while ( $row = mysqli_fetch_array($data) ) {
 
-          echo '<tr class="dato condensed">';
-          echo '<td align=center>' . $i. '</td>';
-          if ( !empty( $row['archivovalija'] ) ) 
-            $archivoPDF = '<a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivovalija'] . '"  target="_new">PDF</a>';
-          else
-            $archivoPDF = '(Sin PDF)';
-          echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '</a>-' . $archivoPDF . '</td>';
-          if ( $row['fecha_captura_ca'] == $row['fecha_modificacion'] )
-            echo '<td>' . $row['fecha_cap_formato'] . '</td>';
-          else
-            echo '<td>' . $row['fecha_cap_formato'] . '<br>' . $row['fecha_mod_formato'] . '</td>';
-          echo '<td>' . $row['creada_por'] . '</td>';
-          echo '<td class="mensaje">' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';
-          echo '<td class="dato condensed">' . $row['primer_apellido'] . '-' . $row['segundo_apellido'] . '-' . $row['nombre'] . '</td>';
-          /*echo '<td>' . $row['matricula'] . '</td>'; */
-          echo '<td class="mensaje"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . ' (' . $row['movimiento_descripcion'] . ')</a></td>';
-          echo '<td>' . $row['grupo_actual'] . '>' . $row['grupo_nuevo'] . '</td>'; 
-          
-          //Columna Causa Rechazo DSPA
-          switch ( $row['causa_rechazo'] ) {
-            case 0:
-              echo '<td></td>';
-              break;
-            default:
-              # code...
-              echo '<td class="error">(' . $row['causa_rechazo'] . ') ' . $row['descripcion_causa_rechazo'] . '</td>';
-              break;
-          }
+            //Preparar texto de columna Comentario = ComentarioDSPA + // + ComentarioMAINFRAME
+            if  ( (is_null($row['comentarioDSPA']) OR $row['comentarioDSPA'] == '') AND (is_null($row['comentarioMAINFRAME']) OR $row['comentarioMAINFRAME'] == '') )
+                  $observaciones = NULL;
+            elseif ( !(is_null($row['comentarioDSPA']) OR $row['comentarioDSPA'] == '') AND (is_null($row['comentarioMAINFRAME']) OR $row['comentarioMAINFRAME'] == '') )
+                  $observaciones = $row['comentarioDSPA'];
+            else  
+                  $observaciones = $row['comentarioDSPA'] . ' / ' . $row['comentarioMAINFRAME']; 
 
-          //Columna Causa Rechazo MainframeXX
-          switch ( $row['causa_rechazo_MAINFRAME'] ) {
-            case 0:
-              echo '<td></td>';
-              break;
-
-            //Si no hay valor en 'Causa de Rechazo Mainframe'...
-            case NULL:
-              //... y el lote NO HA SIDO atendido
-              if ( is_null( $row['fecha_atendido'] ) )
-                echo '<td>EN ESPERA RESPUESTA MAINFRAME</td>';
-              //...si el lote ya fue atendido
-              elseif ( !is_null( $row['fecha_atendido'] ) )
-                echo '<td class="advertencia">FALTA REGISTRAR RESPUESTA MAINFRAME</td>';
-              break;
-
-            default:
-              //Si hay valor, muestra la 'Causa de Rechazo Mainframe'
-              echo '<td class="error">(' . $row['causa_rechazo_MAINFRAME'] .') ' . $row['descripcion_causa_rechazo_MAINFRAME'] . '</td>';
-              break;
+            echo '<tr class="dato condensed">';
+            echo '<td align=center>' . $i. '</td>';
+            echo '<td align=center>' . $row['num_lote_anio'] . '</td>';
+            if ( !empty( $row['archivo_valija'] ) ) 
+              $archivoPDF = '<a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo_valija'] . '"  target="_new">PDF</a>';
+            else
+              $archivoPDF = '(Sin PDF)';
+            echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '</a>-' . $archivoPDF . '</td>';
+            $columna_fecha_usuario = $row['fecha_cap_formato'];
+            $columna_fecha_usuario2 = '';
+            if ( $row['fecha_captura_ca'] == $row['fecha_modificacion'] )
+              $columna_fecha_usuario2 = '';
+            else {
+              $columna_fecha_usuario2 = $row['fecha_mod_formato'];
+            }
+            echo '<td>' . $columna_fecha_usuario . '<br>' . $columna_fecha_usuario2 . '</td>';
+            echo '<td>' . $row['creada_por'] . '</td>';
+            echo '<td class="mensaje">' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';
+            echo '<td class="dato condensed">' . $row['primer_apellido'] . '-' . $row['segundo_apellido'] . '-' . $row['nombre'] . '</td>';
+            echo '<td class="mensaje" align="center"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . ' (' . $row['movimiento_descripcion'] . ')</a></td>';
+            echo '<td>' . $row['grupo_actual'] . '>' . $row['grupo_nuevo'] . '</td>'; 
+            
+            //Columna Causa Rechazo DSPA
+            switch ( $row['causa_rechazo'] ) {
+              case 0:
+                $causa_rechazo_DSPA = '';
+                $color_mensaje_DSPA = '';
+                /*echo '<td></td>';*/
+                break;
+              default:
+                $causa_rechazo_DSPA = '(' . $row['causa_rechazo'] . ') ' . $row['descripcion_causa_rechazo'];
+                $color_mensaje_DSPA = 'error';
+                /*echo '<td class="error">(' . $row['causa_rechazo'] . ') ' . $row['descripcion_causa_rechazo'] . '</td>';*/
+                break;
             }
 
-          //Columna Estatus
-          switch ( $row['causa_rechazo'] ) {
-            case 0:
-              if ( is_null( $row['fecha_atendido'] ) AND is_null( $row['causa_rechazo_MAINFRAME'] ) )
-                echo '<td>EN ESPERA RESPUESTA MAINFRAME</td>';
-              elseif ( !is_null( $row['fecha_atendido'] ) AND is_null( $row['causa_rechazo_MAINFRAME'] ) )
-              {
-                echo '<td class="advertencia">FALTA REGISTRAR RESPUESTA MAINFRAME</td>';
-              }
-              else
-              {
-                switch ( $row['causa_rechazo_MAINFRAME'] ) {
-                  case 0:
-                    echo '<td class="mensaje" align=center>ATENDIDA (' . $row['usuario_MAINFRAME'] . ')</td>';
-                    break;
-                  default:
-                  //...si fue rechazada por Mainframe, indicar causa de rechazo y valor de Estatus: NO PROCEDE o PENDIENTE.
-                  if ( $row['marca_reintento'] <> 0 )
-                    // ...marcar como "PENDIENTE"
-                    echo '<td class="advertencia" align=center>PENDIENTE</td>';
-                  else
-                    echo '<td class="error" align=center>NO PROCEDE</td>';
-                  break;
+            //Columna Causa Rechazo MainframeXX
+            switch ( $row['causa_rechazo_MAINFRAME'] ) {
+              case 0:
+                $causa_rechazo_MAINFRAME = '';
+                $color_mensaje = '';
+                /*echo '<td></td>';*/
+                break;
+
+              //Si no hay valor en 'Causa de Rechazo Mainframe'...
+              case NULL:
+                //... y el lote NO HA SIDO atendido
+                if ( is_null( $row['fecha_atendido'] ) ) {
+                  $causa_rechazo_MAINFRAME = 'EN ESPERA RESPUESTA MAINFRAME';
+                  $color_mensaje = '';
+                  /*echo '<td>EN ESPERA RESPUESTA MAINFRAME</td>';*/
                 }
-              }
-              break;
-            case !0:
-              /*echo '<td></td>';*/
-              echo '<td class="error" align=center>NO PROCEDE</td>';
-              break;
-          }
+                //...si el lote ya fue atendido
+                elseif ( !is_null( $row['fecha_atendido'] ) )
+                  $causa_rechazo_MAINFRAME = 'FALTA REGISTRAR RESPUESTA MAINFRAME';
+                $color_mensaje = 'advertencia';
+                  /*echo '<td class="advertencia">FALTA REGISTRAR RESPUESTA MAINFRAME</td>';*/
+                break;
 
-          echo '<td>' . $observacionesXX . '</td>';
+              default:
+                //Si hay valor, muestra la 'Causa de Rechazo Mainframe'
+                $causa_rechazo_MAINFRAME = '(' . $row['causa_rechazo_MAINFRAME'] .') ' . $row['descripcion_causa_rechazo_MAINFRAME'];
+                $color_mensaje = 'error';
+                /*echo '<td class="error">(' . $row['causa_rechazo_MAINFRAME'] .') ' . $row['descripcion_causa_rechazo_MAINFRAME'] . '</td>';*/
+                break;
+            }
 
-          if (!empty($row['archivo'])) {
-            echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo'] . '"  target="_new">Ver PDF</a></td>';
-          }
-          else {
-            echo '<td>(Vacío)</a></td>';
-          } 
-          echo '</tr>';
-          $i = $i + 1;
-        }    
-        echo '</table></br></br>';
+            if  ( (is_null($causa_rechazo_DSPA) OR $causa_rechazo_DSPA == '') AND (is_null($causa_rechazo_MAINFRAME) OR $causa_rechazo_MAINFRAME == '') )
+                  $texto_rechazos = NULL;
+            elseif ( !(is_null($causa_rechazo_DSPA) OR $causa_rechazo_DSPA == '') AND (is_null($causa_rechazo_MAINFRAME) OR $causa_rechazo_MAINFRAME == '') )
+                  $texto_rechazos = '<span class="' . $color_mensaje_DSPA . '">' . $causa_rechazo_DSPA . '</span>';
+            else  
+              $texto_rechazos = '<span class="' . $color_mensaje_DSPA . '">' . $causa_rechazo_DSPA . '</span>' . ' / ' .
+                '<span class="' . $color_mensaje . '">' . $causa_rechazo_MAINFRAME . '</span>'; 
+            echo '<td>' . $texto_rechazos . '</td>';
 
-              /*$id_valija_bitacora = $row['LAST_INSERT_ID()'];*/
-        $log = fnGuardaBitacora( 3, 116, $_SESSION['id_user'],  $_SESSION['ip_address'], 'Búsqueda id_lote:' . $lote . '|CURP:' . $_SESSION['username'] . '|EQUIPO:' . $_SESSION['host'] );
+            //Columna Estatus
+            switch ( $row['causa_rechazo'] ) {
+              case 0:
+                if ( is_null( $row['fecha_atendido'] ) AND is_null( $row['causa_rechazo_MAINFRAME'] ) )
+                  echo '<td>EN ESPERA RESPUESTA MAINFRAME</td>';
+                elseif ( !is_null( $row['fecha_atendido'] ) AND is_null( $row['causa_rechazo_MAINFRAME'] ) )
+                {
+                  echo '<td class="advertencia">FALTA REGISTRAR RESPUESTA MAINFRAME</td>';
+                }
+                else
+                {
+                  switch ( $row['causa_rechazo_MAINFRAME'] ) {
+                    case 0:
+                      echo '<td class="mensaje" align=center>ATENDIDA (' . $row['usuario_MAINFRAME'] . ')</td>';
+                      break;
+                    default:
+                    //...si fue rechazada por Mainframe, indicar causa de rechazo y valor de Estatus: NO PROCEDE o PENDIENTE.
+                    if ( $row['marca_reintento'] <> 0 )
+                      // ...marcar como "PENDIENTE"
+                      echo '<td class="advertencia" align=center>PENDIENTE</td>';
+                    else
+                      echo '<td class="error" align=center>NO PROCEDE(M)</td>';
+                    break;
+                  }
+                }
+                break;
+              case !0:
+                /*echo '<td></td>';*/
+                echo '<td class="error" align=center>NO PROCEDE(D)</td>';
+                break;
+            }
 
-        $output_form = 'yes';
-    }
+            echo '<td>' . $observaciones . '</td>';
+            if (!empty($row['archivo_solicitud'])) {
+              echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo_solicitud'] . '"  target="_new">Ver PDF</a></td>';
+            }
+            else {
+              echo '<td>(Vacío)</a></td>';
+            } 
+            echo '</tr>';
+            $i = $i + 1;
+          }    
+          echo '</table></br></br>';
+
+          /*$id_valija_bitacora = $row['LAST_INSERT_ID()'];*/
+          $log = fnGuardaBitacora( 3, 116, $_SESSION['id_user'],  $_SESSION['ip_address'], 'Búsqueda id_lote:' . $cmbLotes . '|CURP:' . $_SESSION['username'] . '|EQUIPO:' . $_SESSION['host'] );
+
+          $output_form = 'yes';
+      }
+      else {
+        echo '<p class="nota"><strong>Captura todos los datos!</strong></p>';
+      } //Fin de "if ( $output_form == 'no' ) "
+
+    } //Fin de inicio de validaciones
+
+    //Mostrar forma
+    if ( $output_form == 'yes' ) {
+
+      ?>
+
+      <div class="contenedor">
+        <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+          <h2>Revisar estatus de lote</h2>
+          <ul>
+            <li>
+              <label for="cmbLotes">Lotes</label>
+              <select class="textinput" id="cmbLotes" name="cmbLotes">
+              <option value=-1>Seleccione Lote</option>
+                <?php
+                  $query = "SELECT ctas_lotes.id_lote AS id_lote, ctas_lotes.lote_anio AS lote_anio, 
+                              ctas_lotes.fecha_modificacion, ctas_lotes.fecha_creacion, ctas_lotes.comentario,
+                              ( SELECT COUNT(*) 
+                                FROM ctas_solicitudes 
+                                WHERE ctas_solicitudes.id_lote = ctas_lotes.id_lote 
+                              ) AS num_solicitudes,
+                              CONCAT(dspa_usuarios.nombre, ' ', dspa_usuarios.primer_apellido) AS creado_por, 
+                              ctas_lotes.num_oficio_ca, ctas_lotes.fecha_oficio_ca, 
+                              ctas_lotes.num_ticket_mesa, ctas_lotes.fecha_atendido
+                            FROM ctas_lotes, dspa_usuarios
+                            WHERE ctas_lotes.id_user = dspa_usuarios.id_user ORDER BY 1 DESC";
+                  $result = mysqli_query( $dbc, $query );
+
+                  while ( $row = mysqli_fetch_array( $result ) )
+                    echo '<option value="' . $row['id_lote'] . '" >' . $row['lote_anio'] . ' (' . $row['id_lote'] . ') - ' . $row['num_solicitudes'] . ' solicitudes</option>';
+                ?>
+              </select>
+            </li>
+
+            <br/>
+
+
+            <br/>
+
+            <li class="buttons">
+              <input type="submit" name="submit" value="Buscar lote">
+              <input type="reset" name="reset" value="Reset">
+            </li>
+            
+          </ul>
+        </form>
+      </div>
+
+  <?php
+      }
+    ?>
+
+    </div>
+
+  <?php
+    //mysqli_close( $dbc );
+    // Insert the page footer
     require_once('lib/footer.php');
   ?>
