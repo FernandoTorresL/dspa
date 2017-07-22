@@ -87,7 +87,8 @@
       // Obtener todas las solicitudes capturadas al momento para el penúltimo lote modificado
       $query = 'SELECT  
                   S.id_solicitud, S.id_valija, V.num_oficio_ca, V.fecha_recepcion_ca, 
-                  S.fecha_captura_ca, S.fecha_solicitud_del, S.fecha_modificacion,
+                  S.fecha_captura_ca, DATE_FORMAT(S.fecha_captura_ca, "%d%M%y %H:%i") AS fecha_cap_formato,
+                  S.fecha_solicitud_del, S.fecha_modificacion,
                   L.lote_anio AS num_lote_anio, 
                   S.delegacion AS num_del, D.descripcion AS delegacion_descripcion, 
                   V.delegacion AS num_del_val, 
@@ -188,7 +189,7 @@ END AS "Observaciones",
             echo '<td>(Sin PDF aún)</a></td>';
           }
 
-          echo '<td>' . $row['fecha_captura_ca'] . '</td>';
+          echo '<td>' . $row['fecha_cap_formato'] . '</td>';
           echo '<td>' . $row['creada_por'] . '</td>';
           echo '<td class="mensaje">' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';
           echo '<td class="dato condensed">' . $row['primer_apellido'] . '-' . $row['segundo_apellido'] . '-' . $row['nombre'] . '</td>';
