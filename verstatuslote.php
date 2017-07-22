@@ -93,33 +93,35 @@
                     CR.id_causarechazo AS causa_rechazo, CR.descripcion AS descripcion_causa_rechazo,
                     RM.id_rechazomainframe as causa_rechazo_MAINFRAME, RM.descripcion as descripcion_causa_rechazo_MAINFRAME,
                     RS.marca_reintento AS marca_reintento,
-                    S.comentario AS comentarioDSPA, RS.comentario AS comentarioMAINFRAME
+                    S.comentario AS comentarioDSPA, RS.comentario AS comentarioMAINFRAME,
+                    DATE_FORMAT(RL.fecha_correo, "%d%M%y %H:%i") AS timestamp_correo_MAINFRAME,
+                    RL.archivo as correo_MAINFRAME
                   FROM
                     ( ( ( ( ( ( ( ( ( ( (
-                      ( ctas_solicitudes S LEFT JOIN ( ctas_resultadosolicitudes RS, ctas_rechazosmainframe RM )
-                        ON ( ( S.id_solicitud = RS.id_solicitud AND RM.id_rechazomainframe = RS.id_rechazomainframe )  ) )
-                        JOIN dspa_usuarios DU
-                            ON S.id_user = DU.id_user ) 
-                          JOIN `ctas_valijas` V
-                            ON S.id_valija = V.id_valija )
-                              JOIN `ctas_lotes` L
-                                ON S.id_lote = L.id_lote )
-                                  JOIN ctas_movimientos M
-                                    ON S.id_movimiento = M.id_movimiento )
-                                      JOIN ctas_grupos G1
-                                        ON S.id_grupo_nuevo = G1.id_grupo )
-                                          JOIN ctas_grupos G2
-                                            ON S.id_grupo_actual = G2.id_grupo )
-                                              JOIN dspa_delegaciones D
-                                                ON S.delegacion = D.delegacion ) 
-                                                  JOIN dspa_subdelegaciones SD
-                                                    ON ( S.subdelegacion = SD.subdelegacion AND D.delegacion = SD.delegacion ) )
-                                                      JOIN dspa_delegaciones D2
-                                                        ON V.delegacion = D2.delegacion )
-                                                          JOIN ctas_causasrechazo CR
-                                                            ON S.id_causarechazo = CR.id_causarechazo )
-                                                              LEFT JOIN ctas_hist_solicitudes HS 
-                                                                ON S.id_solicitud = HS.id_solicitud )
+                  ( ctas_solicitudes S LEFT JOIN ( ctas_resultadosolicitudes RS, ctas_rechazosmainframe RM, ctas_resultadolotes RL )
+                    ON ( ( S.id_solicitud = RS.id_solicitud AND RM.id_rechazomainframe = RS.id_rechazomainframe ) AND RS.id_resultadolote = RL.id_resultadolote ) )
+                    JOIN dspa_usuarios DU
+                        ON S.id_user = DU.id_user ) 
+                      JOIN `ctas_valijas` V
+                        ON S.id_valija = V.id_valija )
+                          JOIN `ctas_lotes` L
+                            ON S.id_lote = L.id_lote )
+                              JOIN ctas_movimientos M
+                                ON S.id_movimiento = M.id_movimiento )
+                                  JOIN ctas_grupos G1
+                                    ON S.id_grupo_nuevo = G1.id_grupo )
+                                      JOIN ctas_grupos G2
+                                        ON S.id_grupo_actual = G2.id_grupo )
+                                          JOIN dspa_delegaciones D
+                                            ON S.delegacion = D.delegacion ) 
+                                              JOIN dspa_subdelegaciones SD
+                                                ON ( S.subdelegacion = SD.subdelegacion AND D.delegacion = SD.delegacion ) )
+                                                  JOIN dspa_delegaciones D2
+                                                    ON V.delegacion = D2.delegacion )
+                                                      JOIN ctas_causasrechazo CR
+                                                        ON S.id_causarechazo = CR.id_causarechazo )
+                                                          LEFT JOIN ctas_hist_solicitudes HS 
+                                                            ON S.id_solicitud = HS.id_solicitud )
                     WHERE S.id_lote = "' . $cmbLotes . '" ';
 
           $query = $query . " ORDER BY M.descripcion, S.usuario ;";
@@ -136,13 +138,12 @@
           echo '<th>Última modificación por</th>';
           echo '<th>Delegación - Subdelegación</th>';
           echo '<th>Nombre completo</th>';
-          /*echo '<th>Matrícula</th>';*/
           echo '<th>Usuario(Mov)</th>';
           echo '<th>Grupo Actual->Nuevo</th>';
           echo '<th>Causas Rechazo</th>';
-          /*echo '<th>Causa Rechazo Mainframe</th>';*/
           echo '<th>Estatus</th>';
           echo '<th>Comentario DSPA / Comentario Mainframe</th>';
+          echo '<th>Fecha Atención Mainframe</th>';
           echo '<th>PDF</th>';
           echo '</tr>';
 
@@ -188,12 +189,10 @@
               case 0:
                 $causa_rechazo_DSPA = '';
                 $color_mensaje_DSPA = '';
-                /*echo '<td></td>';*/
                 break;
               default:
                 $causa_rechazo_DSPA = '(' . $row['causa_rechazo'] . ') ' . $row['descripcion_causa_rechazo'];
                 $color_mensaje_DSPA = 'error';
-                /*echo '<td class="error">(' . $row['causa_rechazo'] . ') ' . $row['descripcion_causa_rechazo'] . '</td>';*/
                 break;
             }
 
@@ -202,7 +201,6 @@
               case 0:
                 $causa_rechazo_MAINFRAME = '';
                 $color_mensaje = '';
-                /*echo '<td></td>';*/
                 break;
 
               //Si no hay valor en 'Causa de Rechazo Mainframe'...
@@ -211,13 +209,11 @@
                 if ( is_null( $row['fecha_atendido'] ) ) {
                   $causa_rechazo_MAINFRAME = 'EN ESPERA RESPUESTA MAINFRAME';
                   $color_mensaje = '';
-                  /*echo '<td>EN ESPERA RESPUESTA MAINFRAME</td>';*/
                 }
                 //...si el lote ya fue atendido
                 elseif ( !is_null( $row['fecha_atendido'] ) )
                   $causa_rechazo_MAINFRAME = 'FALTA REGISTRAR RESPUESTA MAINFRAME';
                 $color_mensaje = 'advertencia';
-                  /*echo '<td class="advertencia">FALTA REGISTRAR RESPUESTA MAINFRAME</td>';*/
                 break;
 
               default:
@@ -270,6 +266,15 @@
             }
 
             echo '<td>' . $observaciones . '</td>';
+
+            /*correo_MAINFRAME*/
+            if ( !empty($row['correo_MAINFRAME']) ) {
+              echo '<td><a href="' . MM_UPLOADPATH_MSG . '\\' . $row['correo_MAINFRAME'] . '"  target="_new">' . $row['timestamp_correo_MAINFRAME'] . '</a></td>';
+            }
+            else {
+              echo '<td></td>';
+            }
+
             if (!empty($row['archivo_solicitud'])) {
               echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo_solicitud'] . '"  target="_new">Ver PDF</a></td>';
             }
