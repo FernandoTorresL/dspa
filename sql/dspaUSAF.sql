@@ -96,3 +96,4 @@ ALTER TABLE `usaf_personas`
   ADD CONSTRAINT `usaf_personas_ibfk_4` FOREIGN KEY (`id_user_creacion`) REFERENCES `dspa_usuarios` (`id_user`),
   ADD CONSTRAINT `usaf_personas_ibfk_5` FOREIGN KEY (`id_user_modificacion`) REFERENCES `dspa_usuarios` (`id_user`);
 --
+

@@ -78,7 +78,9 @@
           <h4 class="title-a"><a href="verstatuslote.php">Ver estatus lote</a></h4>
 
           <h4 class="title-a"><a href="leearchivovalijas.php">Leer archivo valijas</a></h4>
-
+          <br>
+          <h6 class="title-a"><a href="registrar_sol_usaf.php">Registrar atención a cuentas</a>
+            <a class="button background" href="registrar_sol_usaf.php">Registrar</a></h6>
           <!-- <ol>
             <li>Ingresar a Capturar Solicitudes</li>
             <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
