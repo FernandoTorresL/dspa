@@ -79,8 +79,10 @@
 
           <h4 class="title-a"><a href="leearchivovalijas.php">Leer archivo valijas</a></h4>
           <br>
-          <h6 class="title-a"><a href="registrar_sol_usaf.php">Registrar atención a cuentas</a>
-            <a class="button background" href="registrar_sol_usaf.php">Registrar</a></h6>
+          <h6 class="title-a"><a href="reg_sol_usaf.php">Registrar atención a cuentas</a>
+            <a class="button background" href="reg_sol_usaf.php">Registrar Solicitud USAF</a></h6>
+          <h6 class="title-a"><a href="reg_per_usaf.php">Registrar Personas</a>
+            <a class="button background" href="reg_per_usaf.php">Registrar Personas USAF</a></h6>
           <!-- <ol>
             <li>Ingresar a Capturar Solicitudes</li>
             <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>

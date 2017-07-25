@@ -55,6 +55,21 @@ td .pendiente {
   color: yellow;
 }
 
+span .error {
+  font-weight: bold;
+  color: #FF0000;
+}
+
+span .advertencia {
+  font-weight: bold;
+  color: orange;
+}
+
+span .pendiente {
+  font-weight: bold;
+  color: yellow;
+}
+
 td .lista {
   font-weight: bold;
   color: green;
@@ -309,6 +324,14 @@ label {
 }
 
 input.textinput {
+  width: 18em;
+  height: 17px;
+  border: 1px solid #666;
+  font-family: Courier New;
+  font-size: 13px;
+}
+
+select.textinput {
   width: 18em;
   height: 17px;
   border: 1px solid #666;
