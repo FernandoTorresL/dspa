@@ -152,8 +152,7 @@ END AS "Observaciones",
         echo '<th>#</th>';
         /*echo '<th># Valija</th>';*/
         echo '<th>Lote</th>';
-        echo '<th># Área de Gestión</th>';
-        echo '<th>PDF Valija</th>';
+        echo '<th># Área de Gestión - PDF</th>';
         echo '<th>Fecha Captura Solicitud</th>';
         echo '<th>Creada/Modificada por</th>';
         echo '<th>Delegación - Subdelegación</th>';
@@ -179,15 +178,20 @@ END AS "Observaciones",
           /*echo '<td class="lista">' . $row['id_valija'] . '</td>';*/
           echo '<td>' . $i. '</td>';
           echo '<td>' . $row['num_lote_anio'] . '</td>';
-          echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '
-            </a></td>';
-          if ( !empty( $row['archivovalija'] ) ) {
+          /*echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '
+            </a></td>';*/
+          /*if ( !empty( $row['archivovalija'] ) ) {
             echo '<td><a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivovalija'] . '"  target="_new">PDF Valija</a></td>';
           }
           else {
             echo '<td>(Sin PDF aún)</a></td>';
-          }
+          }*/
 
+          if ( !empty( $row['archivovalija'] ) ) 
+            $archivoPDF = '<a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivovalija'] . '"  target="_new">PDF</a>';
+          else
+            $archivoPDF = '(Sin PDF)';
+          echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '</a>-' . $archivoPDF . '</td>';
           echo '<td>' . $row['fecha_captura_ca'] . '</td>';
           echo '<td>' . $row['creada_por'] . '</td>';
           echo '<td class="mensaje">' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';
