@@ -149,4 +149,36 @@
       return "selected";
   }
 
+  function fntPersonaUSAFSelect($var_persona)
+  {
+    if ( empty( $_POST['cmbPersonaUSAF'] ) && $_POST['cmbPersonaUSAF'] <> 0 )
+      return "";
+    else if ( $_POST['cmbPersonaUSAF'] == $var_persona )
+      return "selected";
+  }
+
+  function fntPersonaSolicitanteSelect($var_persona)
+  {
+    if ( empty( $_POST['cmbPersonaSolicitante'] ) && $_POST['cmbPersonaSolicitante'] <> 0 )
+      return "";
+    else if ( $_POST['cmbPersonaSolicitante'] == $var_persona )
+      return "selected";
+  }
+
+  function fntPersonaTitularSelect($var_persona)
+  {
+    if ( empty( $_POST['cmbPersonaTitular'] ) && $_POST['cmbPersonaTitular'] <> 0 )
+      return "";
+    else if ( $_POST['cmbPersonaTitular'] == $var_persona )
+      return "selected";
+  }
+
+  function fnOpcionUSAFSelect( $var_opcion )
+  {
+    if ( empty( $_POST['cmbOpcion'] ) ) 
+      return 0;    
+    else if ( $_POST['cmbOpcion'] == $var_tipomovimiento )
+      return "selected";
+  }
+
 ?>

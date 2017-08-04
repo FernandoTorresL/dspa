@@ -219,6 +219,3 @@
     require_once('lib/footer.php');
 ?>
 
-
-
-

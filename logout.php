@@ -19,8 +19,8 @@
 
   $error_msg        = "";
   $ip               = "";
-  $ip_address       = GetHostByName( $ip );
   $host             = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+  $ip_address       = $host;
   $ip_address_host  = "|EQUIPO:" . $host;
 
   $ResultadoConexion = fnConnectBD( 0,  $ip_address, $ip_address_host, '' );

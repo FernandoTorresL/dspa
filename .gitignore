@@ -27,6 +27,7 @@
 *.sql
 *.sqlite
 !sql/dspaSQL.sql
+!sql/dspaUSAF.sql
 
 # OS generated files #
 ######################
