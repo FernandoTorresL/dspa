@@ -135,8 +135,7 @@
     }
 
     if ( empty( $email ) ) {
-      echo '<p class="error">Olvidaste capturar Correo Electrónico.</p>';
-      $output_form = 'yes';
+      echo '<p class="advertencia">Olvidaste capturar Correo Electrónico ¿es correcto?</p>';
     }
 
     if ( empty( $segundo_apellido ) ) 
@@ -173,8 +172,8 @@
 
         echo '<p class="mensaje"><strong>¡Se ha registrado correctamente a una nueva persona!</strong></p>';
         /*echo '<p class="mensaje">¿Hubo un error? Puede EDITAR el <a href="editarpersona.php?id_persona=' . $row['LAST_INSERT_ID()'] . '">registro de la persona</a></p>';*/
-        echo '<p class="mensaje">Puede registrar a una <a href="reg_per_usaf.php">nueva persona</a></p>';
-        echo '<p class="mensaje">O puede regresar al <a href="index.php">inicio</a></p>';
+        echo '<p class="mensaje">Puede registrar una <a href="reg_per_usaf.php">nueva persona</a></p>';
+/*        echo '<p class="mensaje">O puede regresar al <a href="index.php">inicio</a></p>';*/
 
         $query = "SELECT 
                     U.id_persona,
@@ -380,7 +379,7 @@
                 <?php
                   $query = "SELECT * 
                             FROM dspa_puestos
-                            ORDER BY id_puesto";
+                            ORDER BY descripcion";
                   $result = mysqli_query( $dbc, $query );
                   while ( $row = mysqli_fetch_array( $result ) )
                     echo '<option value="' . $row['id_puesto'] . '" ' . fntPuestoSelect( $row['id_puesto'] ) . '>' . $row['descripcion'] . '</option>';
@@ -396,7 +395,7 @@
               <input class="textinput" type="text" name="matricula" id="matricula" maxlength="15" placeholder="Escriba la matrícula" value='<?php if ( !empty( $matricula ) ) echo $matricula; ?>'/>
             </li>
             <li>
-              <label for="curp">CURP (Usuario)</label>
+              <label for="curp">CURP</label>
               <input class="textinput" type="text" name="curp" id="curp" maxlength="20" placeholder="Escriba su CURP" value="<?php if ( !empty( $curp ) ) echo $curp; ?>" />
             </li>
             <li>
@@ -417,7 +416,7 @@
             </li>
             <li>
               <label for="email">Correo Electrónico</label>
-              <input class="textinput" type="email" required name="email" id="email" maxlength="50" placeholder="Escriba el Correo Electrónico" value="<?php if ( !empty( $email ) ) echo $email; ?>"/>
+              <input class="textinput" type="email" name="email" id="email" maxlength="50" placeholder="Escriba el Correo Electrónico" value="<?php if ( !empty( $email ) ) echo $email; ?>"/>
             </li>
             <br/>
               <li class="buttons">

@@ -1,12 +1,12 @@
 --Tabla principal del proyecto USAF
 CREATE TABLE `usaf_solicitudes` (
-  `id_solicitud`            int(11) NOT NULL,
+  `id_sol_usaf`             int(11) NOT NULL,
   `id_persona_usaf`         int(11) DEFAULT NULL,
   `fecha_solicitud_del`     date DEFAULT NULL,
-  `delegacion`              tinyint(3) UNSIGNED DEFAULT NULL,
-  `subdelegacion`           tinyint(3) UNSIGNED DEFAULT NULL,
+  `delegacion`              tinyint(3) UNSIGNED DEFAULT 0,
+  `subdelegacion`           tinyint(3) UNSIGNED DEFAULT 0,
   `id_persona_solicitante`  int(11) DEFAULT NULL,
-  `usuario`                 char(8) DEFAULT NULL,
+  `usuario`                 char(10) DEFAULT NULL,
   `id_persona_titular`      int(11) DEFAULT NULL,
   `id_opcion`               int(11) DEFAULT NULL,
   `region1`                 char(1) DEFAULT NULL,
@@ -26,21 +26,21 @@ CREATE TABLE `usaf_personas` (
   `id_persona`      int(11) NOT NULL,
   `delegacion`      tinyint(3) UNSIGNED DEFAULT NULL,
   `subdelegacion`   tinyint(3) UNSIGNED DEFAULT NULL,
-  `id_puesto`       int(11) NOT NULL,
-  `marca_encargo`   char(1) DEFAULT NULL,
-
-  `matricula`       char(10) DEFAULT NULL,
+  `id_puesto`       int(11)     NOT NULL DEFAULT 0,
+  `marca_encargo`   char(1)     NOT NULL DEFAULT 0,
+  `usuario`         char(8)     DEFAULT NULL,
+  `matricula`       char(10)    DEFAULT NULL,
   `curp`            varchar(18) DEFAULT NULL,
-  `nss`             char(11) DEFAULT NULL,
+  `nss`             char(11)    DEFAULT NULL,
   `nombre`          varchar(50) DEFAULT NULL,
   `primer_apellido` varchar(50) DEFAULT NULL,
   `segundo_apellido`  varchar(50) DEFAULT NULL,
 
   `email`                 varchar(70) DEFAULT NULL,
-  `id_user_creacion`      int(11) DEFAULT NULL,
-  `fecha_creacion`        datetime DEFAULT CURRENT_TIMESTAMP,
-  `id_user_modificacion`  int(11) DEFAULT NULL,
-  `fecha_modificacion`    datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_user_creacion`      int(11)   NOT NULL DEFAULT 0,
+  `fecha_creacion`        datetime  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_user_modificacion`  int(11)   DEFAULT NULL,
+  `fecha_modificacion`    datetime  DEFAULT CURRENT_TIMESTAMP,
 
   `id_estatus`            char(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -59,7 +59,7 @@ CREATE TABLE `usaf_causasrechazo` (
 
 --
 ALTER TABLE `usaf_solicitudes`
-  ADD PRIMARY KEY (`id_solicitud`);
+  ADD PRIMARY KEY (`id_sol_usaf`);
 
 ALTER TABLE `usaf_personas`
   ADD PRIMARY KEY (`id_persona`);
@@ -72,10 +72,10 @@ ALTER TABLE `usaf_causasrechazo`
 
 --
 ALTER TABLE `usaf_solicitudes`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_sol_usaf` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 ALTER TABLE `usaf_personas`
-  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id_persona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 ALTER TABLE `usaf_solicitudes`

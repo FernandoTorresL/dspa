@@ -316,7 +316,7 @@
                               ctas_lotes.num_oficio_ca, ctas_lotes.fecha_oficio_ca, 
                               ctas_lotes.num_ticket_mesa, ctas_lotes.fecha_atendido
                             FROM ctas_lotes, dspa_usuarios
-                            WHERE ctas_lotes.id_user = dspa_usuarios.id_user ORDER BY 1 DESC";
+                            WHERE ctas_lotes.id_user = dspa_usuarios.id_user ORDER BY fecha_creacion DESC";
                   $result = mysqli_query( $dbc, $query );
 
                   while ( $row = mysqli_fetch_array( $result ) )

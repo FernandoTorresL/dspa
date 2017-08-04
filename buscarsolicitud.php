@@ -87,7 +87,9 @@
       // Obtener todas las solicitudes capturadas al momento para el penúltimo lote modificado
       $query = 'SELECT  
                   S.id_solicitud, S.id_valija, V.num_oficio_ca, V.fecha_recepcion_ca, 
-                  S.fecha_captura_ca, S.fecha_solicitud_del, S.fecha_modificacion,
+                  S.fecha_captura_ca, DATE_FORMAT(S.fecha_captura_ca, "%d%M%y %H:%i") AS fecha_cap_formato,
+                  S.fecha_solicitud_del, DATE_FORMAT(S.fecha_solicitud_del, "%d%M%y %H:%i") AS fecha_sol_del_formato,
+                  S.fecha_modificacion, DATE_FORMAT(S.fecha_modificacion, "%d%M%y %H:%i") AS fecha_mod_formato,
                   L.lote_anio AS num_lote_anio, 
                   S.delegacion AS num_del, D.descripcion AS delegacion_descripcion, 
                   V.delegacion AS num_del_val, 
@@ -102,7 +104,7 @@
                   RM.id_rechazomainframe as causa_rechazo_MAINFRAME,
                   RM.descripcion as descripcion_causa_rechazo_MAINFRAME,
                   L.fecha_atendido as fecha_atendido,
-                  RL.fecha_correo as timestamp_correo_MAINFRAME,
+                  DATE_FORMAT(RL.fecha_correo, "%d%M%y %H:%i") AS timestamp_correo_MAINFRAME,
                   RL.archivo as correo_MAINFRAME,
                   RS.usuario_mainframe as usuario_MAINFRAME,
 
@@ -153,8 +155,8 @@ END AS "Observaciones",
         /*echo '<th># Valija</th>';*/
         echo '<th>Lote</th>';
         echo '<th># Área de Gestión - PDF</th>';
-        echo '<th>Fecha Captura Solicitud</th>';
-        echo '<th>Creada/Modificada por</th>';
+        echo '<th>Fecha de Captura / Fecha de Modificación</th>';
+        echo '<th>Última modificación por</th>';
         echo '<th>Delegación - Subdelegación</th>';
         echo '<th>Nombre completo</th>';
         /*echo '<th>Matrícula</th>';*/
@@ -192,8 +194,15 @@ END AS "Observaciones",
           else
             $archivoPDF = '(Sin PDF)';
           echo '<td class="mensaje"><a target="_blank" href="editarvalija.php?id_valija=' . $row['id_valija'] . '">' . $row['num_oficio_ca'] . '</a>-' . $archivoPDF . '</td>';
-          echo '<td>' . $row['fecha_captura_ca'] . '</td>';
-          echo '<td>' . $row['creada_por'] . '</td>';
+          $columna_fecha_usuario = $row['fecha_cap_formato'];
+            $columna_fecha_usuario2 = '';
+            if ( $row['fecha_captura_ca'] == $row['fecha_modificacion'] )
+              $columna_fecha_usuario2 = '';
+            else {
+              $columna_fecha_usuario2 = $row['fecha_mod_formato'];
+            }
+            echo '<td>' . $columna_fecha_usuario . '<br>' . $columna_fecha_usuario2 . '</td>';
+            echo '<td>' . $row['creada_por'] . '</td>';
           echo '<td class="mensaje">' . $row['num_del_val'] . ' (' . $row['num_del'] . ')' . $row['delegacion_descripcion'] . ' - (' . $row['num_subdel'] . ')' . $row['subdelegacion_descripcion'] . '</td>';
           echo '<td class="dato condensed">' . $row['primer_apellido'] . '-' . $row['segundo_apellido'] . '-' . $row['nombre'] . '</td>';
           /*echo '<td>' . $row['matricula'] . '</td>'; */
@@ -228,15 +237,12 @@ END AS "Observaciones",
 
           echo '<td>' . $row['comentario'] . '</td>';
 
-          /*echo '<td>' . $row['timestamp_correo_MAINFRAME'] . '</td>';
-
-          correo_MAINFRAME*/
-          if (!empty($row['correo_MAINFRAME'])) {
+          /*correo_MAINFRAME*/
+          if ( !empty($row['correo_MAINFRAME']) ) {
             echo '<td><a href="' . MM_UPLOADPATH_MSG . '\\' . $row['correo_MAINFRAME'] . '"  target="_new">' . $row['timestamp_correo_MAINFRAME'] . '</a></td>';
           }
           else {
-            echo '<td>(PDF aún no disponible)</a></td>';
-            /*echo '<td>' . $row['timestamp_correo_MAINFRAME'] . '</td>';*/
+            echo '<td></td>';
           }
 
           if (!empty($row['archivo'])) {

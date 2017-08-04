@@ -15,12 +15,10 @@
   require_once('lib/navmenu.php');
 
   // Clear the error message
-  /*$ip_address_host = "IP:" . $ip_address . "|EQUIPO:" . $host;*/
-
   $error_msg        = "";
   $ip               = "";
-  $ip_address       = GetHostByName( $ip );
   $host             = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+  $ip_address       = $host;
   $ip_address_host  = "EQUIPO:" . $host;
 
   $ResultadoConexion = fnConnectBD( 0,  $ip_address, $ip_address_host, '' );
