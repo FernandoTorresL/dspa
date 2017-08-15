@@ -92,7 +92,7 @@
 
     $log = fnGuardaBitacora( 3, 108, $_SESSION['id_user'],  $_SESSION['ip_address'], 'id_solicitud:' . $id_solicitud_bitacora . '|CURP:' . $_SESSION['username'] . '|EQUIPO:' . $_SESSION['host'] );
 
-    echo '</br><p class="mensaje">¿Deseas <a href="editarsolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">editar esta solicitud</a>?</p>';
+    echo '</br><span class="mensaje">¿Deseas <a href="editarsolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">editar esta solicitud</a>?</span>';
   ?>
 
   <div class="contenedor">
@@ -264,7 +264,7 @@
      
         <li>
           <?php
-            echo '</br><p class="mensaje">¿Deseas <a href="editarsolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">editar esta solicitud</a>?</p>';
+            echo '</br><span class="mensaje">¿Deseas <a href="editarsolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">editar esta solicitud</a>?</span>';
           ?>
         </li>
       </ul>

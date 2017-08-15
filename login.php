@@ -130,7 +130,7 @@
       <ul>
         <li>
           <label for="curp">CURP (Usuario)</label>
-          <input class="textinput" type="text" required id="curp" name="curp" maxlength="18" placeholder="Escriba su CURP" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
+          <input class="textinput" type="text" id="curp" name="curp" placeholder="Escriba su CURP" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
         </li>
         <li>
           <label for="password">Contraseña</label>

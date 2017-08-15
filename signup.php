@@ -139,7 +139,7 @@
           </li>
           <li>
             <label for="cmbSubdelegaciones">Subdelegación IMSS</label>
-            <select id="cmbSubdelegaciones" name="cmbSubdelegaciones">
+            <select class="textinput" id="cmbSubdelegaciones" name="cmbSubdelegaciones">
               <option value="-1" >Seleccione Subdelegación</option>
               <?php
                 if ( !empty( $_POST['cmbSubdelegaciones'] ) || $_POST['cmbSubdelegaciones'] == "0" ) 
@@ -153,7 +153,7 @@
           </li>
           <li>
             <label for="cmbPuesto">Puesto</label>
-            <select id="cmbPuesto" name="cmbPuesto">
+            <select class="textinput" id="cmbPuesto" name="cmbPuesto">
               <option value="0">Seleccione Puesto</option>
               <?php
                 $result = mysqli_query( $dbc, "SELECT * 

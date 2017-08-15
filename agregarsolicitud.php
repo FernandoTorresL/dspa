@@ -559,7 +559,7 @@
 
               <li>
                 <label for="cmbtipomovimiento">Tipo de Movimiento</label>
-                <select id="cmbtipomovimiento" name="cmbtipomovimiento">
+                <select class="textinput" id="cmbtipomovimiento" name="cmbtipomovimiento">
                   <option value="0">Seleccione Tipo de Movimiento</option>
                   <?php
                     $query = "SELECT * 
@@ -590,7 +590,7 @@
 
               <li>
                 <label for="cmbSubdelegaciones">Subdelegación IMSS</label>
-                <select id="cmbSubdelegaciones" name="cmbSubdelegaciones">
+                <select class="textinput" id="cmbSubdelegaciones" name="cmbSubdelegaciones">
                   <option value="-1">Seleccione Subdelegación</option>
                   <?php
                       if ( !empty( $_POST['cmbSubdelegaciones'] ) ) {
@@ -629,7 +629,7 @@
 
               <li>
                 <label for="curp">CURP (Usuario)</label>
-                <input class="textinput" type="text" required name="curp" id="curp" maxlength="18" placeholder="Escriba su CURP" value="<?php if ( !empty( $curp ) ) echo $curp; ?>" />
+                <input class="textinput" type="text" name="curp" id="curp" maxlength="20" placeholder="Escriba su CURP" value="<?php if ( !empty( $curp ) ) echo $curp; ?>" />
               </li>
 
               <li>
@@ -639,7 +639,7 @@
 
               <li>
                 <label for="cmbgpoactual">Grupo Actual</label>
-                <select id="cmbgpoactual" name="cmbgpoactual">
+                <select class="textinput" id="cmbgpoactual" name="cmbgpoactual">
                     <option value="0">Seleccione Grupo Actual</option>
                     <?php
                       $query = "SELECT * 
@@ -655,7 +655,7 @@
 
               <li>
                 <label for="cmbgponuevo">Grupo Nuevo</label>
-                <select id="cmbgponuevo" name="cmbgponuevo">
+                <select class="textinput" id="cmbgponuevo" name="cmbgponuevo">
                     <option value="0">Seleccione Grupo Nuevo</option>
                     <?php
                       $query = "SELECT * 
