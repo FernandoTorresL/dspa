@@ -18,6 +18,7 @@ SET time_zone = "+00:00";
 
 --
 -- Base de datos: `dspa_web`
+CREATE DATABASE IF NOT EXISTS `dspa_web` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 --
 
 -- --------------------------------------------------------

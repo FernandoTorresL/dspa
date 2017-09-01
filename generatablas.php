@@ -56,7 +56,9 @@
   //ALTAS
   $query = "SELECT  ctas_solicitudes.primer_apellido, ctas_solicitudes.segundo_apellido, ctas_solicitudes.nombre, 
                     ctas_movimientos.descripcion AS movimiento_descripcion, 
-                    grupos1.descripcion AS grupo_nuevo, ctas_solicitudes.usuario, ctas_solicitudes.matricula, 
+                    grupos2.descripcion AS grupo_actual,
+                    grupos1.descripcion AS grupo_nuevo, 
+                    ctas_solicitudes.usuario, ctas_solicitudes.matricula, 
                     ctas_solicitudes.archivo, ctas_solicitudes.id_solicitud
             FROM ctas_solicitudes, ctas_valijas, ctas_lotes, dspa_delegaciones, dspa_subdelegaciones, ctas_movimientos, ctas_grupos grupos1, ctas_grupos grupos2
             WHERE ctas_solicitudes.id_lote       = ctas_lotes.id_lote
@@ -83,12 +85,13 @@
   echo '<th>Primer Apellido</th>';
   echo '<th>Segundo Apellido</th>';
   echo '<th>Nombre(s)</th>';
-  echo '<th>Tipo de Movimiento</th>';
+  echo '<th>Grupo Actual</th>';
   echo '<th>Grupo Nuevo</th>';
   echo '<th>Usuario</th>';
   echo '<th>Matrícula</th>';
 
   echo '<th>PDF</th>';
+  echo '<th>Tipo de Movimiento</th>';
   echo '<th>#</th>';
   echo '</tr>';
 
@@ -103,7 +106,7 @@
     echo '<td>' . $row['primer_apellido'] . '</td>';
     echo '<td>' . $row['segundo_apellido'] . '</td>';
     echo '<td>' . $row['nombre'] . '</td>';
-    echo '<td align="center">' . $row['movimiento_descripcion'] . '</td>';
+    echo '<td align="center">' . $row['grupo_actual'] . '</td>';
     echo '<td align="center">' . $row['grupo_nuevo'] . '</td>';
     echo '<td class="mensaje" align="center"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . '</a></td>';
     /*echo '<td>' . $row['usuario'] . '</td>';*/
@@ -116,6 +119,7 @@
     else {
       echo '<td>(Vacío)</a></td>';
     }
+    echo '<td align="center">' . $row['movimiento_descripcion'] . '</td>';
     echo '<td>' . $i . '</td>'; 
     echo '</tr>';
 
@@ -133,6 +137,7 @@
   $query = "SELECT  ctas_solicitudes.primer_apellido, ctas_solicitudes.segundo_apellido, ctas_solicitudes.nombre, 
                     ctas_movimientos.descripcion AS movimiento_descripcion, 
                     grupos2.descripcion AS grupo_actual, 
+                    grupos1.descripcion AS grupo_nuevo, 
                     ctas_solicitudes.usuario, ctas_solicitudes.matricula,
                     ctas_solicitudes.archivo, ctas_solicitudes.id_solicitud
             FROM    ctas_solicitudes, ctas_valijas, ctas_lotes, dspa_delegaciones, dspa_subdelegaciones, 
@@ -160,11 +165,12 @@
   echo '<th>Primer Apellido</th>';
   echo '<th>Segundo Apellido</th>';
   echo '<th>Nombre(s)</th>';
-  echo '<th>Tipo de Movimiento</th>';
   echo '<th>Grupo Actual</th>';
+  echo '<th>Grupo Nuevo</th>';
   echo '<th>Usuario</th>';
   echo '<th>Matrícula</th>';
   echo '<th>PDF</th>';
+  echo '<th>Tipo de Movimiento</th>';
   echo '<th>#</th>';
   echo '</tr>';
 
@@ -179,8 +185,8 @@
     echo '<td>' . $row['primer_apellido'] . '</td>';
     echo '<td>' . $row['segundo_apellido'] . '</td>';
     echo '<td>' . $row['nombre'] . '</td>';
-    echo '<td align="center">' . $row['movimiento_descripcion'] . '</td>';
     echo '<td align="center">' . $row['grupo_actual'] . '</td>';
+    echo '<td align="center">' . $row['grupo_nuevo'] . '</td>';
     echo '<td class="mensaje" align="center"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . '</a></td>';
     echo '<td align="right">' . $row['matricula'] . '</td>';
     if (!empty($row['archivo'])) {
@@ -189,6 +195,7 @@
     else {
       echo '<td>(Vacío)</a></td>';
     }
+    echo '<td align="center">' . $row['movimiento_descripcion'] . '</td>';
     echo '<td>' . $i . '</td>'; 
     echo '</tr>';
 
@@ -234,12 +241,12 @@
   echo '<th>Primer Apellido</th>';
   echo '<th>Segundo Apellido</th>';
   echo '<th>Nombre(s)</th>';
-  echo '<th>Tipo de Movimiento</th>';
   echo '<th>Grupo Actual</th>';
   echo '<th>Grupo Nuevo</th>';
   echo '<th>Usuario</th>';
   echo '<th>Matrícula</th>';
   echo '<th>PDF</th>';
+  echo '<th>Tipo de Movimiento</th>';
   echo '<th>#</th>';
   echo '</tr>';
 
@@ -254,7 +261,6 @@
     echo '<td>' . $row['primer_apellido'] . '</td>';
     echo '<td>' . $row['segundo_apellido'] . '</td>';
     echo '<td>' . $row['nombre'] . '</td>';
-    echo '<td align="center">' . $row['movimiento_descripcion'] . '</td>';
     echo '<td align="center">' . $row['grupo_actual'] . '</td>';
     echo '<td align="center">' . $row['grupo_nuevo'] . '</td>';
     echo '<td class="mensaje" align="center"><a target="_blank" alt="Ver/Editar" href="versolicitud.php?id_solicitud=' . $row['id_solicitud'] . '">' . $row['usuario'] . '</a></td>';
@@ -265,6 +271,7 @@
     else {
       echo '<td>(Vacío)</a></td>';
     } 
+    echo '<td align="center">' . $row['movimiento_descripcion'] . '</td>';
     echo '<td>' . $i . '</td>';
     echo '</tr>';
 
