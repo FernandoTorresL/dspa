@@ -66,7 +66,7 @@
         $output_form = 'yes';
       }
       else {
-        if ( !preg_match( '/^[0][0-9][0-9]/', $new_lote ) ) {
+        if ( !preg_match( '/^[0-9][0-9][0-9]/', $new_lote ) ) {
           echo '<p class="error">Número de lote inválido. Usar solo formato 3 dígitos "0XX" (ejemplo: 045) c</p>';
           $output_form = 'yes';
         }
