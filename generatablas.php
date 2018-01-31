@@ -34,7 +34,6 @@
   }
 
   $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
-
   $query = "SELECT id_user 
             FROM  dspa_permisos
             WHERE id_modulo = 19
@@ -73,7 +72,7 @@
             AND   ctas_solicitudes.id_grupo_nuevo= grupos1.id_grupo
             AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
             AND   ctas_solicitudes.id_causarechazo = 0
-            AND   ctas_solicitudes.id_lote        = 0
+            AND   ctas_solicitudes.id_lote        = 0 
             ORDER BY ctas_solicitudes.id_movimiento, ctas_solicitudes.usuario ASC";
 
   $data = mysqli_query($dbc, $query);
@@ -160,7 +159,7 @@
             AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
             AND   ctas_solicitudes.id_causarechazo = 0
             AND   ctas_solicitudes.id_movimiento  = 1
-            AND   ctas_solicitudes.id_lote        = 0
+            AND   ctas_solicitudes.id_lote        = 0 
             ORDER BY ctas_solicitudes.usuario ASC";
 
   $data = mysqli_query($dbc, $query);
@@ -242,7 +241,7 @@
             AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
             AND   ctas_solicitudes.id_causarechazo = 0
             AND   ctas_solicitudes.id_movimiento = 2
-            AND   ctas_solicitudes.id_lote      = 0
+            AND   ctas_solicitudes.id_lote      = 0 
             ORDER BY ctas_solicitudes.usuario ASC";
 
   $data = mysqli_query($dbc, $query);
@@ -321,7 +320,7 @@
             AND   ctas_solicitudes.id_grupo_nuevo= grupos2.id_grupo
             AND   ctas_solicitudes.id_causarechazo = 0
             AND   ctas_solicitudes.id_movimiento = 3
-            AND   ctas_solicitudes.id_lote       = 0
+            AND   ctas_solicitudes.id_lote       = 0 
             ORDER BY ctas_solicitudes.usuario ASC";
 
   $data = mysqli_query($dbc, $query);
@@ -402,7 +401,7 @@
             AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
             AND   ctas_solicitudes.id_causarechazo = 0
             AND   ctas_solicitudes.id_movimiento = 4
-            AND   ctas_solicitudes.id_lote        = 0
+            AND   ctas_solicitudes.id_lote        = 0 
             ORDER BY ctas_solicitudes.usuario ASC";
 
   $data = mysqli_query($dbc, $query);
@@ -476,7 +475,7 @@
             AND   ctas_solicitudes.id_movimiento = ctas_movimientos.id_movimiento
             AND   ctas_solicitudes.id_grupo_nuevo= grupos1.id_grupo
             AND   ctas_solicitudes.id_grupo_actual= grupos2.id_grupo
-            AND   ctas_solicitudes.id_lote = 0
+            AND   ctas_solicitudes.id_lote = 0 
             ORDER BY 1 DESC, ctas_valijas.num_oficio_ca ASC, ctas_valijas.delegacion, ctas_solicitudes.delegacion, ctas_valijas.num_oficio_del";
 
   $data = mysqli_query($dbc, $query);

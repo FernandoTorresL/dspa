@@ -107,7 +107,7 @@
     FROM ctas_lotes, dspa_usuarios
     WHERE ctas_lotes.id_user = dspa_usuarios.id_user
     AND ctas_lotes.id_lote = 0
-    ORDER BY 3 DESC LIMIT 10";
+    ORDER BY 3 DESC LIMIT 20";
 
   $data = mysqli_query($dbc, $query);
 
@@ -118,7 +118,7 @@
   readfile($mi_pdf);
   */
 
-  echo '<p class="titulo1">Últimos 10 lotes</p>';
+  echo '<p class="titulo1">Últimos 20 lotes</p>';
   
   //$t=time();
   //echo($t . "<br>");
@@ -229,8 +229,8 @@
                                                         ON S.id_causarechazo = CR.id_causarechazo )
                                                           LEFT JOIN ctas_hist_solicitudes HS 
                                                             ON S.id_solicitud = HS.id_solicitud )
-                    WHERE S.id_lote = 0 ';
-          $query = $query . " ORDER BY S.id_solicitud DESC;";
+                    WHERE S.id_lote IN ( 0 ) ';
+          $query = $query . " ORDER BY S.usuario, S.id_solicitud DESC;";
           /*ORDER BY ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC, ctas_solicitudes.id_movimiento ASC";*/
 
     //ORDER BY ctas_solicitudes.id_movimiento ASC, ctas_solicitudes.usuario ASC, ctas_solicitudes.fecha_modificacion DESC";
@@ -269,6 +269,7 @@
   echo '<tr>';
   /*echo '<th># Valija</th>';*/
   echo '<th>#</th>';
+  echo '<th>Lote</th>';
   echo '<th># Área de Gestión - PDF</th>';
   echo '<th>Fecha de Captura / Fecha de Modificación</th>';
   echo '<th>Última modificación por</th>';
@@ -302,6 +303,7 @@
 
     echo '<tr class="dato condensed">';
     echo '<td align=center>' . $i. '</td>';
+    echo '<td align=center>' . $row['num_lote_anio'] . '</td>';
     if ( !empty( $row['archivo_valija'] ) ) 
       $archivoPDF = '<a href="' . MM_UPLOADPATH_CTASSINDO . '\\' . $row['archivo_valija'] . '"  target="_new">PDF</a>';
     else
@@ -466,7 +468,7 @@
                                                       ON S.id_causarechazo = CR.id_causarechazo )
                                                         LEFT JOIN ctas_hist_solicitudes HS 
                                                           ON S.id_solicitud = HS.id_solicitud )
-                    WHERE S.id_lote = ( SELECT id_lote from ctas_lotes ORDER BY fecha_creacion DESC LIMIT 1 )';
+                    WHERE S.id_lote = ( SELECT id_lote FROM ctas_lotes WHERE id_lote <> 0 ORDER BY fecha_creacion DESC LIMIT 1 ) ORDER BY S.usuario';
   /*$query = $query . " ORDER BY M.descripcion, S.usuario ;";    */
 
   $data = mysqli_query($dbc, $query);
@@ -636,12 +638,12 @@
   FROM ctas_valijas, dspa_delegaciones, dspa_usuarios
   WHERE ctas_valijas.delegacion = dspa_delegaciones.delegacion 
   AND   ctas_valijas.id_user = dspa_usuarios.id_user
-  ORDER BY ctas_valijas.id_valija DESC LIMIT 250";
+  ORDER BY ctas_valijas.id_valija DESC LIMIT 100";
   //ORDER BY ctas_valijas.fecha_captura_ca DESC LIMIT 300";
 
   $data = mysqli_query($dbc, $query);
 
-  echo '<p class="titulo1">Últimas 250 valijas capturadas</p>';
+  echo '<p class="titulo1">Últimas 100 valijas capturadas</p>';
   echo '<p class="titulo2">Agregar <a href="">nueva valija</a></p>';
   
   echo '<table class="striped" border="1">';
@@ -667,6 +669,8 @@
   if (mysqli_num_rows($data) == 0) {
     echo '</table></br><p class="error">No hay valijas capturadas</p></br>';
   }
+
+  $i= 1;
 
   while ( $row = mysqli_fetch_array($data) ) {
     //$id_valija = $row['id_valija'];
@@ -717,12 +721,12 @@
   WHERE ctas_valijas.delegacion = dspa_delegaciones.delegacion 
   AND   ctas_valijas.id_user = dspa_usuarios.id_user
   AND   ctas_valijas.archivo = ''
-  ORDER BY ctas_valijas.id_valija DESC LIMIT 100";
+  ORDER BY ctas_valijas.id_valija DESC LIMIT 50";
   //ORDER BY ctas_valijas.fecha_captura_ca DESC LIMIT 300";
 
   $data = mysqli_query($dbc, $query);
 
-  echo '<p class="titulo1">Últimas 100 valijas capturadas SIN ADJUNTOS</p>';
+  echo '<p class="titulo1">Últimas 50 valijas capturadas SIN ADJUNTOS</p>';
   echo '<p class="titulo2">Agregar <a href="">nueva valija</a></p>';
   
   echo '<table class="striped" border="1">';
@@ -748,6 +752,8 @@
   if (mysqli_num_rows($data) == 0) {
     echo '</table></br><p class="error">No hay valijas capturadas</p></br>';
   }
+
+  $i= 1;
 
   while ( $row = mysqli_fetch_array($data) ) {
     //$id_valija = $row['id_valija'];

@@ -77,7 +77,7 @@
         $query = "INSERT INTO ctas_lotes 
                     ( lote_anio, fecha_creacion, fecha_modificacion, comentario, id_user, num_oficio_ca, fecha_oficio_ca, num_ticket_mesa, fecha_atendido )
                     VALUES 
-                      ( CONCAT('D','$new_lote', '/2017' ), NOW(), NOW(), '$comentario', " . $_SESSION['id_user'] . ", 'PENDIENTE', NULL, 'PENDIENTE', NULL )";
+                      ( CONCAT('D','$new_lote', '/2018' ), NOW(), NOW(), '$comentario', " . $_SESSION['id_user'] . ", 'PENDIENTE', NULL, 'PENDIENTE', NULL )";
         
         mysqli_query($dbc, $query);
         $query = "SELECT LAST_INSERT_ID()";
@@ -153,7 +153,7 @@
               <label for="new_lote">Nuevo Lote:</label>
               <span class="etiquetaCourier">D
               <input class="textinputmini" type="text" required name="new_lote" id="new_lote" maxlength="4" placeholder="000" value="<?php if ( !empty( $new_lote ) ) echo $new_lote; ?>"/>
-              /2017</span>
+              /2018</span>
             </li>
 
             <li>
