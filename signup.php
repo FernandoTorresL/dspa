@@ -187,7 +187,7 @@
           </li>
           
           <li>
-            <h4 class="center teal-text">¿Ya tienes cuenta? <a href="login.php"><underlined>Ingresa aquí<underlined></a></h4>
+            <h4 class="center teal-text">¿Ya tienes cuenta? <a href="index.php"><underlined>Ingresa aquí<underlined></a></h4>
           </li>
         </ul>
       </form>

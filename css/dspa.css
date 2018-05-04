@@ -1,0 +1,149 @@
+body {
+  font-family: 'Allerta', sans-serif;
+  margin: 0;
+  /*color: royalblue;*/
+}
+
+.contenedor {
+  width: 800px;
+  margin: auto;
+  position: relative;
+}
+
+.background {
+  background-image: url('../images/template-main.jpg');
+  background-position-y: center;
+  background-size: cover;
+}
+
+.button {
+  border-radius: 12px;
+  border: none;
+  color: white;
+  padding: 7px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 18px;
+  background: #fd324e;
+  background: linear-gradient(to left, navy, royalblue);
+}
+
+.titulo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 70px;
+  margin-bottom: 0;
+  margin-top: 70px;
+}
+
+.title-a {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.title-b {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.intro {
+  color: #1F313C;
+  margin-bottom: 60px important;
+}
+
+.intro h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 35px;
+}
+
+.portada {
+  color: white;
+  padding: 20px;
+  height: 350px;
+}
+
+.portada button {
+  margin-bottom: 70px;
+}
+
+.menu {
+  font-size: 24px;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+}
+
+.menu li {
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.menu li:before{
+  content: '∘';
+  font-size: 50px;
+  line-height: 20px;
+  color: white;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.logotipo {
+  display: inline-block;
+  margin-left: -100px;
+  margin-top:7px;
+  margin-bottom: initial;
+  width: 75px;
+  height: 75px;
+  display: inline-block;
+  background-color: #fafafa;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.logotipo img {
+  margin-top: 7px;
+  margin-left: 0px;
+}
+
+.presentacion {
+  margin: 10px 10px 40px 10px;
+  padding: 10px;
+  /*overflow: hidden;*/
+  border: 1px solid #1F313C;
+  border-radius: 8px;
+}
+
+.presentacion ol {
+  padding: 0;
+}
+
+.presentacion.b {
+  height: 190px;
+}
+
+.img-derecha {
+  float: right;
+  position: relative;
+  top: -127px;
+}
+
+.img-izquierda {
+  float: left;
+  position: relative;
+}
+
+.contenedor-presentacion-a {
+  padding-left: 20px;
+}
+
+.contenedor-presentacion-b {
+  margin-left: 370px;
+  position: relative;
+  bottom: 90px;
+}
+
+.header {
+  position: relative;
+}
