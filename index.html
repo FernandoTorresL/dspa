@@ -9,8 +9,7 @@
    <body>
       <section id="portada" class="portada background">
          <header id="header" class="header contenedor">
-            <figure class="logotipo"> <!-- logotipo -->
-               <!-- <img src="images/invie.png" width="186" height="60" alt="Invie logotipo"/> -->
+            <figure class="logotipo"> 
                <img src="images/logo-imss-vector.png" width="75" height="60" alt="IMSS logo">
             </figure>
             <nav class="menu">
@@ -29,39 +28,38 @@
          </header>
 
          <div class="contenedor">
-            <h1 class="titulo">Aplicaciones DSPA</h1> <!-- titulo -->
-            <h3 class="title-a">Portal de la División de Soporte a los Procesos de Afiliación</h3> <!-- resumen -->
-            <a class="button" href="#intro">Presentación</a> <!-- boton -->
-            <a class="button" href="#login">Inicia sesión</a> <!-- boton -->
+            <h1 class="titulo">Aplicaciones DSPA</h1> 
+            <h3 class="titulo-a">Portal de la División de Soporte a los Procesos de Afiliación</h3> 
+            <a class="button" href="#intro">Conoce más</a> 
+            <!-- <a class="button" href="#login">Inicia sesión</a>  -->
          </div>
       </section>
 
-      <section id="intro" class="intro contenedor"> <!-- intro -->
-        <h2>Conoce a la DSPA</h2>
-        <article class="presentacion"> <!-- presentacion 1 -->
-        <img class="img-derecha" src="images/invie-acustica.png" alt="img DSPA 1" width="350"/>
-          <div class="contenedor-presentacion-a">
-            <h3 class="title-b">DSPA</h3>
-            <ol>
-              <li>Una de las tres divisiones que forman a la Coordinación de Afiliación</li>
-              <li>-Funciones-</li>
-              <li>-Personal-</li>
-            </ol>
-          </div>
-        </article>
-        <article class="presentacion b"> <!-- guitarra 2 -->
-        <img class="img-izquierda" src="images/invie-classic.png" alt="img DSPA 2" width="350"/>
-          <div class="contenedor-presentacion-b">
-            <h3 class="title-b">Invie Classic</h3>
-            <ol>
-              <li>Estilo vintage</li>
-              <li>Liviana</li>
-              <li>Inicia tu camino como Rockstar</li>
-            </ol>
-          </div>
-        </article>
-      </section>
+      <section id="modulos" class="modulos contenedor">
+        <!-- <h2>Conoce a la DSPA</h2> -->
+         <article class="modulo">
+         <img class="img-derecha" src="images/login.png" alt="Inicia sesión" width="250"/>
+         <div class="contenedor-modulo-a">
+         <h3>¿Ya tienes una cuenta? <a href="login.php">Inicia sesión</a></h3>
+            <ul>
+               <li>Ingresa con tu CURP y contraseña</li>
+               <li>Los módulos visibles dependerán del perfil/permisos otorgados al usuario</li>
+            </ul>
+         </div>
+      </article>
 
+      <article class="modulo">
+        <img class="img-izquierda" src="images/sign_up_256.png" alt="Registrate aquí" width="250"/>
+        <div class="contenedor-modulo-b">
+          <h3>¿Aún no tienes cuenta? <a href="signup.php">Registrate aquí</a></h3>
+          <ul>
+            <li>Sólo necesitas tu CURP y correo electrónico</li>
+            <li>Tu solicitud será revisada por los administradores de este portal</li>
+          </ul>
+          <!-- <a class="button background" href="signup.php">Registrar</a> -->
+        </div>
+      </article>
+        
       <footer>
          <div>
          </div>
