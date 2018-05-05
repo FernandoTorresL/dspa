@@ -6,7 +6,9 @@
       <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto' rel='stylesheet' type='text/css'>
       <link rel="stylesheet" href="css/dspa.css"/>
    </head>
+
    <body>
+
       <section id="portada" class="portada background">
          <header id="header" class="header contenedor">
             <figure class="logotipo"> 
@@ -18,10 +20,10 @@
                 <a href="index.html">Inicio</a>
               </li>
                <li>
-                <a href="">Iniciar sesión</a>
+                <a href="login.php">Iniciar sesión</a>
               </li>
               <li>
-                <a href="">Registrar usuario</a>
+                <a href="signup.php">Registrar usuario</a>
               </li>
             </ul>
             </nav>
@@ -36,33 +38,53 @@
       </section>
 
       <section id="modulos" class="modulos contenedor">
-        <!-- <h2>Conoce a la DSPA</h2> -->
+         <!-- <h2>Conoce a la DSPA</h2> -->
          <article class="modulo">
-         <img class="img-derecha" src="images/login.png" alt="Inicia sesión" width="250"/>
-         <div class="contenedor-modulo-a">
-         <h3>¿Ya tienes una cuenta? <a href="login.php">Inicia sesión</a></h3>
-            <ul>
-               <li>Ingresa con tu CURP y contraseña</li>
-               <li>Los módulos visibles dependerán del perfil/permisos otorgados al usuario</li>
-            </ul>
-         </div>
-      </article>
+            <img class="img-derecha" src="images/login.png" alt="Inicia sesión" width="250"/>
+            <div class="contenedor-modulo-a">
+            <h3>¿Ya tienes una cuenta? <a href="login.php">Inicia sesión</a></h3>
+               <ul>
+                  <li>Ingresa con tu CURP y contraseña</li>
+                  <li>Los módulos visibles dependerán del perfil/permisos otorgados al usuario</li>
+               </ul>
+            </div>
+         </article>
 
-      <article class="modulo">
-        <img class="img-izquierda" src="images/sign_up_256.png" alt="Registrate aquí" width="250"/>
-        <div class="contenedor-modulo-b">
-          <h3>¿Aún no tienes cuenta? <a href="signup.php">Registrate aquí</a></h3>
-          <ul>
-            <li>Sólo necesitas tu CURP y correo electrónico</li>
-            <li>Tu solicitud será revisada por los administradores de este portal</li>
-          </ul>
-          <!-- <a class="button background" href="signup.php">Registrar</a> -->
-        </div>
-      </article>
+         <article class="modulo">
+           <img class="img-izquierda" src="images/sign_up_256.png" alt="Registrate aquí" width="250"/>
+           <div class="contenedor-modulo-b">
+             <h3>¿Aún no tienes cuenta? <a href="signup.php">Registrate aquí</a></h3>
+             <ul>
+               <li>Sólo necesitas tu CURP y correo electrónico</li>
+               <li>Tu solicitud será revisada por los administradores de este portal</li>
+             </ul>
+             <!-- <a class="button background" href="signup.php">Registrar</a> -->
+           </div>
+         </article>
+      </section>
         
-      <footer>
-         <div>
+      <footer class="footer">
+         <div class="contenedor">
+
+            <div class="col1">
+               <p><strong>Conmutador (ext. 18371)</strong></p>
+               <a href="tel:+5552382700">55 5238 2700</a>
+            </div>
+
+            <div class="col2">
+               <p><strong>DIR - Coordinación Afiliación</strong></p>
+               <p><strong>División de Soporte a los Procesos de Afiliación</strong></p>
+               <!-- <a href="mailto:fernando.torresl@imss.gob.mx"><span>fernando.torresl@imss.gob.mx</span></a> -->
+            </div>
+
+            <div class="col3">
+              <p><strong>¿Necesitas ayuda?</strong></p>
+              <a href="mailto:fernando.torresl@imss.gob.mx">Contáctanos aquí</a>
+              <!-- <a href="http://www.linkedin.com/in/fertorresmx" target="_blank">Fernando Torres</a> -->
+            </div>
+
          </div>
+
       </footer>
 
    </body>

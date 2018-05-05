@@ -126,7 +126,7 @@ body {
 
 .modulo {
   margin-top: 30px;
-  /*margin-bottom: 0px;*/
+  margin-bottom: 30px;
   margin-right: 15px;
   margin-left: 15px;
   padding-top: 20px;
@@ -174,4 +174,29 @@ body {
 
 .header {
   position: relative;
+}
+
+.footer {
+  background-image: url('../images/template-main.jpg');
+  background-position-y: center;
+  background-size: cover;
+  /*background: royalblue;*/
+  padding: 20px 10px;
+  color: white;
+}
+
+.footer .contenedor {
+  display: flex;
+  justify-content: space-between;
+} 
+
+.footer .contenedor a {
+  color: white;
+  margin-top: -8px;
+}
+
+.col1, .col2, .col3 {
+  color: white;
+  display: flex;
+  flex-direction: column;
 }
