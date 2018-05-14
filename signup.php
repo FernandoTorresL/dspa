@@ -8,8 +8,8 @@
 
   require_once( 'commonfiles/funciones.php');
 
-  // Insert the page header
-  /*$page_title = MM_APPNAME;*/
+  $page_title = fntituloPag(1);
+
   require_once('lib/header.php');
 
   // Show the navigation menu

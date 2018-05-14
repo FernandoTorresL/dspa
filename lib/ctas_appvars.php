@@ -1,6 +1,6 @@
 <?php
   // Define application constants
-	define('MM_APPNAME', 'Aplicaciones DSPA');
+	define('MM_APPNAME', 'Portal DSPA');
 
 	// Conectarse a la BD
 	//define('MM_DBC', mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);

@@ -1,6 +1,6 @@
 <?php
   // Define application constants
-  define('MM_APPNAME', 'DSPA');
+  define('MM_APPNAME', 'Portal DSPA');
 
   define('MM_UPLOADPATH_PROFILE', '../imagesprofile/');
   
