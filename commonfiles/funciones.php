@@ -1,6 +1,6 @@
 <?php
 
-  function fntituloPag( $pvar_modulo )
+  function fnTituloPag( $pvar_modulo )
   { //Change this to CASE
     if ($pvar_modulo == 1) 
       return "Registro: ";

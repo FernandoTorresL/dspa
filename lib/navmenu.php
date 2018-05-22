@@ -17,11 +17,11 @@
 
           <?php //Si ya ha iniciado sesión ...
             /*if (isset($_SESSION['username'])) */
-            if ( isset($_SESSION['username']) && !empty($_SESSION['username']) ) 
+            if ( isset($_SESSION[MM_APPVER . 'username']) && !empty($_SESSION[MM_APPVER . 'username']) ) 
             {
           ?>
               <li>
-                <a href="logout.php">Cerrar Sesión ( <?php echo $_SESSION['username'] ?> ) </a>
+                <a href="logout.php">Cerrar Sesión ( <?php echo $_SESSION[MM_APPVER . 'username'] ?> ) </a>
               </li>
           <?php
             }

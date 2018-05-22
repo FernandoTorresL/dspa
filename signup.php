@@ -1,14 +1,15 @@
 <?php
+  require_once('lib/appvars.php');
 
   // Start the session
   require_once('commonfiles/startsession.php');
 
-  require_once('lib/appvars.php');
   require_once('lib/connectBD.php');
 
   require_once( 'commonfiles/funciones.php');
+  require_once( 'commonfiles/validaciones.php');
 
-  $page_title = fntituloPag(1);
+  $page_title = fnTituloPag(1);
 
   require_once('lib/header.php');
 
@@ -38,7 +39,7 @@
 
   $dbc = mysqli_connect( DB_HOST, DB_USER, DB_PASSWORD, DB_NAME );
 
-  if ( !isset( $_SESSION['id_user'] ) ) {
+  if ( !isset( $_SESSION[MM_APPNAME .'id_user'] ) ) {
     if ( isset( $_POST['submit'] ) ) {
 
       // Grab the user-entered log-in data
@@ -111,7 +112,7 @@
   /*mysqli_close($dbc);*/
 
 // If the session var is empty, show any error message and the log-in form; otherwise confirm the log-in
-  if ( empty( $_SESSION['id_user'] ) ) {
+  if ( empty( $_SESSION[MM_APPNAME .'id_user'] ) ) {
     echo '<h3 class="red-text">' . $error_msg . '</h3>';
 ?>
   
@@ -197,7 +198,7 @@
   }
   else {
     // Confirm the successful log-in
-    echo('<h3 class="center teal-text">Ya tienes sesión activa como ' . $_SESSION['nombre'] . ' ' . $_SESSION['primer_apellido'] . ' ( ' . $_SESSION['username'] . ').  <a href="index.php">Regresa a HOME</a></h3>');
+    echo('<h3 class="center teal-text">Ya tienes sesión activa como ' . $_SESSION[MM_APPNAME .'nombre'] . ' ' . $_SESSION[MM_APPNAME .'primer_apellido'] . ' ( ' . $_SESSION[MM_APPNAME .'username'] . ').  <a href="index.php">Regresa a HOME</a></h3>');
   }
 
   // Insert the page footer

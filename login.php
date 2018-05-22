@@ -1,8 +1,9 @@
 <?php
+  require_once('lib/appvars.php');
+  
   // Start the session
   require_once('commonfiles/startsession.php');
 
-  require_once('lib/appvars.php');
   require_once('lib/connectBD.php');
 
   require_once( 'commonfiles/funciones.php');
