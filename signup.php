@@ -105,7 +105,7 @@
         }
       }
       else {
-        $error_msg = 'Por favor, captura la frase de verificación (CAPTCHA) exactamente como se muestra.';
+        $error_msg = 'Por favor, capture la frase de verificación (CAPTCHA) exactamente como se muestra.';
       }
     }
   }
@@ -119,22 +119,24 @@
     <div class="contenedor">
       <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <h2>Registro de nuevo usuario</h2>
-        <ul>
+        <ul class="campos">
           <li>
-            <label for="curp">CURP (Usuario)</label>
-            <input class="textinput" type="text" required id="curp" name="curp" maxlength="18" placeholder="Escriba su CURP" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
+            <label for="curp">CURP</label>
+            <input class="textinput" type="text" required id="curp" name="curp" maxlength="18" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
           </li>
           <li>
             <label for="cmbDelegaciones">Delegación IMSS</label>
             <select class="textinput" id="cmbDelegaciones" name="cmbDelegaciones">
-              <option value="0">Seleccione Delegación</option>
+              <option value="0" style="color:gray">Seleccione Delegación</option>
               <?php
-                $result = mysqli_query( $dbc, "SELECT * 
+                $result = mysqli_query( $dbc, "SELECT delegacion AS id_delegacion,
+                                                      RIGHT(CONCAT('0',delegacion),2) AS num_delegacion, 
+                                                      descripcion
                                                 FROM dspa_delegaciones 
                                                 WHERE activo = 1 
-                                                ORDER BY delegacion" );
+                                                ORDER BY 1" );
                 while ( $row = mysqli_fetch_array( $result ) )
-                  echo '<option value="' . $row['delegacion'] . '" ' . fntdelegacionSelect( $row['delegacion'] ) . '>' . $row['delegacion'] . ' - ' . $row['descripcion'] . '</option>';
+                  echo '<option value="' . $row['id_delegacion'] . '" ' . fntdelegacionSelect( $row['id_delegacion'] ) . '>' . $row['num_delegacion'] . ' - ' . $row['descripcion'] . '</option>';
               ?>
             </select>
           </li>
@@ -166,31 +168,31 @@
             </select>
           </li>
           <li>
-            <label for="email">Correo electrónico</label>
-            <input class="textinput" type="email" required id="email" name="email" length="100" placeholder="Capture su correo IMSS" value="<?php if ( !empty( $email ) ) echo $email; ?>" />
+            <label for="email">Correo electrónico IMSS</label>
+            <input class="textinput" type="email" required id="email" name="email" length="100" value="<?php if ( !empty( $email ) ) echo $email; ?>" />
           </li>
           <li>
             <label for="password1">Contraseña</label>
-            <input class="textinput" type="password" required id="password1" name="password1" maxlength=20 placeholder="Capture su contraseña" />
+            <input class="textinput" type="password" required id="password1" name="password1" maxlength=20 />
           </li>
           <li>
-            <label for="password2">Repita la contraseña</label>
-            <input class="textinput" type="password" required id="password2" name="password2" maxlength=20 placeholder="Repita su contraseña"/>
+            <label for="password2">Confirmar contraseña</label>
+            <input class="textinput" type="password" required id="password2" name="password2" maxlength=20 />
           </li>
           <li>
-            <label for="verify">Captura la frase</label>
-            <input class="textinput" type="text" required id="verify" name="verify" length="6" placeholder="Captura la frase" />
-            <img src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />
-          </li>
-          <li class="buttons">
-            <input type="submit" name="submit" value="Registrar!">
-            <input type="reset" name="reset" value="Reset">
-          </li>
-          
-          <li>
-            <h4 class="center teal-text">¿Ya tienes cuenta? <a href="index.php"><underlined>Ingresa aquí<underlined></a></h4>
+            <label for="verify">Capture la frase</label>
+            <input class="textinput" type="text" required id="verify" name="verify" length="6" />
+            <img src="commonfiles/captcha.php" id="imgverify" alt="Verificación CAPTCHA" />
           </li>
         </ul>
+          
+            <input class="button" type="submit" name="submit" value="Registrar!">
+            <input class="button" type="reset" name="reset" value="Reset">
+          
+          
+          
+            <h4 class="center teal-text">¿Ya tienes cuenta? <a href="index.php"><underlined>Ingresa aquí<underlined></a></h4>
+          
       </form>
     </div>
 

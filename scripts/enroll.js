@@ -8,7 +8,7 @@ var warnings = {
   },
   "curp" : {
     "required": "Por favor captura una CURP.",
-    "format"  : "Por favor captura una CURP en formato válido.",
+    "format"  : "Por favor captura una CURP con formato válido.",
     "err"     : 0
   },
   "firstname" : {

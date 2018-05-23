@@ -5,7 +5,63 @@
 body {
   font-family: 'Allerta', sans-serif;
   margin: 0;
+  color: royalblue;
 
+}
+
+form {
+    width: 700px;
+    border: 1px solid #666;
+    border-radius: 10px;
+    box-shadow: 0.2em 0.2em 0.5em #999;
+    background-color: white;
+    margin-top: 50px;
+    padding-top: 3px;
+    padding-left: 15px;
+    overflow: hidden;
+}
+
+label {
+    display: block;
+    float: left;
+    width: 10em;
+    text-align: right;
+    margin-right: .5em;
+    /* color: #04699d; */
+    color: royalblue;
+}
+
+input {
+  outline: 0;
+}
+
+input:focus, select:focus {
+  background: lightgray;
+}
+
+input.textinput {
+    height: 17px;
+    border: 1px solid royalblue;
+    font-family: Courier New;
+    font-size: 15px;
+}
+
+input.comboinputDel {
+
+}
+
+select.textinput {
+  font-family: courier new;
+  border-color: royalblue;
+  font-size: 15px;
+    /*width: 18em;*/
+    /*height: 17px;
+    border: 1px solid #666;
+    font-family: Courier New;*/
+}
+
+ul {
+    list-style-type: none;
 }
 
 .contenedor {
@@ -278,12 +334,43 @@ body {
 }
 
 
+#curp {
+  width: 170px;
+  outline: 0;
+}
+
+#cmbDelegaciones {
+  /*width: 170px;*/
+  width: auto;
+}
+
+#email {
+  width: 374px;
+}
+
+#password1, #password2 {
+  width: 200px;
+}
+
+#verify {
+  display: block;
+}
+
+#imgverify {
+  margin-left: 180px;
+}
+
+.campos li {
+    clear: both;
+    margin-bottom: 10px;
+}
+
 .footer {
   background-image: url('../images/template-main.jpg');
   background-position-y: center;
   background-size: cover;
-  /*background: royalblue;*/
-  padding: 20px 10px;
+  margin-top: 50px;
+  padding: 52px;
   color: white;
 }
 
@@ -298,7 +385,14 @@ body {
 }
 
 .col1, .col2, .col3 {
-  color: white;
-  display: flex;
-  flex-direction: column;
+  /*color: white;*/
+  /*display: flex;*/
+  /*flex-direction: column;*/
+}
+
+.contenedor ul li p {
+  color: red;
+  font-size: 12px;
+  font-style: italic;
+  margin: 6px 0 0 75px;
 }
