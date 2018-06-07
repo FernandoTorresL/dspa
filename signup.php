@@ -83,29 +83,29 @@
 
               // Confirm success with the user
               echo '<h3 class="green-text">La nueva cuenta  ' . $username . '. ha sido creada exitosamente. 
-                Ahora está listo para <a href="login.php">iniciar sesión</a></h3>';
+                Ahora está listo para <a href="login.php">Iniciar sesión</a></h3>';
               // Insert the page footer
               mysqli_close($dbc);
               require_once('lib/footer.php');
               exit();
             }
             else {
-              echo '<p class="error"><strong>El registro no ha podido realizarse. Contactar al administrador.</strong></p>';
+              echo '<p class="error"><strong>El registro no ha podido realizarse. Contacta al administrador.</strong></p>';
             }
           }
           else {
             // An account already exists for this username, so display an error message
-            $error_msg = 'Ya existe una cuenta para este usuario ' . $username . '. Por favor utiliza una diferente o
-              puedes intentar <a href="login.php">iniciar sesión';
+            $error_msg = 'Ya existe una cuenta para este usuario ' . $username . '. Utiliza una diferente o
+              <a href="login.php">Inicia sesión';
             $username = "";
           }
         }
         else {
-          $error_msg = 'Debes ingresar todos los datos para registrarte, incluyendo la contraseña deseada dos veces.';
+          $error_msg = 'La contraseña debe ser idéntica en ambos campos';
         }
       }
       else {
-        $error_msg = 'Por favor, capture la frase de verificación (CAPTCHA) exactamente como se muestra.';
+        $error_msg = 'Captura todos los caracteres de la imagen (CAPTCHA) exactamente como se muestran';
       }
     }
   }
@@ -118,8 +118,8 @@
   
     <div class="contenedor">
       <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <h2>Registro de nuevo usuario</h2>
-        <ul class="campos">
+          <h2>Registro de nuevo usuario</h2>
+          <ul class="campos">
           <li>
             <label for="curp">CURP</label>
             <input class="textinput" type="text" required id="curp" name="curp" maxlength="18" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
@@ -145,7 +145,7 @@
             <select class="textinput" id="cmbSubdelegaciones" name="cmbSubdelegaciones">
               <option value="-1" >Seleccione Subdelegación</option>
               <?php
-                if ( !empty( $_POST['cmbSubdelegaciones'] ) || $_POST['cmbSubdelegaciones'] == "0" ) 
+                if ( !empty( $_POST['cmbSubdelegaciones'] ) || $_POST['cmbSubdelegaciones'] == "0" )
                 $result = mysqli_query( $dbc, "SELECT * 
                                                 FROM dspa_subdelegaciones 
                                                 WHERE delegacion = " . $_POST['cmbDelegaciones'] . " ORDER BY subdelegacion" );
@@ -168,7 +168,7 @@
             </select>
           </li>
           <li>
-            <label for="email">Correo electrónico IMSS</label>
+            <label for="email">Correo electrónico</label>
             <input class="textinput" type="email" required id="email" name="email" length="100" value="<?php if ( !empty( $email ) ) echo $email; ?>" />
           </li>
           <li>
@@ -179,19 +179,22 @@
             <label for="password2">Confirmar contraseña</label>
             <input class="textinput" type="password" required id="password2" name="password2" maxlength=20 />
           </li>
-          <li>
-            <label for="verify">Capture la frase</label>
-            <input class="textinput" type="text" required id="verify" name="verify" length="6" />
-            <img src="commonfiles/captcha.php" id="imgverify" alt="Verificación CAPTCHA" />
-          </li>
+            <li>
+                <label for="verify">Escribe los caracteres que veas en la imagen</label>
+                <input class="textinput" type="text" required id="verify" name="verify" length="6" />
+                <!--          <img src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />-->
+            </li>
+            <li>
+                <img id="imgverify" src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />
+            </li>
+            <li class="buttons">
+                <input class="button" type="submit" name="submit" value="Registrarse">
+            </li>
         </ul>
-          
-            <input class="button" type="submit" name="submit" value="Registrar!">
-            <input class="button" type="reset" name="reset" value="Reset">
-          
-          
-          
-            <h4 class="center teal-text">¿Ya tienes cuenta? <a href="index.php"><underlined>Ingresa aquí<underlined></a></h4>
+
+          <!--            <input class="button" type="reset" name="reset" value="Reset">-->
+
+            <h4 class="center teal-text">¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a></h4>
           
       </form>
     </div>

@@ -69,7 +69,7 @@
 
           $row = mysqli_fetch_array( $data );
           if ( $row['id_estatus'] == 0 ) {
-            echo '<p class="advertencia">Su usuario y password son correctos, sin embargo, su cuenta no ha sido activada por el administrador de este sitio. Por favor contacte al Administrador del sitio. </p>';
+            echo '<p class="advertencia">Su cuenta no ha sido autorizada/activada. Contacte al Administrador del sitio. </p>';
             require_once('lib/footer.php');
             $log = fnGuardaBitacora( 5, 3, $row['id_user'],  $ip_address, 'CURP:' . $row['username'] . '|EQUIPO:' . $host );
             exit(); 
@@ -130,25 +130,30 @@
       <h2>Ingresa los datos para iniciar sesión</h2>
       <ul>
         <li>
-          <label for="curp">CURP (Usuario)</label>
-          <input class="textinput" type="text" id="curp" name="curp" placeholder="Escriba su CURP" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
+          <label for="curp">CURP</label>
+          <input class="textinput" type="text" id="curp" required name="curp" value="<?php if ( !empty( $username ) ) echo $username; ?>" />
         </li>
         <li>
           <label for="password">Contraseña</label>
-          <input class="textinput" type="password" required id="password" name="password" maxlength=20 placeholder="Capture su contraseña" />
+          <input class="textinput" type="password" required id="password" name="password" maxlength=20 />
         </li>
         <li>
-          <label for="verify">Captura la frase</label>
-          <input class="textinput" type="text" required id="verify" name="verify" length="6" placeholder="Captura la frase" />
-          <img src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />
+          <label for="verify">Escribe los caracteres que veas en la imagen</label>
+          <input class="textinput" type="text" required id="verify" name="verify" length="6" />
+<!--          <img src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />-->
         </li>
+          <li>
+              <img id="imgverify" src="commonfiles/captcha.php" alt="Verificación CAPTCHA" />
+          </li>
         <li class="buttons">
-          <input type="submit" name="submit" value="Iniciar sesión">
-          <input type="reset" name="reset" value="Reset">
+          <input class="button" type="submit" name="submit" value="Inicia sesión">
+<!--           -->
         </li>
-        
+          <li>
+              <h4 class="center teal-text"><a href="passwordreset.php">¿Olvidaste tu contraseña?</a></h4>
+          </li>
         <li>
-          <h4 class="center teal-text">¿No tienes cuenta? <a href="signup.php">Registrate aquí</a></h4>
+          <h4 class="center teal-text">¿Aún no tienes cuenta? <a href="signup.php">Regístrate aquí</a></h4>
         </li>
       </ul>
     </form>

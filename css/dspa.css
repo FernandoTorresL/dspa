@@ -26,9 +26,8 @@ label {
     float: left;
     width: 10em;
     text-align: right;
-    margin-right: .5em;
-    /* color: #04699d; */
     color: royalblue;
+    margin: 5px;
 }
 
 input {
@@ -44,6 +43,8 @@ input.textinput {
     border: 1px solid royalblue;
     font-family: Courier New;
     font-size: 15px;
+    margin: 5px;
+    border-radius: 5px;
 }
 
 input.comboinputDel {
@@ -51,13 +52,12 @@ input.comboinputDel {
 }
 
 select.textinput {
-  font-family: courier new;
+  font-family: Courier;
   border-color: royalblue;
+    border-radius: 5px;
+    margin: 5px;
   font-size: 15px;
-    /*width: 18em;*/
-    /*height: 17px;
-    border: 1px solid #666;
-    font-family: Courier New;*/
+
 }
 
 ul {
@@ -93,6 +93,10 @@ ul {
   background: blue;
   box-sizing: border-box;
   box-shadow: inset 0 -0.2em rgba(0,0,0,0.3);
+}
+
+.buttons {
+    margin-left: 155px;
 }
 
 .titulo {
@@ -333,6 +337,9 @@ ul {
     /*height: 200px;*/
 }
 
+.red-text {
+    color: #F44336 !important;
+}
 
 #curp {
   width: 170px;
@@ -353,16 +360,16 @@ ul {
 }
 
 #verify {
-  display: block;
+  /*display: block;*/
 }
 
 #imgverify {
-  margin-left: 180px;
+  margin-left: 28px;
 }
 
 .campos li {
-    clear: both;
-    margin-bottom: 10px;
+    /*clear: both;*/
+    /*margin-bottom: 10px;*/
 }
 
 .footer {
@@ -395,4 +402,9 @@ ul {
   font-size: 12px;
   font-style: italic;
   margin: 6px 0 0 75px;
+}
+
+.advertencia {
+    font-weight: bold;
+    color: orange;
 }
