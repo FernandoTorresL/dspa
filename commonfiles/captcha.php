@@ -40,8 +40,8 @@
   for ( $i = 0; $i < CAPTCHA_NUMDOTS; $i++ ) {
     imagesetpixel( $img, rand() % CAPTCHA_WIDTH, rand() % CAPTCHA_HEIGHT, $graphic_color );
   }
-  // Draw the pass-phrase string
-  imagettftext( $img, 25, 10, 25, CAPTCHA_HEIGHT - 5, $text_color, '../fonts/Courier New Bold.ttf', $pass_phrase );
+// Draw the pass-phrase string
+  imagettftext( $img, 25, 10, 25, CAPTCHA_HEIGHT - 5, $text_color, 'C:/xampp/htdocs/dspa_app_DES_MX/fonts/Courier.ttf', $pass_phrase );
 
   // Output the image as a PNG using a header
   header( "Content-type: image/png" );
