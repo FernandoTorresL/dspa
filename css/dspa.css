@@ -64,6 +64,11 @@ ul {
     list-style-type: none;
 }
 
+table {
+  font-family: 'Courier', sans-serif;
+  font-size: 12px;
+}
+
 .contenedor {
   width: 800px;
   margin: auto;

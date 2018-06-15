@@ -534,17 +534,28 @@
                 <select class="textinput" id="cmbValijas" name="cmbValijas">
                   <option value="0">Seleccione # de Valija/Oficio</option>
                   <?php
-                    $query = "SELECT ctas_valijas.id_valija, 
-                                ctas_valijas.delegacion AS num_del, 
-                                dspa_delegaciones.descripcion AS delegacion_descripcion, 
+                    $query = "SELECT ctas_valijas.id_valija,
+                                CASE
+                                  WHEN ( ctas_valijas.id_valija = 3 ) THEN
+                                   ''
+                                ELSE
+                                  ctas_valijas.delegacion
+                                END AS num_del, 
+                                CASE 
+                                  WHEN ( ctas_valijas.id_valija = 3 ) THEN
+                                   ''
+                                ELSE
+                                  dspa_delegaciones.descripcion
+                                END AS delegacion_descripcion, 
                                 ctas_valijas.num_oficio_del,
                                 ctas_valijas.num_oficio_ca, 
                                 ctas_valijas.id_user
                               FROM ctas_valijas, dspa_delegaciones 
                               WHERE ctas_valijas.delegacion = dspa_delegaciones.delegacion
-                              AND (ctas_valijas.fecha_recepcion_ca >= '2018-01-18')
-                              ORDER BY ctas_valijas.fecha_recepcion_ca DESC, ctas_valijas.id_valija";
-/*                              AND   ( YEAR(ctas_valijas.fecha_recepcion_ca) = 2017 OR YEAR(ctas_valijas.fecha_recepcion_ca) = 2016 ) */
+                              AND ctas_valijas.fecha_recepcion_ca >= '2018-06-12' 
+                              AND ( ctas_valijas.id_remitente = 0 OR ctas_valijas.id_remitente = (SELECT delegacion FROM dspa_usuarios WHERE id_user = " . $_SESSION['id_user'] . ")) ";
+                    $query = $query . " ORDER BY ctas_valijas.id_valija";
+echo $query;
                     $result = mysqli_query( $dbc, $query );
                     while ( $row = mysqli_fetch_array( $result ) )
                       echo '<option value="' . $row['id_valija'] . '" ' . fnvalijaSelect( $row['id_valija'] ) . '>' . $row['num_oficio_ca'] . ': ' . $row['num_del'] . '-' . $row['delegacion_descripcion'] . '</option>';
@@ -552,10 +563,12 @@
                 </select>
               </li>
 
+                <br>
               <li>
                 <label for="fecha_solicitud_del">Fecha solicitud:</label>
                 <input type="date" id="fecha_solicitud_del" name="fecha_solicitud_del" value="<?php if (!empty($fecha_solicitud_del)) echo $fecha_solicitud_del; ?>" />
               </li>
+                <br>
 
               <li>
                 <label for="cmbtipomovimiento">Tipo de Movimiento</label>
@@ -685,6 +698,7 @@
                 </select>
               </li>
 
+                <br>
               <li>
                 <label for="comentario">Comentario</label>
                 <textarea class="textinput" id="comentario" name="comentario" maxlength="256" placeholder="Escriba comentarios (opcional)"><?php if ( !empty( $comentario ) ) echo $comentario; ?></textarea>

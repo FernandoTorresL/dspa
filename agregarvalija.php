@@ -172,8 +172,8 @@
                         VALUES 
                         ( '$num_oficio_ca', '$num_oficio_del', 
                           '$fecha_recepcion_ca', NOW(), '$fecha_valija_del', 
-                          0, '$cmbDelegaciones', '$comentario', '$timetime $new_file', " . $_SESSION['id_user'] . " )";
-                      /*echo $query;*/
+                          (SELECT delegacion FROM dspa_usuarios WHERE id_user = " . $_SESSION['id_user'] . ") , '$cmbDelegaciones', '$comentario', '$timetime $new_file', " . $_SESSION['id_user'] . " )";
+//                      echo $query;
                       mysqli_query( $dbc, $query );
 
                       $query = "SELECT LAST_INSERT_ID()";
@@ -336,34 +336,45 @@
             <h2>Datos de la valija/oficio</h2>
             <ul>
               <li>
-                <label for="num_oficio_ca"># del Área de Gestión DSPA</label>
+                <label for="num_oficio_ca"># del Área de Gestión</label>
                 <input class="textinputsmall" type="text" required name="num_oficio_ca" id="num_oficio_ca" maxlength="15" placeholder="# de Gestión" value="<?php if ( !empty( $num_oficio_ca ) ) echo $num_oficio_ca; ?>"/>
               </li>
-
+                <br>
               <li>
-                <label for="fecha_recepcion_ca">Fecha recepción CA</label>
-                <input type="date" id="fecha_recepcion_ca" name="fecha_recepcion_ca" value="<?php if (!empty($fecha_recepcion_ca)) echo $fecha_recepcion_ca; ?>" />
+                <label for="fecha_recepcion_ca">Fecha recepción</label>
+                <input type="date" id="fecha_recepcion_ca" required name="fecha_recepcion_ca" value="<?php if (!empty($fecha_recepcion_ca)) echo $fecha_recepcion_ca; ?>" />
               </li>
-
+                <br>
               <li>
-                <label for="num_oficio_del"># del Oficio de la Delegación</label>
+                <label for="num_oficio_del"># del Oficio</label>
                 <input class="textinputsmall" type="text" required name="num_oficio_del" id="num_oficio_del" maxlength="15" placeholder="Núm oficio Deleg" value="<?php if ( !empty( $num_oficio_del ) ) echo $num_oficio_del; ?>"/>
               </li>
-
+                <br>
               <li>
-                <label for="fecha_valija_del">Fecha de Oficio de la Delegación</label>
-                <input type="date" id="fecha_valija_del" name="fecha_valija_del" value="<?php if (!empty($fecha_valija_del)) echo $fecha_valija_del; ?>" />
+                <label for="fecha_valija_del">Fecha de Oficio</label>
+                <input type="date" id="fecha_valija_del" required name="fecha_valija_del" value="<?php if (!empty($fecha_valija_del)) echo $fecha_valija_del; ?>" />
               </li>
-
+                <br>
               <li>
                 <label for="cmbDelegaciones">Delegación IMSS</label>
                 <select class="textinput" id="cmbDelegaciones" name="cmbDelegaciones">
-                  <option value="0">Seleccione Delegación</option>
+
                   <?php
-                    $query = "SELECT * 
-                              FROM dspa_delegaciones 
-                              WHERE activo = 1 
-                              ORDER BY delegacion";
+                      $query = "SELECT * 
+                      FROM dspa_delegaciones 
+                      WHERE activo = 1 ";
+
+                    $query0 = "SELECT delegacion FROM dspa_usuarios WHERE id_user = " . $_SESSION['id_user'];
+                    $result0 = mysqli_query( $dbc, $query0 );
+
+                    while ( $row0 = mysqli_fetch_array( $result0 ) ) {
+                        if ( $row0['delegacion'] <> 9 )
+                            $query = $query . " AND delegacion = " . $row0['delegacion'];
+                        else
+                            echo '<option value="0">Seleccione Delegación</option>';
+                    }
+
+                    $query = $query . " ORDER BY delegacion";
                     $result = mysqli_query( $dbc, $query );
                     while ( $row = mysqli_fetch_array( $result ) )
                       echo '<option value="' . $row['delegacion'] . '" ' . fntdelegacionSelect( $row['delegacion'] ) . '>' . $row['delegacion'] . ' - ' . $row['descripcion'] . '</option>';

@@ -6,8 +6,8 @@
 
   require_once('lib/connectBD.php');
 
-  require_once( 'commonfiles/funciones.php');
-  require_once( 'commonfiles/validaciones.php');
+  include_once( 'commonfiles/funciones.php');
+//  include_once( 'commonfiles/validaciones.php');
 
   $page_title = fnTituloPag(1);
 
