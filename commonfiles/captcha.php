@@ -12,9 +12,11 @@
 
   // Generate the random pass-phrase
   $pass_phrase = "";
+  $angle = "";
   for ( $i = 0; $i < CAPTCHA_NUMCHARS; $i++ ) {
     $pass_phrase .= chr( rand( 97, 122 ) );
   }
+  $angle .= rand(-10, 9);
 
   // Store the encrypted pass-phrase in a session variable
   $_SESSION['pass_phrase'] = SHA1($pass_phrase);
@@ -26,6 +28,8 @@
   $bg_color       = imagecolorallocate($img, 255, 255, 255 );  // white
   $text_color     = imagecolorallocate($img, 0, 150, 136 );    // teal
   $graphic_color  = imagecolorallocate($img, 32, 182, 168 );    // teal+32
+  $black          = imagecolorallocate($img, 0, 0, 0);
+  $grey           = imagecolorallocate($img, 128, 128, 128);
   /*$graphic_color  = imagecolorallocate($img, 0, 150, 136 );  // teal*/
   /*$graphic_color  = imagecolorallocate($img, 64, 64, 64 );   // dark gray*/
 
@@ -41,7 +45,8 @@
     imagesetpixel( $img, rand() % CAPTCHA_WIDTH, rand() % CAPTCHA_HEIGHT, $graphic_color );
   }
   // Draw the pass-phrase string
-  imagettftext( $img, 25, 10, 25, CAPTCHA_HEIGHT - 5, $text_color, '../fonts/Courier New Bold.ttf', $pass_phrase );
+  imagettftext( $img, 25, $angle, 16, CAPTCHA_HEIGHT - 21, $grey, "C:/xampp/htdocs/dspa/commonfiles/Courier.ttf", $pass_phrase );
+  imagettftext( $img, 25, $angle, 15, CAPTCHA_HEIGHT - 22, $text_color, "C:/xampp/htdocs/dspa/commonfiles/Courier.ttf", $pass_phrase );
 
   // Output the image as a PNG using a header
   header( "Content-type: image/png" );

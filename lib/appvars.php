@@ -19,7 +19,7 @@
   //Variables del Captcha
   define('CAPTCHA_NUMCHARS', 6);  // number of characters in pass-phrase
   define('CAPTCHA_WIDTH', 150);   // width of image. Add more width if increase CAPTCHA_NUMCHARS
-  define('CAPTCHA_HEIGHT', 45);   // height of image. Add more height if increase CAPTCHA_NUMCHARS
+  define('CAPTCHA_HEIGHT', 60);   // height of image. Add more height if increase CAPTCHA_NUMCHARS
   define('CAPTCHA_NUMDOTS', 300);   // dots in the image. Add more height if increase CAPTCHA_NUMCHARS
   define('CAPTCHA_NUMLINES', 8);   // lines in the image. Add more height if increase CAPTCHA_NUMCHARS
 ?>

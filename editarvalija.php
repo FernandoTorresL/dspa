@@ -97,7 +97,7 @@
                 $output_form = 'yes';
               }
               else {
-                if ( !preg_match( '/^[1-9][0-9]*$/', $num_oficio_ca ) ) {
+                if ( !preg_match( '/^CA-[1-9][0-9]*$/', $num_oficio_ca ) ) {
                   echo '<p class="error">Número de Área de Gestión inválido.</p>';
                   $output_form = 'yes';
                 }

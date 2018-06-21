@@ -13,7 +13,7 @@
   // Show the navigation menu
   require_once( 'lib/navmenu.php' );
   require_once( 'commonfiles/funciones.php');
-
+  
     // Make sure the user is logged in before going any further.
   if ( !isset( $_SESSION['id_user'] ) ) {
     echo '<p class="error">Por favor <a href="login.php">inicia sesión</a> para acceder a esta página.</p>';
@@ -107,7 +107,7 @@
     FROM ctas_lotes, dspa_usuarios
     WHERE ctas_lotes.id_user = dspa_usuarios.id_user
     AND ctas_lotes.id_lote = 0
-    ORDER BY 3 DESC LIMIT 20";
+    ORDER BY 3 DESC LIMIT 40";
 
   $data = mysqli_query($dbc, $query);
 
@@ -468,7 +468,8 @@
                                                       ON S.id_causarechazo = CR.id_causarechazo )
                                                         LEFT JOIN ctas_hist_solicitudes HS 
                                                           ON S.id_solicitud = HS.id_solicitud )
-                    WHERE S.id_lote = ( SELECT id_lote FROM ctas_lotes WHERE id_lote <> 0 ORDER BY fecha_creacion DESC LIMIT 1 ) ORDER BY S.usuario';
+                    WHERE S.id_lote = ( SELECT id_lote FROM ctas_lotes WHERE id_lote <> 0 ORDER BY fecha_creacion DESC LIMIT 1,1 ) ORDER BY S.usuario';
+                    /*WHERE S.id_lote >= 291 ORDER BY S.usuario';*/
   /*$query = $query . " ORDER BY M.descripcion, S.usuario ;";    */
 
   $data = mysqli_query($dbc, $query);

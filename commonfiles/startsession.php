@@ -19,6 +19,7 @@
 	      $_SESSION['primer_apellido'] 	= $_COOKIE['primer_apellido'];
 	      $_SESSION['ip_address']       = $_COOKIE['ip_address'];
           $_SESSION['host']             = $_COOKIE['host'];
+          $_SESSION['pass_phrase']		= 0;
 	    }
 	    
 	}
