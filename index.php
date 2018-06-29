@@ -1,102 +1,56 @@
 <?php
-  // Start the session
-  require_once('commonfiles/startsession.php');
 
-  require_once('lib/appvars.php');
-  require_once('lib/connectBD.php');
+$query = $pdo->prepare('SELECT * FROM ctas_lotes ORDER BY id_lote DESC');
+$query->execute();
 
-  require_once( 'commonfiles/funciones.php');
-
-  // Insert the page header
-  $page_title = MM_APPNAME;
-  require_once('lib/header.php');
-
-  // Show the navigation menu
-  require_once('lib/navmenu.php');
-  
+$lotes = $query->fetchAll(PDO::FETCH_ASSOC)
 ?>
 
-<section id="modulos" class="modulos contenedor">
-  <div class="contenedor">
-    <h2 class="title">Bienvenido al Portal de la División de Soporte a los Procesos de Afiliación</h2>
-    <!-- <button>Conoce mas</button> -->
-  </div>
-</section>
-  
-<?php
-// Make sure the user is logged in before going any further.
-  if ( !isset( $_SESSION['id_user'] ) ) {
-?>
-    <section id="modulos" class="modulos contenedor">
-  
-      <article class="modulo a"> <!-- guitarra 1 -->
-        <img class="derecha" src="images/login.png" alt="Login" width="250"/>
-        <div class="contenedor-modulo-a">
-          <h4 class="title-a"><a href="login.php">Iniciar sesión</a></h4>
-          <ol>
-            <li>Ingresa con tu usuario y contraseña.</li>
-            <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
-          </ol>
-            <a class="button background" href="login.php">Iniciar</a>
+<html>
+<head>
+    <title>Aplicaciones DSPA</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.min.css"/>-->
+    </head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Public Index - Lista de lotes</h1>
         </div>
-      </article>
 
-      <article class="modulo b"> <!-- guitarra 2 -->
-        <img class="izquierda" src="images/sign_up_256.png" alt="Sign Up" width="250"/>
-        <div class="contenedor-modulo-b">
-          <h4 class="title-b"><a href="signup.php">Registrar nuevo usuario</a></h4>
-          <ol>
-            <li>Ingresa una solicitud de usuario.</li>
-            <li>Será revisada por la administración de este portal.</li>
-          </ol>
-          <a class="button background" href="signup.php">Registrar</a>
+        <div class="row">
+            <div class="col-md-8">
+                <?php
+                foreach ($lotes as $lote) {
+                    echo '<div class="lote-anio">';
+                    echo '<h2>' . $lote['lote_anio'] . '</h2>';
+                    echo '<p>Jan 1,2018 by <a href="">FT</a> </p>';
+                    echo '<div class="lote-anio-image">';
+                    echo '<img src="images/keyboard.jpg" alt="">';
+                    echo '</div>';
+                    echo '<div class="lote-anio-comment">';
+                    echo $lote['comentario'];
+                    echo '</div>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
+            <div class="col-md-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dapibus quam et sem finibus facilisis at nec libero. Aenean vitae sollicitudin erat, vel dictum elit. Duis vel urna vel lectus tempor vehicula. Nullam tincidunt quam id condimentum malesuada. Morbi id euismod elit. Etiam quis tincidunt nibh. Proin in diam quis ex hendrerit commodo. Nulla eget pulvinar felis. Duis a sem eu neque convallis egestas ac vel justo. In lacus mauris, tincidunt in libero a, ornare auctor sapien. Sed maximus neque ac felis tincidunt ultricies.
+            </div>
         </div>
-      </article>
-
-    </section>
-
-<?php
-
-  }
-  else {
-?>
-    <section id="modulos" class="modulos contenedor">
-  
-      <article class="modulo a"> <!-- guitarra 1 -->
-        <img class="derecha" src="images/login.png" alt="Login" width="250"/>
-        <div class="contenedor-modulo-a">
-          <h4 class="title-a"><a href="agregarlote.php">Crear nuevo lote</a></h4>
-          <h4 class="title-a"><a href="generatablas.php">Generar tablas</a></h4>
-
-          <h6 class="title-a"><a href="agregarsolicitud.php">Agregar solicitud</a>
-            <a class="button background" href="agregarsolicitud.php">Agregar Solicitud</a></h6>
-          <h4 class="title-a"><a href="agregarvalija.php">Agregar valija</a></h4>
-
-          <h4 class="title-a"><a href="verDetalleCuentasSINDO.php">Ver Resumen</a>
-            <a class="button background" href="verDetalleCuentasSINDO.php">Resumen</a></h4>
-          <h4 class="title-a"><a href="buscarsolicitud.php">Buscar solicitud por usuario</a></h4>
-          <h4 class="title-a"><a href="verstatuslote.php">Ver estatus lote</a></h4>
-
-          <h4 class="title-a"><a href="leearchivovalijas.php">Leer archivo valijas</a></h4>
-          <br>
-          <h6 class="title-a"><a href="reg_sol_usaf.php">Registrar atención a cuentas</a>
-            <a class="button background" href="reg_sol_usaf.php">Registrar Solicitud USAF</a></h6>
-          <h6 class="title-a"><a href="reg_per_usaf.php">Registrar Personas</a>
-            <a class="button background" href="reg_per_usaf.php">Registrar Personas USAF</a></h6>
-          <h6 class="title-a"><a href="verlistadousaf.php">Listado Solicitudes USAF</a>
-            <a class="button background" href="verlistadousaf.php">Listado USAF</a></h6>
-          <!-- <ol>
-            <li>Ingresar a Capturar Solicitudes</li>
-            <li>Se requiere un usuario autorizado por la administración de este portal para visualizar todas las funciones.</li>
-          </ol> -->
-            <!-- <a class="button background" href="agregarsolicitud.php">Agregar Solicitud</a> -->
+        <div class="row">
+            <div class="col-md-12">
+                <footer>
+                    This is a footer<br>
+                    <a href="admin/index.php">Admin Panel</a>
+                </footer>
+            </div>
         </div>
-      </article>
 
-    </section>
-
-<?php
-  }
-      // Insert the page footer
-      require_once('lib/footer.php');
-?>
+    </div>
+</div>
+</body>
+</html>
