@@ -1,11 +1,3 @@
-<?php
-
-$query = $pdo->prepare('SELECT * FROM ctas_lotes ORDER BY id_lote DESC');
-$query->execute();
-
-$lotes = $query->fetchAll(PDO::FETCH_ASSOC)
-?>
-
 <html>
 <head>
     <title>Aplicaciones DSPA</title>
