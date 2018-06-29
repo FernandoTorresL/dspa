@@ -1,27 +1,27 @@
 <html>
 <head>
-    <title>Blog with Platzi</title>
+    <title>Aplicaciones DSPA</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/bootstrap-3.3.7/dist/css/bootstrap.min.css"/>
-</head>
+    </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1>Blog Title</h1>
+            <h1>lista_lotes.php en carpeta admin - Lista de lotes</h1>
         </div>
 
         <div class="row">
             <div class="col-md-8">
                 <?php
-                foreach ($blogPosts as $blogPost) {
-                    echo '<div class="blog-post">';
-                    echo '<h2>' . $blogPost['title'] . '</h2>';
-                    echo '<p>Jan 1,2020 by <a href="">Alex</a> </p>';
-                    echo '<div class="blog-post-image">';
-                    echo '<img src="images/keyboard.jpg" alt="">';
+                foreach ($listaLotes as $lote) {
+                    echo '<div class="lote-anio">';
+                    echo '<h2>' . $lote['lote_anio'] . '</h2>';
+                    echo '<p>Jan 1,2018 by <a href="">FT</a> </p>';
+                    echo '<div class="lote-anio-image">';
+                    echo '<img src="../../images/keyboard.jpg" alt="">';
                     echo '</div>';
-                    echo '<div class="blog-post-content">';
-                    echo $blogPost['content'];
+                    echo '<div class="lote-anio-comment">';
+                    echo $lote['comentario'];
                     echo '</div>';
                     echo '</div>';
                 }
@@ -35,7 +35,7 @@
             <div class="col-md-12">
                 <footer>
                     This is a footer<br>
-                    <a href="admin/index.php">Admin Panel</a>
+                    <a href="<?php echo BASE_URL; ?>admin">Admin Panel</a>
                 </footer>
             </div>
         </div>
