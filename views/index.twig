@@ -2,6 +2,7 @@
 <head>
     <title>Blog with Platzi</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/bootstrap-3.3.7/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>css/bootstrap-3.3.7/dist/css/bootstrap.min.css"/>
 </head>
 <body>
 <div class="container">
@@ -12,20 +13,18 @@
 
         <div class="row">
             <div class="col-md-8">
-                <?php
-                foreach ($blogPosts as $blogPost) {
-                    echo '<div class="blog-post">';
-                    echo '<h2>' . $blogPost['title'] . '</h2>';
-                    echo '<p>Jan 1,2020 by <a href="">Alex</a> </p>';
-                    echo '<div class="blog-post-image">';
-                    echo '<img src="images/keyboard.jpg" alt="">';
-                    echo '</div>';
-                    echo '<div class="blog-post-content">';
-                    echo $blogPost['content'];
-                    echo '</div>';
-                    echo '</div>';
-                }
-                ?>
+                {% for blogPost in blogPosts %}
+                    <div class="blog-post">
+                        <h2>{{ blogPosts.title }}</h2>
+                        <p>Jan 1,2020 by <a href="">Alex</a> </p>
+                        <div class="blog-post-image">
+                            <img src="images/keyboard.jpg" alt="">
+                        </div>
+                        <div class="blog-post-content">
+                            {{ blogPost.content }}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
             <div class="col-md-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dapibus quam et sem finibus facilisis at nec libero. Aenean vitae sollicitudin erat, vel dictum elit. Duis vel urna vel lectus tempor vehicula. Nullam tincidunt quam id condimentum malesuada. Morbi id euismod elit. Etiam quis tincidunt nibh. Proin in diam quis ex hendrerit commodo. Nulla eget pulvinar felis. Duis a sem eu neque convallis egestas ac vel justo. In lacus mauris, tincidunt in libero a, ornare auctor sapien. Sed maximus neque ac felis tincidunt ultricies.
@@ -36,6 +35,7 @@
                 <footer>
                     This is a footer<br>
                     <a href="<?php echo BASE_URL; ?>admin">Admin Panel</a>
+                    <a href="{{ 'admin' | url }}">Admin Panel</a>
                 </footer>
             </div>
         </div>
