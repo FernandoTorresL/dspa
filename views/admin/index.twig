@@ -1,0 +1,13 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <h2>Admin Panel (index.php en carpeta admin)</h2>
+    <ul>
+        <li>
+            <a href="{{ 'admin/posts' | url }}">Manage Posts</a>
+        </li>
+        <li>
+            <a href="{{ 'admin/lotes' | url }}">Administrar lotes</a>
+        </li>
+    </ul>
+{% endblock %}

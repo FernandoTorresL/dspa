@@ -2,22 +2,24 @@
 
 namespace App\Controllers\Admin;
 
-class LoteController {
+use App\Controllers\BaseController;
 
-    public  function getIndex() {
+class LoteController extends BaseController {
+
+    public function getIndex() {
         // admin/lotes or admin/lotes/index
         global $pdo;
 
-        $query = $pdo->prepare('SELECT * FROM ctas_lotes ORDER BY id_lote DESC');
+        $query = $pdo->prepare('SELECT * FROM ctas_lotes ORDER BY id_lote DESC LIMIT 3');
         $query->execute();
         $listaLotes = $query->fetchAll(\PDO::FETCH_ASSOC);
 
-        return render('../views/admin/lotes.php', ['listaLotes' => $listaLotes]);
+        return $this->render('admin/lotes.twig', ['listaLotes' => $listaLotes]);
     }
 
     public function getCrear() {
         // admin/lotes/crear
-        return render('../views/admin/agregar-lote.php');
+        return $this->render('admin/agregar-lote.twig');
     }
 
     public function postCrear() {
@@ -31,6 +33,6 @@ class LoteController {
             'comentario' => $_POST['comentario']
         ]);
 
-        return render('../views/admin/agregar-lote.php', ['result' => $result]);
+        return $this->render('admin/agregar-lote.twig', ['result' => $result]);
     }
 }

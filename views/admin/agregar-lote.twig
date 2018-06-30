@@ -1,0 +1,20 @@
+{%  extends "layout.twig" %}
+
+{% block content %}
+    <h2>Nuevo Lote</h2>
+    <p>
+        <a class="btn btn-default" href="{{ 'admin/lotes' | url }}">Regresar</a>
+    </p>
+    {% if result %}
+        <div class="alert alert-success">Lote creado!</div>
+    {% endif %}
+    <form method="post">
+        <div class="form-group">
+            <label for="inputLote">Nuevo Lote:</label>
+            <input class="form-control" type="text" required name="lote" id="inputLote" maxlength="4">
+        </div>
+        <textarea class="form-control" name="comentario" id="inputComentario" rows="5"></textarea>
+        <br>
+        <input class="btn btn-primary" type="submit" value="Guardar">
+    </form>
+{% endblock %}

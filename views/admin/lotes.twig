@@ -1,0 +1,24 @@
+{%  extends "layout.twig" %}
+
+{% block content %}
+    <h2>Lotes</h2>
+    <p>
+        <a class="btn btn-primary" href="{{ 'admin/lotes/crear' | url }}">Nuevo Lote</a>
+    </p>
+    <table class="table">
+        <tr>
+            <th>Lote</th>
+            <th>Comentario</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for lote in listaLotes %}
+            <tr>
+                <td>{{ lote.lote_anio }}</td>
+                <td>{{ lote.comentario }}</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
