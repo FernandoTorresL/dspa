@@ -3,17 +3,14 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\Lote;
 
 class LoteController extends BaseController {
 
     public function getIndex() {
         // admin/lotes or admin/lotes/index
-        global $pdo;
-
-        $query = $pdo->prepare('SELECT * FROM ctas_lotes ORDER BY id_lote DESC LIMIT 3');
-        $query->execute();
-        $listaLotes = $query->fetchAll(\PDO::FETCH_ASSOC);
-
+        // $listaLotes = Lote::all();
+        $listaLotes = Lote::orderBy('id_lote', 'desc')->get();
         return $this->render('admin/lotes.twig', ['listaLotes' => $listaLotes]);
     }
 
@@ -24,14 +21,13 @@ class LoteController extends BaseController {
 
     public function postCrear() {
         // admin/lotes/crear
-        global $pdo;
-
-        $sql = 'INSERT INTO ctas_lotes ( lote_anio, fecha_creacion, fecha_modificacion, comentario, id_user, num_oficio_ca, fecha_oficio_ca, num_ticket_mesa, fecha_atendido ) VALUES (:lote, NOW(), NOW(), :comentario, 2, "PENDIENTE", NULL, "PENDIENTE", NULL)';
-        $query = $pdo->prepare($sql);
-        $result = $query->execute([
-            'lote' => $_POST['lote'],
+        $newLote = new Lote([
+            'lote_anio' => $_POST['lote_anio'],
             'comentario' => $_POST['comentario']
         ]);
+        $newLote->save();
+
+        $result = true;
 
         return $this->render('admin/agregar-lote.twig', ['result' => $result]);
     }
