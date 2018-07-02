@@ -5,13 +5,24 @@
     <p>
         <a class="btn btn-default" href="{{ 'admin/lotes' | url }}">Regresar</a>
     </p>
+    {% if errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for input, messages in errors %}
+                    {% for messages in messages %}
+                        <li>{{ input }}: {{ messages }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     {% if result %}
         <div class="alert alert-success">Lote creado!</div>
     {% endif %}
     <form method="post">
         <div class="form-group">
             <label for="inputLote">Nuevo Lote:</label>
-            <input class="form-control" type="text" required name="lote_anio" id="inputLote" maxlength="4">
+            <input class="form-control" type="text" name="lote_anio" id="inputLote" maxlength="4">
         </div>
         <textarea class="form-control" name="comentario" id="inputComentario" rows="5"></textarea>
         <br>

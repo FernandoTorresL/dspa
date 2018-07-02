@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\Lote;
+use Sirius\Validation\Validator;
 
 class LoteController extends BaseController {
 
@@ -21,14 +22,30 @@ class LoteController extends BaseController {
 
     public function postCrear() {
         // admin/lotes/crear
-        $newLote = new Lote([
-            'lote_anio' => $_POST['lote_anio'],
-            'comentario' => $_POST['comentario']
+        $errors = [];
+        $result = false;
+
+        $validator = new Validator();
+
+        $validator->add('lote_anio', 'required');
+        /*$validator->add('lote_anio', 'required', array('min' => 6), '{label}: Nuevo Lote: debe tener al menos {min} characters', 'Title');*/
+
+        if ($validator->validate($_POST)) {
+            $newLote = new Lote([
+                'lote_anio' => $_POST['lote_anio'],
+                'comentario' => $_POST['comentario']
+            ]);
+            $newLote->save();
+
+            $result = true;
+        } else {
+
+            $errors = $validator->getMessages();
+        }
+
+        return $this->render('admin/agregar-lote.twig', [
+            'result' => $result,
+            'errors' => $errors
         ]);
-        $newLote->save();
-
-        $result = true;
-
-        return $this->render('admin/agregar-lote.twig', ['result' => $result]);
     }
 }
