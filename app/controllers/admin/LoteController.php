@@ -27,8 +27,9 @@ class LoteController extends BaseController {
 
         $validator = new Validator();
 
-        $validator->add('lote_anio', 'required');
+        /*$validator->add('lote_anio', 'required');*/
         /*$validator->add('lote_anio', 'required', array('min' => 6), '{label}: Nuevo Lote: debe tener al menos {min} characters', 'Title');*/
+        $validator->add('lote_anio', 'required', array('min' => 6), 'Nuevo Lote: El campo es obligatorio', 'Title');
 
         if ($validator->validate($_POST)) {
             $newLote = new Lote([
@@ -44,6 +45,8 @@ class LoteController extends BaseController {
         }
 
         return $this->render('admin/agregar-lote.twig', [
+            'lote_anio' => $_POST['lote_anio'],
+            'comentario' => $_POST['comentario'],
             'result' => $result,
             'errors' => $errors
         ]);

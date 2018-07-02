@@ -18,14 +18,21 @@
     {% endif %}
     {% if result %}
         <div class="alert alert-success">Lote creado!</div>
-    {% endif %}
-    <form method="post">
         <div class="form-group">
-            <label for="inputLote">Nuevo Lote:</label>
-            <input class="form-control" type="text" name="lote_anio" id="inputLote" maxlength="4">
+            <label for="inputLote">Lote creado:</label>
+            <input disabled class="form-control" type="text" name="lote_anio" id="inputLote" maxlength="4" value="{{ lote_anio }}">
         </div>
-        <textarea class="form-control" name="comentario" id="inputComentario" rows="5"></textarea>
-        <br>
-        <input class="btn btn-primary" type="submit" value="Guardar">
-    </form>
+        <textarea disabled class="form-control" name="comentario" id="inputComentario" rows="5">{{ comentario }}</textarea>
+    {% else %}
+        <form method="post">
+            <div class="form-group">
+                <label for="inputLote">Nuevo Lote:</label>
+                <input class="form-control" type="text" name="lote_anio" id="inputLote" maxlength="4" value="{{ lote_anio }}">
+            </div>
+            <textarea class="form-control" name="comentario" id="inputComentario" rows="5">{{ comentario }}</textarea>
+            <br>
+            <input class="btn btn-primary" type="submit" value="Guardar">
+        </form>
+    {% endif %}
+    <br>
 {% endblock %}

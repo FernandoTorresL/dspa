@@ -40,6 +40,8 @@ class PostController extends BaseController {
         }
 
         return $this->render('admin/insert-post.twig', [
+            'title' => $_POST['title'],
+            'content' => $_POST['content'],
             'result' => $result,
             'errors' => $errors
         ]);
