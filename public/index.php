@@ -48,6 +48,7 @@ $route = $_GET['route'] ?? '/';
 use Phroute\Phroute\RouteCollector;
 $router = new RouteCollector();
 
+$router->controller('/auth2', App\Controllers\Auth2Controller::class);
 $router->controller('/auth', App\Controllers\AuthController::class);
 $router->controller('/admin', App\Controllers\Admin\IndexController::class);
 $router->controller('/admin/posts', App\Controllers\Admin\PostController::class);
