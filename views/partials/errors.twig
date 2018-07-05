@@ -1,0 +1,9 @@
+<div class="alert alert-danger">
+    <ul>
+        {% for input, messages in errors %}
+            {% for messages in messages %}
+                <li>{{ input }}: {{ messages }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
