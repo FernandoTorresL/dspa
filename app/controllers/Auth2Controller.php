@@ -21,8 +21,7 @@ class Auth2Controller extends BaseController {
             if ($usuario) {
                 if (password_verify($_POST['password'], $usuario->password)) {
                     // Usuario OK
-                    $_SESSION['userId'] = $usuario->id_user;
-                    $_SESSION['userDel'] = $usuario->delegacion;
+                    $_SESSION['usuarioId'] = $usuario->id_user;
                     header('Location:' . BASE_URL . 'admin');
                     return null;
                 }
@@ -37,6 +36,12 @@ class Auth2Controller extends BaseController {
         return $this->render('login2.twig', [
             'errors' => $errors
         ]);
+    }
+
+    public function getLogout2() {
+        unset($_SESSION['usuarioId']);
+        unset($_SESSION['usuarioDel']);
+        header('Location:' . BASE_URL . 'auth2/login2');
     }
 
 }
