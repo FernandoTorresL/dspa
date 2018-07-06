@@ -16,7 +16,7 @@
         </div>
         <textarea disabled class="form-control" name="comentario" id="inputComentario" rows="5">{{ comentario }}</textarea>
     {% else %}
-        <form method="post">
+        <form method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="inputLote">Nuevo Lote:</label>
                 <input class="form-control" type="text" name="lote_anio" id="inputLote" maxlength="4" value="{{ lote_anio }}">
@@ -27,4 +27,20 @@
         </form>
     {% endif %}
     <br>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function validateForm() {
+            var title = document.getElementById('inputLote').value.trim();
+            if (title === '') {
+                swal(
+                    'Oops...',
+                    'Lote es obligatorio...',
+                    'error'
+                );
+                return false;
+            }
+        }
+    </script>
 {% endblock %}

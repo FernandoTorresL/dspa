@@ -21,7 +21,7 @@
             <input disabled class="form-control" type="text" name="email" id="inputEmail" value="{{ email }}">
         </div>
     {% else %}
-        <form method="post">
+        <form method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="inputCurp">CURP</label>
                 <input class="form-control" type="text" name="curp" id="inputCurp" maxlength="18" value="{{ curp }}">
@@ -39,4 +39,20 @@
             <input class="btn btn-primary" type="submit" value="Registrarse">
         </form>
     {% endif %}
+{% endblock %}
+
+{% block js %}
+    <script>
+        function validateForm() {
+            var title = document.getElementById('inputCurp').value.trim();
+            if (title === '') {
+                swal(
+                    'Oops...',
+                    'Campo CURP es obligatorio...',
+                    'error'
+                );
+                return false;
+            }
+        }
+    </script>
 {% endblock %}

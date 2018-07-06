@@ -11,7 +11,7 @@
     {% if result %}
         <div class="alert alert-success">User Saved!</div>
     {% endif %}
-    <form method="post">
+    <form method="post" onsubmit="return validateForm()">
         <div class="form-group">
             <label for="inputName">Name</label>
             <input class="form-control" type="text" name="name" id="inputName">
@@ -28,4 +28,20 @@
         <br>
         <input class="btn btn-primary" type="submit" value="Save">
     </form>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function validateForm() {
+            var title = document.getElementById('inputName').value.trim();
+            if (title === '') {
+                swal(
+                    'Oops...',
+                    'Nombre es obligatorio...',
+                    'error'
+                );
+                return false;
+            }
+        }
+    </script>
 {% endblock %}

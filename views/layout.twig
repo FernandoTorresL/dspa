@@ -1,9 +1,15 @@
 <html>
 <head>
     <title>Blog with Platzi</title>
-    <link rel="stylesheet" href="{{ 'css/bootstrap-3.3.7/dist/css/bootstrap.min.css' | url }}"/>
+
     {#<link rel="stylesheet" href="css/bootstrap-3.3.7/dist/css/bootstrap.min.css"/>#}
-    <link rel="stylesheet" href="../public/css/blog.css">
+    <link rel="stylesheet" href="{{ 'css/bootstrap-3.3.7/dist/css/bootstrap.min.css' | url }}"/>
+
+    {#<link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.4.4/sweetalert2.min.css">#}
+    <link rel="stylesheet" href="{{ 'css/sweetalert2/dist/sweetalert2.min.css' | url }}">
+
+    <link rel="stylesheet" href="{{ 'css/blog.css' | url }}">
+
 </head>
 <body>
 <div class="container">
@@ -34,5 +40,10 @@
 
     </div>
 </div>
+<script src="{{ 'css/sweetalert2/dist/sweetalert2.all.min.js' | url }}"></script>
+{#<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->#}
+{#<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>#}
+
+{% block js %}{% endblock %}
 </body>
 </html>
