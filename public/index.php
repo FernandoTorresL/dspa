@@ -48,13 +48,23 @@ $route = $_GET['route'] ?? '/';
 use Phroute\Phroute\RouteCollector;
 $router = new RouteCollector();
 
-$router->controller('/auth2', App\Controllers\Auth2Controller::class);
+$router->filter('auth', function() {
+    if (!isset($_SESSION['userId'])) {
+        header('Location: ' . BASE_URL . 'auth/login');
+        return false;
+    }
+});
+
 $router->controller('/auth', App\Controllers\AuthController::class);
-$router->controller('/admin', App\Controllers\Admin\IndexController::class);
-$router->controller('/admin/posts', App\Controllers\Admin\PostController::class);
-$router->controller('/admin/lotes', App\Controllers\Admin\LoteController::class);
-$router->controller('/admin/users', App\Controllers\Admin\UserController::class);
-$router->controller('/admin/usuarios', App\Controllers\Admin\UsuarioController::class);
+$router->controller('/auth2', App\Controllers\Auth2Controller::class);
+
+$router->group(['before' => 'auth'], function($router) {
+    $router->controller('/admin', App\Controllers\Admin\IndexController::class);
+    $router->controller('/admin/posts', App\Controllers\Admin\PostController::class);
+    $router->controller('/admin/lotes', App\Controllers\Admin\LoteController::class);
+    $router->controller('/admin/users', App\Controllers\Admin\UserController::class);
+    $router->controller('/admin/usuarios', App\Controllers\Admin\UsuarioController::class);
+});
 $router->controller('/', App\Controllers\IndexController::class);
 
 $dispatcher = new Phroute\Phroute\Dispatcher($router->getData());
