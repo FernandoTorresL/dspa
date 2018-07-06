@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Log;
 use App\Models\Usuario;
 use Sirius\Validation\Validator;
 
@@ -22,12 +23,14 @@ class Auth2Controller extends BaseController {
                 if (password_verify($_POST['password'], $usuario->password)) {
                     // Usuario OK
                     $_SESSION['usuarioId'] = $usuario->id_user;
+                    Log::logInfo('Iniciando sesión-Login userId:' . $usuario->id_user);
                     header('Location:' . BASE_URL . 'admin');
                     return null;
                 }
             }
 
             // Usuario NOT OK
+            Log::logError('Intento de inicio sesión CURP:' . $_POST['curp']);
             $validator->addMessage('email', 'CURP y/o contraseña no coinciden');
         }
 
@@ -39,6 +42,7 @@ class Auth2Controller extends BaseController {
     }
 
     public function getLogout2() {
+        Log::logError('Cerrando sesión-Logout userId:' . $_SESSION['usuarioId']);
         unset($_SESSION['usuarioId']);
         unset($_SESSION['usuarioDel']);
         header('Location:' . BASE_URL . 'auth2/login2');
