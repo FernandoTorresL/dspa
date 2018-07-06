@@ -14,12 +14,20 @@
             <label for="inputTitle">Title</label>
             <input disabled class="form-control" type="text" name="title" id="inputTitle" value="{{ title }}">
         </div>
+        <div class="form-group">
+            <label for="inputImg">Title</label>
+            <input disabled class="form-control" type="text" name="img" id="inputImg" value="{{ img_url }}">
+        </div>
         <textarea disabled class="form-control" name="content" id="inputContent" rows="5">{{ content }}</textarea>
     {% else %}
         <form method="post">
             <div class="form-group">
                 <label for="inputTitle">Title</label>
                 <input class="form-control" type="text" name="title" id="inputTitle" value="{{ title }}">
+            </div>
+            <div class="form-group">
+                <label for="inputImg">Img URL</label>
+                <input class="form-control" type="text" name="img" id="inputImg" value="{{ img_url }}">
             </div>
             <textarea class="form-control" name="content" id="inputContent" rows="5">{{ content }}</textarea>
             <br>

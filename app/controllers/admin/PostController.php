@@ -32,6 +32,9 @@ class PostController extends BaseController {
                 'title' => $_POST['title'],
                 'content' => $_POST['content']
             ]);
+            if ($_POST['img']) {
+                $blogPost->img_url = $_POST['img'];
+            }
             $blogPost->save();
 
             $result = true;
@@ -42,6 +45,7 @@ class PostController extends BaseController {
         return $this->render('admin/insert-post.twig', [
             'title' => $_POST['title'],
             'content' => $_POST['content'],
+            'img_url' => $_POST['img'],
             'result' => $result,
             'errors' => $errors
         ]);
