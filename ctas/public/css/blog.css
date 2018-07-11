@@ -1,0 +1,13 @@
+.blog-post-image img {
+    width: 100%;
+}
+
+
+#inputCurp {
+    width: 200px;
+    outline: 0;
+}
+
+#inputPassword {
+    width: 130px;
+}

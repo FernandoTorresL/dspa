@@ -1,0 +1,23 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+
+    <ul>
+        <li>
+            <h3>¿Ya tienes una cuenta? <a href="{{ 'auth/login' | url }}">Inicia sesión</a></h3>
+        </li>
+        <p>Ingresa con tu CURP y contraseña</p>
+        <p>Los módulos visibles dependerán del perfil/permisos otorgados al usuario</p>
+    </ul>
+    <br>
+    <br>
+    <br>
+    <ul>
+        <li>
+            <h3>¿Aún no tienes cuenta? <a href="{{ 'usuarios/signup' | url }}">Registrate aquí</a></h3>
+        </li>
+        <p>Sólo necesitas tu CURP y correo electrónico</p>
+        <p>Tu solicitud será revisada por los administradores de este portal</p>
+    </ul>
+
+{% endblock %}

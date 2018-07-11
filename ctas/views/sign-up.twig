@@ -1,0 +1,58 @@
+{%  extends "layout.twig" %}
+
+{% block content %}
+    <h3>Registro de Nuevo usuario</h3>
+    <p>
+        <a class="btn btn-default" href="{{ '' | url }}">Regresar</a>
+    </p>
+    {% if errors %}
+        {% include('partials/errors.twig')  %}
+    {% endif %}
+    {% if result %}
+        <div class="alert alert-success">Usuario registrado! Está listo para
+            <a href="{{ 'admin/login' | url }}">iniciar sesión</a></div>
+
+        <div class="form-group">
+            <label for="inputCurp">CURP</label>
+            <input disabled class="form-control" type="text" name="curp" id="inputCurp" maxlength="18" value="{{ curp }}">
+        </div>
+        <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input disabled class="form-control" type="text" name="email" id="inputEmail" value="{{ email }}">
+        </div>
+    {% else %}
+        <form method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="inputCurp">CURP</label>
+                <input class="form-control" type="text" name="curp" id="inputCurp" maxlength="18" value="{{ curp }}">
+            </div>
+            <div class="form-group">
+                <label for="inputEmail">Email</label>
+                <input class="form-control" type="text" name="email" id="inputEmail" value="{{ email }}">
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input class="form-control" type="password" name="password" id="inputPassword">
+            </div>
+
+            <br>
+            <input class="btn btn-primary" type="submit" value="Registrarse">
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block js %}
+    <script>
+        function validateForm() {
+            var title = document.getElementById('inputCurp').value.trim();
+            if (title === '') {
+                swal(
+                    'Oops...',
+                    'Campo CURP es obligatorio...',
+                    'error'
+                );
+                return false;
+            }
+        }
+    </script>
+{% endblock %}

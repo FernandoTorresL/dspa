@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title>Aplicaciones DSPA</title>
+
+    {#<link rel="stylesheet" href="css/bootstrap-3.3.7/dist/css/bootstrap.min.css"/>#}
+    <link rel="stylesheet" href="{{ 'css/bootstrap-3.3.7/dist/css/bootstrap.min.css' | url }}"/>
+
+    {#<link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.4.4/sweetalert2.min.css">#}
+    <link rel="stylesheet" href="{{ 'css/sweetalert2/dist/sweetalert2.min.css' | url }}">
+
+    <link rel="stylesheet" href="{{ 'css/blog.css' | url }}">
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+            <h1>Portal de la División de Soporte a los Procesos de Afiliación</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <h2>Módulo de movimientos de Cuentas SINDO</h2>
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div class="col-md-4">
+                <br>
+                <br>
+                {#Textos de ayuda#}
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <footer>
+                    <div class="col-md-4">
+                        <p><strong>Conmutador (ext. 18371)</strong></p>
+                        <a href="tel:+5552382700">55 5238 2700</a>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>DIR - Coordinación Afiliación</strong></p>
+                        <p><strong>División de Soporte a los Procesos de Afiliación</strong></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>¿Necesitas ayuda?</strong></p>
+                        <a href="mailto:fernando.torresl@imss.gob.mx">Contáctanos aquí</a>
+                        <!-- <a href="http://www.linkedin.com/in/fertorresmx" target="_blank">Fernando Torres</a> -->
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ 'css/sweetalert2/dist/sweetalert2.all.min.js' | url }}"></script>
+{#<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->#}
+{#<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>#}
+
+{% block js %}{% endblock %}
+</body>
+</html>
