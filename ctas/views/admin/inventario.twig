@@ -1,0 +1,26 @@
+{%  extends "layout.twig" %}
+
+{% block title %}Ver Inventario{% endblock %}
+
+{% block content %}
+    <h2>Inventario</h2>
+
+    <table class="table">
+        <tr>
+            <th>Usuario</th>
+            <th>Delegación</th>
+            <th>CIZ</th>
+            <th>Nombre Completo</th>
+            <th>Info</th>
+        </tr>
+        {% for usuario in listado_usuarios %}
+            <tr>
+                <td>{{ usuario.userid_racf }}</td>
+                <td>{{ usuario.id_ciz }}</td>
+                <td>{{ usuario.id_ciz }}</td>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.install_data }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

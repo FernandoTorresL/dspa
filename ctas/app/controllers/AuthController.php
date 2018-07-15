@@ -24,6 +24,7 @@ class AuthController extends BaseController {
                 if (password_verify($_POST['password'], $usuario->password)) {
                     // Usuario OK
                     $_SESSION['usuarioId'] = $usuario->id_user;
+                    $_SESSION['usuarioDel'] = $usuario->delegacion;
                     Log::logInfo('Iniciando sesión:' . $usuario->id_user . '|Deleg:' . $usuario->delegacion);
                     header('Location:' . BASE_URL . 'admin');
                     return null;

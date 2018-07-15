@@ -1,19 +1,45 @@
 {% extends "layout.twig" %}
 
+{% block title %}Panel Principal{% endblock %}
+
 {% block content %}
+    <div class="row">
+        <ul>
+            <li>
+                <a href="{{ 'admin/lotes' | url }}">Administrar lotes</a>
+            </li>
+            <li>
+                <a href="{{ 'admin/usuarios' | url }}">Administrar Usuarios</a>
+            </li>
+            <li>
+                <a href="{{ 'auth/logout' | url }}">Cerrar sesión( {{ usuario.nombre }} {{ usuario.primer_apellido }} )</a>
+            </li>
+        </ul>
+    </div>
+
     <h3>Panel principal</h3>
     <p>
         Bienvenido {{ usuario.nombre }} {{ usuario.primer_apellido }} | Delegación {{ usuario.delegacion }}!
     </p>
-    <ul>
-        <li>
-            <a href="{{ 'admin/lotes' | url }}">Administrar lotes</a>
-        </li>
-        <li>
-            <a href="{{ 'admin/usuarios' | url }}">Administrar Usuarios</a>
-        </li>
-        <li>
-            <a href="{{ 'auth/logout' | url }}">Cerrar sesión( {{ usuario.nombre }} {{ usuario.primer_apellido }} )</a>
-        </li>
-    </ul>
+
+    <div class="row">
+        <h3><strong>Delegación: </strong>{{ delegacion.nombre }}</h3>
+    </div>
+
+    <div class="row">
+        <ul>
+            <li>
+                <a href="{{ 'admin/solicitudes' | url }}">Ver status de solicitudes</a>
+            </li>
+            <li>
+                <a href="{{ 'admin/inventario' | url }}">Ver último inventario</a>
+            </li>
+            <li>
+                <a href="{{ 'admin/crear/solicitud' | url }}">Crear nueva solicitud</a>
+            </li>
+        </ul>
+    </div>
+
+
+
 {% endblock %}
