@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "23fb6dec20e93e3189d63a60184611e3",
+    "content-hash": "6af77245b246798da7e14f48798aa35b",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -598,6 +598,56 @@
                 "simple-cache"
             ],
             "time": "2017-10-23T01:57:42+00:00"
+        },
+        {
+            "name": "siriusphp/upload",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/siriusphp/upload.git",
+                "reference": "1bfd8b1f228ec419424c8acd1ccd86d53541ad94"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/siriusphp/upload/zipball/1bfd8b1f228ec419424c8acd1ccd86d53541ad94",
+                "reference": "1bfd8b1f228ec419424c8acd1ccd86d53541ad94",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3",
+                "siriusphp/validation": "~2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "knplabs/gaufrette": "Alternative filesystem abstraction library for upload destinations",
+                "league/flysystem": "To upload to different destinations, not just to the local file system"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sirius\\Upload\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrian Miu",
+                    "email": "adrian@adrianmiu.ro"
+                }
+            ],
+            "description": "Framework agnostic upload library",
+            "keywords": [
+                "file",
+                "form",
+                "upload",
+                "validation"
+            ],
+            "time": "2017-07-31T08:18:59+00:00"
         },
         {
             "name": "siriusphp/validation",

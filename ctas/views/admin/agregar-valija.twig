@@ -1,0 +1,99 @@
+{%  extends "layout.twig" %}
+
+{% block title %}Agregar Valija{% endblock %}
+
+{% block content %}
+
+    <p>
+        <a class="btn btn-default" href="{{ 'admin/valijas' | url }}">Regresar</a>
+    </p>
+    {% if errors or errors2 %}
+        {% include('partials/errors.twig')  %}
+    {% endif %}
+
+    {% if result %}
+        <div class="alert alert-success">Valija creada! Está listo para
+            <a href="{{ 'admin/agregar/solicitud' | url }}">Agregar Solicitud</a></div>
+    {% else %}
+        <div class="container">
+            <form class="form-horizontal" enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
+                <h3 class="form-signin-heading">Registro de Nueva Valija</h3>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="inputnum_oficio_del">Núm Oficio</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="num_oficio_del" id="inputnum_oficio_del" autofocus placeholder="Núm Oficio" maxlength="15" value="{{ num_oficio_del }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="inputfecha_valija_del">Fecha del Oficio</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="date" name="fecha_valija_del" id="inputfecha_valija_del" placeholder="Fecha del Oficio" value="{{ fecha_valija_del }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="inputcomentario">Comentario</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" name="comentario" id="inputcomentario" placeholder="Comentario opcional" rows="4">{{ comentario }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="inputarchivo">Archivo</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="file" name="archivo" id="inputarchivo" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-6">
+                        <button class="btn btn-primary" type="submit">Agregar Valija</button>
+                    </div>
+                </div>
+
+            </form>
+    {% endif %}
+    <br>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function validateForm() {
+            var num_oficio_del = document.getElementById('inputnum_oficio_del').value.trim();
+            var fecha_valija_del = document.getElementById('inputfecha_valija_del').value.trim();
+            var new_file = document.getElementById('inputnew_file').value.trim();
+
+            if (num_oficio_del === '') {
+                swal(
+                    'Oops...',
+                    'Núm. de Oficio es obligatorio...',
+                    'error'
+                );
+                return false;
+
+            }
+
+            if (fecha_valija_del === '') {
+                swal(
+                    'Oops...',
+                    'Fecha del Oficio es obligatoria...',
+                    'error'
+                );
+                return false;
+
+            }
+
+            if (new_file === '') {
+                swal(
+                    'Oops...',
+                    'Archivo es obligatorio...',
+                    'error'
+                );
+                return false;
+            }
+
+        }
+    </script>
+{% endblock %}

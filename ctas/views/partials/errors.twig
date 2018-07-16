@@ -2,8 +2,12 @@
     <ul>
         {% for input, messages in errors %}
             {% for messages in messages %}
-                <li>{{ input }}: {{ messages }}</li>
+                <li>{{ messages }}</li>
             {% endfor %}
+        {% endfor %}
+
+        {% for messages in errors2 %}
+                <li>{{ messages }}</li>
         {% endfor %}
     </ul>
 </div>

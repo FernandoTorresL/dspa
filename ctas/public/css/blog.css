@@ -17,6 +17,16 @@
     width: 200px;
 }
 
+/*Valijas*/
+#inputnum_oficio_del {
+    width: 150px;
+}
+
+#inputfecha_valija_del {
+    width: 200px;
+}
+
+
 #table_inventario {
     font-family: 'Courier', sans-serif;
     font-size: 12px;
