@@ -8,7 +8,10 @@
     </p>
 
     <h2>Inventario</h2>
-
+    <h4>Fecha de corte: {{ bd_mainframe.fecha_entrega|date("d-M-Y") }}</h4>
+    {#<h6>Próximo corte: finales julio 2018</h6>#}
+    <br>
+    <br>
     <table class="table table-condensed" id="table_inventario">
         <tr class="text-center">
             <th class="text-center">Usuario</th>

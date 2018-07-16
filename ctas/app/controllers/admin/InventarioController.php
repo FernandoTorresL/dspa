@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\racf_bd_mainframe;
 use App\Models\racf_inventario;
 use App\Log;
 
@@ -31,8 +32,10 @@ class InventarioController extends BaseController {
         //$listado_usuarios_ciz = racf_userid::find(getenv('TMP_USER_ID_RACF'))->cizs;
 
         $listado_usuarios = racf_inventario::where('Del', $_SESSION['usuarioDel'])->orderBy('Tipo_Cuenta', 'desc')->orderBy('Usuario')->get();
+        $bd_mainframe = racf_bd_mainframe::find(1);
         return $this->render('admin/inventario.twig', [
-            'listado_usuarios' => $listado_usuarios
+            'listado_usuarios' => $listado_usuarios,
+            'bd_mainframe' => $bd_mainframe
         ]);
     }
 }
