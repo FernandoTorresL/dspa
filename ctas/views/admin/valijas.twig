@@ -1,0 +1,26 @@
+{%  extends "layout.twig" %}
+
+{% block content %}
+    <h2>Valijas</h2>
+    <p>
+        <a class="btn btn-primary" href="{{ 'admin/valija/crear' | url }}">Nueva valija</a>
+    </p>
+    <table class="table">
+        <tr>
+            <th>Num Oficio DIR</th>
+            <th>Num Oficio Delegación</th>
+            <th>Fecha Recepción DIR</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for valija in valijas %}
+            <tr>
+                <td>{{ valija.num_oficio_ca }}</td>
+                <td>{{ valija.num_oficio_del }}</td>
+                <td>{{ valija.fecha_recepcion_ca|date("d-M-Y") }}</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
