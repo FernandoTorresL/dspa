@@ -26,7 +26,7 @@
 *.log
 *.sql
 *.sqlite
-.env
+*.env
 
 # OS generated files #
 ######################
@@ -41,4 +41,6 @@ Thumbs.db
 
 # Archivos específicos del usuario #
 ####################################
-
+ctas/public/files/*
+ctas/vendor/
+.idea/
