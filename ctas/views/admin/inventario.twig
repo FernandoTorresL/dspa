@@ -1,26 +1,33 @@
 {%  extends "layout.twig" %}
 
-{% block title %}Ver Inventario{% endblock %}
+{% block title %}Inventario{% endblock %}
 
-{% block content %}
+{% block inventario %}
+    <p>
+        <a class="btn btn-default" href="{{ 'admin' | url }}">Regresar</a>
+    </p>
+
     <h2>Inventario</h2>
 
-    <table class="table">
-        <tr>
-            <th>Usuario</th>
-            <th>Delegación</th>
-            <th>CIZ</th>
-            <th>Nombre Completo</th>
-            <th>Info</th>
+    <table class="table table-condensed" id="table_inventario">
+        <tr class="text-center">
+            <th class="text-center">Usuario</th>
+            <th class="text-center">CIZ Activos</th>
+            <th class="text-center" >Nombre Completo</th>
+            <th class="text-center" >Grupo</th>
+            <th class="text-center">Info</th>
+            <th class="text-center" width="100%">Tipo Cuenta</th>
         </tr>
         {% for usuario in listado_usuarios %}
             <tr>
-                <td>{{ usuario.userid_racf }}</td>
-                <td>{{ usuario.delegacion }}</td>
-                <td>{{ usuario.id_ciz }}</td>
-                <td>{{ usuario.nombre }}</td>
-                <td>{{ usuario.install_data }}</td>
+                <td class="text-left">{{ usuario.Usuario }}</td>
+                <td class="text-center">{{ usuario.CIZ_Activos }}</td>
+                <td class="text-left" width="30%">{{ usuario.Nombre }}</td>
+                <td class="text-center">{{ usuario.Grupo }}</td>
+                <td class="text-right" width="40%">{{ usuario.Info }}</td>
+                <td class="text-right" width="40%">{{ usuario.Tipo_Cuenta }}</td>
             </tr>
         {% endfor %}
     </table>
+
 {% endblock %}

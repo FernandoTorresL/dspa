@@ -1,3 +1,4 @@
+
 .blog-post-image img {
     width: 100%;
 }
@@ -16,3 +17,11 @@
     width: 200px;
 }
 
+#table_inventario {
+    font-family: 'Courier', sans-serif;
+    font-size: 12px;
+}
+
+#th-center th {
+    text-align: center;
+}

@@ -25,7 +25,7 @@ class AuthController extends BaseController {
                     // Usuario OK
                     $_SESSION['usuarioId'] = $usuario->id_user;
                     $_SESSION['usuarioDel'] = $usuario->delegacion;
-                    Log::logInfo('Iniciando sesión:' . $usuario->id_user . '|Deleg:' . $usuario->delegacion);
+                    Log::logInfo('Iniciando sesión. Usuario:' . $usuario->id_user . '|Deleg:' . $usuario->delegacion);
                     header('Location:' . BASE_URL . 'admin');
                     return null;
                 }

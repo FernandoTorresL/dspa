@@ -10,7 +10,7 @@ class IndexController extends BaseController {
 
     public function getIndex() {
         if (isset($_SESSION['usuarioId'])) {
-            Log::logInfo('Dentro INDEX-ADMIN:' . $_SESSION['usuarioId']);
+            Log::logInfo('Panel Principal. User:' . $_SESSION['usuarioId']);
             $usuarioId = $_SESSION['usuarioId'];
             $usuario = Usuario::where('id_user', $usuarioId)->first();
 

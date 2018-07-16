@@ -13,4 +13,8 @@ class racf_userid extends Model {
     public function user() {
         return $this->belongsToMany('App\Models\racf_det_userid', 'racf_userid', 'userid_racf', 'userid_racf');
     }
+
+    public function cizs() {
+        return $this->hasMany('App\Models\racf_userid_ciz', 'userid_racf');
+    }
 }
