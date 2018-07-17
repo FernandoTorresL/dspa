@@ -34,9 +34,9 @@
             <tr>
                 <td>{{ i }}</td>
                 <td>{{ solicitud.valija.num_oficio_ca }}</td>
-                <td>{{ solicitud.captured_at|date("dMY H:m") }}  {{ solicitud.updated_at|date("dMY H:m") }}</td>
+                <td>{{ solicitud.captured_at|date('dMY H:i') }}  {{ solicitud.updated_at|date('dMY H:i') }}</td>
                 <td>{{ solicitud.id_user }}</td>
-                <td>({{ solicitud.valija.delegacion }}){{ solicitud.delegacion }}-{{ solicitud.delegacion.descripcion }}</td>
+                <td>({{ solicitud.valija.delegacion }}){{ solicitud.del.descripcion }}-Subdel:{{ solicitud.subdelegacion }}</td>
                 <td>{{ solicitud.primer_apellido }}-{{ solicitud.segundo_apellido }}-{{  solicitud.nombre}}</td>
                 <td>{{ solicitud.usuario }}({{ solicitud.id_movimiento}}) </td>
                 <td>{{ solicitud.id_grupo_actual }}-->{{ solicitud.id_grupo_nuevo }}</td>

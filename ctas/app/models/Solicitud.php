@@ -31,7 +31,11 @@ class Solicitud extends Model {
         return $this->belongsTo('App\Models\Valija', 'id_valija', 'id_valija');
     }
 
-    public function delegacion() {
+    public function del() {
         return $this->belongsTo('App\Models\Delegacion', 'delegacion', 'delegacion');
+    }
+
+    public function subdel() {
+        return $this->belongsTo('App\Models\Subdelegacion', 'delegacion','delegacion');
     }
 }
