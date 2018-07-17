@@ -66,6 +66,7 @@ $router->group(['before' => 'auth'], function($router) {
     $router->controller('/admin/users', App\Controllers\Admin\UserController::class);
     $router->controller('/admin/inventario', App\Controllers\Admin\InventarioController::class);
     $router->controller('/admin/valijas', App\Controllers\Admin\ValijaController::class);
+    $router->controller('/admin/solicitudes', App\Controllers\Admin\SolicitudController::class);
 });
 $router->controller('/', App\Controllers\IndexController::class);
 

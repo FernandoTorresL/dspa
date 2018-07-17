@@ -1,0 +1,52 @@
+{%  extends "layout.twig" %}
+
+{% block title %}Solicitudes{% endblock %}
+
+
+{% block content %}
+    <p>
+        <a class="btn btn-default" href="{{ 'admin' | url }}">Regresar</a>
+    </p>
+
+    <h2>Solicitudes</h2>
+    <p>
+        <a class="btn btn-primary" href="{{ 'admin/solicitudes/crear' | url }}">Nueva Solicitud</a>
+    </p>
+    <table class="table table-condensed" id="table_inventario">
+        <tr class="text-center">
+            <th class="text-center">#</th>
+            <th class="text-center">Valija</th>
+            <th class="text-center">Fecha Captura / Fecha Modificación</th>
+            <th class="text-center">Modificado por</th>
+            <th class="text-center">Delegación - Subdelegación</th>
+            <th class="text-center">Nombre completo</th>
+            <th class="text-center">Usuario(Mov)</th>
+            <th class="text-center">Grupo Actual->Nuevo</th>
+            <th class="text-center">Causas Rechazo</th>
+            <th class="text-center">Estatus</th>
+            <th class="text-center">Comentario DSPA / Comentario Mainframe</th>
+            <th class="text-center">Fecha Atención Mainframe</th>
+            <th class="text-center">PDF</th>
+        </tr>
+        {% set i = 1 %}
+
+        {% for solicitud in solicitudes %}
+            <tr>
+                <td>{{ i }}</td>
+                <td>{{ solicitud.id_valija }}</td>
+                <td>{{ solicitud.captured_at|date("dMY H:m") }}  {{ solicitud.updated_at|date("dMY H:m") }}</td>
+                <td>{{ solicitud.id_user }}</td>
+                <td>{{ solicitud.delegacion }}-{{  solicitud.subdelegacion }}</td>
+                <td>{{ solicitud.primer_apellido }}-{{ solicitud.segundo_apellido }}-{{  solicitud.nombre}}</td>
+                <td>{{ solicitud.usuario }}({{ solicitud.id_movimiento}}) </td>
+                <td>{{ solicitud.id_grupo_actual }}-->{{ solicitud.id_grupo_nuevo }}</td>
+                <td>{{ solicitud.id_causarechazo }}</td>
+                <td>{{ solicitud.id_causarechazo }}</td>
+                <td>{{ solicitud.comentario }}</td>
+                <td>{{ solicitud.captured_at|date("dMY H:m") }}</td>
+                <td>{{ solicitud.archivo }}</td>
+            </tr>
+            {% set i = i + 1 %}
+        {% endfor %}
+    </table>
+{% endblock %}
