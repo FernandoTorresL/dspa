@@ -36,6 +36,18 @@ class Solicitud extends Model {
     }
 
     public function subdel() {
-        return $this->belongsTo('App\Models\Subdelegacion', 'delegacion','delegacion');
+        return $this->belongsTo('App\Models\Subdelegacion', 'delegacion','subddelegacion');
+    }
+
+    public function movimiento() {
+        return $this->belongsTo('App\Models\Movimiento', 'id_movimiento','id_movimiento');
+    }
+
+    public function gponuevo() {
+        return $this->belongsTo('App\Models\Grupo', 'id_grupo_nuevo','id_grupo');
+    }
+
+    public function gpoactual() {
+        return $this->belongsTo('App\Models\Grupo', 'id_grupo_actual','id_grupo');
     }
 }

@@ -38,7 +38,7 @@ class SolicitudController extends BaseController {
         //}
 
         //Obtener todas las num_oficio_ca de todas las solicitudes
-        $solicitudes = Solicitud::with('subdel:subdelegacion,descripcion')->where('delegacion',1)->orderBy('id_solicitud')->get();
+        $solicitudes = Solicitud::where('delegacion',2)->orderBy('id_solicitud')->get();
         //foreach ($solicitudes as $solicitud) {
             //var_dump($solicitud);
             //var_dump($solicitud->valija->num_oficio_ca);
