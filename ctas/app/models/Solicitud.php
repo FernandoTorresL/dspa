@@ -26,4 +26,12 @@ class Solicitud extends Model {
         'archivo',
         'id_user'
     ];
+
+    public function valija() {
+        return $this->belongsTo('App\Models\Valija', 'id_valija', 'id_valija');
+    }
+
+    public function delegacion() {
+        return $this->belongsTo('App\Models\Delegacion', 'delegacion', 'delegacion');
+    }
 }

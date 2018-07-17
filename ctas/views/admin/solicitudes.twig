@@ -12,7 +12,7 @@
     <p>
         <a class="btn btn-primary" href="{{ 'admin/solicitudes/crear' | url }}">Nueva Solicitud</a>
     </p>
-    <table class="table table-condensed" id="table_inventario">
+    <table class="table table-condensed" id="table_solicitudes">
         <tr class="text-center">
             <th class="text-center">#</th>
             <th class="text-center">Valija</th>
@@ -33,10 +33,10 @@
         {% for solicitud in solicitudes %}
             <tr>
                 <td>{{ i }}</td>
-                <td>{{ solicitud.id_valija }}</td>
+                <td>{{ solicitud.valija.num_oficio_ca }}</td>
                 <td>{{ solicitud.captured_at|date("dMY H:m") }}  {{ solicitud.updated_at|date("dMY H:m") }}</td>
                 <td>{{ solicitud.id_user }}</td>
-                <td>{{ solicitud.delegacion }}-{{  solicitud.subdelegacion }}</td>
+                <td>({{ solicitud.valija.delegacion }}){{ solicitud.delegacion }}-{{ solicitud.delegacion.descripcion }}</td>
                 <td>{{ solicitud.primer_apellido }}-{{ solicitud.segundo_apellido }}-{{  solicitud.nombre}}</td>
                 <td>{{ solicitud.usuario }}({{ solicitud.id_movimiento}}) </td>
                 <td>{{ solicitud.id_grupo_actual }}-->{{ solicitud.id_grupo_nuevo }}</td>
