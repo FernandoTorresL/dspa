@@ -18,110 +18,122 @@
             <h3 class="form-signin-heading">Registro de Nueva Solicitud</h3>
             <form class="form-inline" enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
 
-                <div class="form-group">
+                <div class="form-group new-sol">
                     <label for="inputarchivo">Archivo</label>
                     <input class="form-control" type="file" name="archivo" id="inputarchivo" autofocus>
                 </div>
 
                 <div>
-                    <div class="form-group">
-                        <label for="inputid_valija" width="250px">Núm Oficio</label>
-                        <select class="form-control" id="inputid_valija" name="id_valija">
-                            <option value="0">Seleccione Oficio/Valija</option>
-                            <option value="100">CA-100</option>
-                            <option value="200">CA-101</option>
-                            <option value="300">CA-102</option>
-                        </select>
-                    </div>
+                    {#<div class="form-group new-sol">#}
+                        {#<label for="inputid_valija" width="250px">Núm Oficio</label>#}
+                        {#<select class="form-control" id="inputid_valija" name="id_valija">#}
+                            {#<option value="0">Seleccione # de Valija/Oficio</option>#}
+                        {#{% for valija in valijas %}#}
+                            {#<option value="{{ valija.id_valija }}">{{ valija.num_oficio_ca }}</option>#}
+                        {#{% endfor %}#}
+                        {#</select>#}
+                    {#</div>#}
 
-                    <div class="form-group">
+                    <div class="form-group new-sol">
                         <label for="inputfecha_solicitud_del">Fecha Solicitud</label>
                         <input class="form-control" type="date" name="fecha_solicitud_del" id="inputfecha_solicitud_del" placeholder="Fecha Solicitud" value="{{ fecha_solicitud }}">
                     </div>
-                </div>
 
-                <div>
-                    <div class="radio-inline">
-                        <label>
-                          <input type="radio" id="radiotipo_movimiento_Alta" name="tipo_movimiento" value="1" checked>
-                          ALTA
-                        </label>
-                    </div>
-                    <div class="radio-inline">
-                        <label>
-                          <input type="radio" id="radiotipo_movimiento_Baja" name="tipo_movimiento" value="2">
-                          BAJA
-                        </label>
-                    </div>
-                    <div class="radio-inline">
-                        <label>
-                          <input type="radio" id="radiotipo_movimiento_Cambio" name="tipo_movimiento" value="3">
-                          CAMBIO
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputdelegacion">Subdelegación</label>
-                    <select class="form-control" id="inputsubdelegacion" name="subdelegacion">
-                        <option value="0">Seleccione Subdelegación</option>
-                        <option value="11">Sub 01</option>
-                        <option value="16">Sub 02</option>
-                        <option value="54">Sub 03</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputPrimerApellido">Primer Apellido</label>
-                    <input type="text" class="form-control" id="inputPrimerApellido" name="primer_apellido" placeholder="Primer Apellido" value="{{ primer_apellido }}">
-                    <label for="inputSegundoApellido">Segundo Apellido</label>
-                    <input type="text" class="form-control" id="inputSegundoApellido" name="segundo_apellido" placeholder="Segundo Apellido" value="{{ segundo_apellido }}">
-                    <label for="inputNombre">Nombre(s)</label>
-                    <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Nombre" value="{{ nombre }}">
-                </div>
-
-                <div>
-                    <div class="form-group">
-                        <label for="inputCurp">CURP</label>
-                        <input class="form-control" type="text" id="inputCurp" name="curp" placeholder="CURP" maxlength="18" value="{{ curp }}">
-                        <label for="inputMatricula">Matrícula</label>
-                        <input class="form-control" type="text" id="inputMatricula" name="matricula" placeholder="Matricula" value="{{ matricula }}">
-                        <label for="inputUsuario">Usuario</label>
-                        <input class="form-control" type="text" id="inputUsuario" name="usuario" placeholder="Usuario" value="{{ usuario }}">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputgpoActual">Grupo Actual</label>
-                    <select class="form-control" id="inputgpoActual" name="gpo_actual">
-                        <option value="0">Seleccione Grupo Actual</option>
-                        <option value="1">SSCONS</option>
-                        <option value="2">SSADIF</option>
-                        <option value="3">SSOPER</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="inputgpoActual">Grupo Nuevo</label>
-                    <select class="form-control" id="inputgpoNuevo" name="gpo_nuevo">
-                        <option value="0">Seleccione Grupo Nuevo</option>
-                        <option value="1">SSJOFA</option>
-                        <option value="2">SSJSAV</option>
-                        <option value="3">SSJURI</option>
-                    </select>
-                </div>
-
-                <div>
-                    <div class="form-group">
-                        <label for="inputcomentario">Comentario</label>
-                        <div>
-                            <textarea class="form-control" name="comentario" id="inputcomentario" placeholder="Comentario opcional" rows="4">{{ comentario }}</textarea>
+                    <div class="form-group new-sol">
+                        <label>Tipo de movimiento</label>
+                        <div class="radio-inline">
+                            <label>
+                              <input type="radio" id="radiotipo_movimiento_Alta" name="tipo_movimiento" value="1" checked>
+                              ALTA
+                            </label>
+                        </div>
+                        <div class="radio-inline">
+                            <label>
+                              <input type="radio" id="radiotipo_movimiento_Baja" name="tipo_movimiento" value="2">
+                              BAJA
+                            </label>
+                        </div>
+                        <div class="radio-inline">
+                            <label>
+                              <input type="radio" id="radiotipo_movimiento_Cambio" name="tipo_movimiento" value="3">
+                              CAMBIO
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <div class="form-group">
+                    <div class="form-group new-sol">
+                        <label for="inputdelegacion">Subdelegación</label>
+                        <select class="form-control" id="inputsubdelegacion" name="subdelegacion">
+                            <option value="-1">Seleccione Subdelegación</option>
+                        {% for subdelegacion in subdelegaciones %}
+                            <option value="{{ subdelegacion.subdelegacion }}">{{ subdelegacion.subdelegacion }} - {{ subdelegacion.descripcion }}</option>
+                        {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-group new-sol">
+                        <label for="inputPrimerApellido">Primer Apellido</label>
+                        <input type="text" class="form-control" id="inputPrimerApellido" name="primer_apellido" placeholder="Primer Apellido" value="{{ primer_apellido }}">
+                    </div>
+                    <div class="form-group new-sol">
+                        <label for="inputSegundoApellido">Segundo Apellido</label>
+                        <input type="text" class="form-control" id="inputSegundoApellido" name="segundo_apellido" placeholder="Segundo Apellido" value="{{ segundo_apellido }}">
+                    </div>
+                    <div class="form-group new-sol">
+                        <label for="inputNombre">Nombre(s)</label>
+                        <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Nombre" value="{{ nombre }}">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-group new-sol">
+                        <label for="inputMatricula">Matrícula</label>
+                        <input class="form-control" type="text" id="inputMatricula" name="matricula" placeholder="Matricula" value="{{ matricula }}">
+                    </div>
+                    <div class="form-group new-sol">
+                        <label for="inputCurp">CURP</label>
+                        <input class="form-control" type="text" id="inputCurp2" name="curp" placeholder="CURP" maxlength="18" value="{{ curp }}">
+                    </div>
+                    <div class="form-group new-sol">
+                        <label for="inputUsuario">Usuario</label>
+                        <input class="form-control" type="text" id="inputUsuario" name="usuario" placeholder="Usuario" value="{{ usuario }}">
+                    </div>
+                </div>
+
+                <div class="form-group new-sol">
+                    <label for="inputgpoActual">Grupo Actual</label>
+                    <select class="form-control" id="inputgpoActual" name="gpo_actual">
+                    {% for grupo in grupos %}
+                        <option value="{{ grupo.id_grupo }}">{{ grupo.descripcion }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group new-sol">
+                    <label for="inputgpoActual">Grupo Nuevo</label>
+                    <select class="form-control" id="inputgpoNuevo" name="gpo_nuevo">
+                    {% for grupo in grupos %}
+                        <option value="{{ grupo.id_grupo }}">{{ grupo.descripcion }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <div class="form-group new-sol">
+                        <label for="inputcomentario">Comentario</label>
+                        <div>
+                            <textarea class="form-control" name="comentario" id="inputcomentario" placeholder="Comentario" rows="4" style="margin: 0px; width: 938px; height: 69px;">{{ comentario }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-group new-sol">
                             <button class="btn btn-primary" type="submit">Crear Solicitud</button>
                     </div>
                 </div>
@@ -134,22 +146,11 @@
 {% block js %}
     <script>
         function validateForm() {
-            var num_oficio_del = document.getElementById('inputnum_oficio_del').value.trim();
+            //var num_oficio_del = document.getElementById('inputnum_oficio_del').value.trim();
             var fecha_valija_del = document.getElementById('inputfecha_valija_del').value.trim();
             var archivo = document.getElementById('inputarchivo').value.trim();
 
-            if (num_oficio_del === 0) {
-                swal(
-                    'Oops...',
-                    'Núm. de Oficio es obligatorio...',
-                    'error'
-                );
-
-                return false;
-
-            }
-
-            if (fecha_solicitud === '') {
+            if (fecha_valija_del === '') {
                 swal(
                     'Oops...',
                     'Fecha de la Solicitud es obligatoria...',

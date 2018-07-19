@@ -4,8 +4,11 @@ namespace App\Controllers\Admin;
 
 use App\Log;
 use App\Controllers\BaseController;
+use App\Models\Grupo;
 use App\Models\Solicitud;
 use App\Models\Solicitud2;
+use App\Models\Subdelegacion;
+use App\Models\Valija;
 use Sirius\Validation\Validator;
 use Sirius\Upload\Handler as UploadHandler;
 
@@ -53,8 +56,17 @@ class SolicitudController extends BaseController {
 
     public function getCrear() {
         // admin/solicitudes/crear
-        Log::logInfo('Crear Solicitud. Usuario:' . $_SESSION['usuarioId'] );
-        return $this->render('admin/agregar-solicitud.twig');
+        Log::logInfo('Crear Solicitud. Usuario:' . $_SESSION['usuarioId'] . 'Del:' .$_SESSION['usuarioDel'] );
+
+        //$valijas = Valija::where('delegacion', $_SESSION['usuarioDel'])->take(10)->orderBy('id_valija', 'desc')->get();
+        $subdelegaciones = Subdelegacion::where('delegacion', $_SESSION['usuarioDel'])->orderBy('subdelegacion')->get();
+        $grupos = Grupo::all();
+
+        return $this->render('admin/agregar-solicitud.twig', [
+            //'valijas' => $valijas,
+            'subdelegaciones' =>  $subdelegaciones,
+            'grupos' => $grupos
+        ]);
     }
 
     public function postCrear() {
@@ -63,7 +75,7 @@ class SolicitudController extends BaseController {
         $result = false;
 
         $validator = new Validator();
-        $validator->add('id_valija:Núm de Oficio','required', null, '{label}: El campo es obligatorio');
+        //$validator->add('id_valija:Núm de Oficio','required', null, '{label}: El campo es obligatorio');
         $validator->add('fecha_solicitud_del', 'required', null, 'Fecha de la Solicitud: La fecha es obligatoria', 'Fecha');
         //$validator->add('archivo:Archivo', 'required', null, '{label}: Es obligatorio adjuntar un archivo PDF menor a 5M');
         $validator->add('archivo:Archivo', 'File\Extension', ['allowed' => 'pdf'], '{label}: Es obligatorio adjuntar un archivo PDF');
@@ -80,7 +92,8 @@ class SolicitudController extends BaseController {
                 try {
 
                     $solicitud = new Solicitud([
-                        'id_valija' => $_POST['id_valija'],
+                        'id_valija' => 3,
+                        'id_lote' => 0,
                         'fecha_solicitud_del' => $_POST['fecha_solicitud_del'],
                         'id_movimiento' => $_POST['tipo_movimiento'],
                         'delegacion' => $_SESSION['usuarioDel'],
@@ -95,10 +108,10 @@ class SolicitudController extends BaseController {
                         'id_grupo_nuevo' => $_POST['gpo_nuevo'],
                         'comentario' => $_POST['comentario'],
                         'archivo' => $result2->name,
-                        'id_user' => $_SESSION['usuarioId']
+                        'id_user' => $_SESSION['usuarioId'],
                     ]);
 
-                    var_dump($solicitud);
+                    //var_dump($solicitud);
                     Log::logInfo('Solicitud creada. Usuario:' . $_SESSION['usuarioId'] . '|Solicitud:' );
                     $solicitud->save();
 
@@ -118,8 +131,11 @@ class SolicitudController extends BaseController {
             $errors = $validator->getMessages();
         }
 
+        //$valijas = Valija::where('delegacion', $_SESSION['usuarioDel'])->take(10)->orderBy('id_valija', 'desc')->get();
+        $subdelegaciones = Subdelegacion::where('delegacion', $_SESSION['usuarioDel'])->orderBy('subdelegacion')->get();
+        $grupos = Grupo::all();
+
         return $this->render('admin/agregar-solicitud.twig', [
-            'id_valija' => $_POST['id_valija'],
             'fecha_solicitud_del' => $_POST['fecha_solicitud_del'],
             'tipo_movimiento' => $_POST['tipo_movimiento'],
             'subdelegacion' => $_POST['subdelegacion'],
@@ -132,6 +148,8 @@ class SolicitudController extends BaseController {
             'gpo_actual' => $_POST['gpo_actual'],
             'gpo_nuevo' => $_POST['gpo_nuevo'],
             'comentario' => $_POST['comentario'],
+            'subdelegaciones' =>$subdelegaciones,
+            'grupos' => $grupos,
             'result' => $result,
             'errors' => $errors,
             'errors2' => $errors2

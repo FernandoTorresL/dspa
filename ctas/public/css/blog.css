@@ -3,6 +3,11 @@
     width: 100%;
 }
 
+.new-sol {
+    padding: 10px;
+    margin-bottom: 40px;
+}
+
 #inputCurp {
     width: 200px;
     outline: 0;
