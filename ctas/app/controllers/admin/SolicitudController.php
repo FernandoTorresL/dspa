@@ -99,7 +99,7 @@ class SolicitudController extends BaseController {
 
         if ($validator->validate($_POST)) {
 
-            $uploadHandler = new UploadHandler('C:\xampp\htdocs\dspa_web\ctas\public\files');
+            $uploadHandler = new UploadHandler(getenv('FILES_PATH'));
             $uploadHandler->addRule('extension', ['allowed' => 'pdf'], '{label}: debe ser un .pdf válido', 'Archivo');
             $uploadHandler->addRule('size', 'size=5M', '{label}: solo puedes adjuntar PDF de tamaño menor a 5Mb', 'Archivo');
             $result2 = $uploadHandler->process($_FILES['archivo']);
@@ -107,8 +107,6 @@ class SolicitudController extends BaseController {
             if ($result2->isValid()) {
                 try {
 
-                    var_dump($_SESSION['usuarioDel']);
-                    var_dump($_POST['subdelegacion']);
                     $solicitud = new Solicitud([
                         'id_valija' => 3,
                         'id_lote' => 0,
@@ -130,7 +128,7 @@ class SolicitudController extends BaseController {
                         'id_user' => $_SESSION['usuarioId'],
                     ]);
 
-                    var_dump($solicitud);
+
                     Log::logInfo('Solicitud creada. Usuario:' . $_SESSION['usuarioId'] . '|Solicitud:' );
                     $solicitud->save();
 
