@@ -4,9 +4,6 @@
 
 {% block content %}
 
-    <p>
-        <a class="btn btn-default" href="{{ 'admin' | url  }}">Regresar</a>
-    </p>
     {% if errors or errors2 %}
         {% include('partials/errors.twig')  %}
     {% endif %}
@@ -35,40 +32,43 @@
                     {#</div>#}
 
                     <div class="form-group new-sol">
-                        <label for="inputfecha_solicitud_del">Fecha Solicitud</label>
-                        <input class="form-control" type="date" name="fecha_solicitud_del" id="inputfecha_solicitud_del" placeholder="Fecha Solicitud" value="{{ fecha_solicitud }}">
+                        <label for="inputfecha_solicitud">Fecha Solicitud</label>
+                        <input class="form-control" type="date" name="fecha_solicitud" id="inputfecha_solicitud" value="{{ fecha_solicitud ?? '' }}">
                     </div>
 
                     <div class="form-group new-sol">
                         <label>Tipo de movimiento</label>
                         <div class="radio-inline">
                             <label>
-                              <input type="radio" id="radiotipo_movimiento_Alta" name="tipo_movimiento" value="1" checked>
-                              ALTA
+                              <input type="radio" hidden id="radiotipo_movimiento_Nulo" name="tipo_movimiento" checked value="0">
                             </label>
                         </div>
-                        <div class="radio-inline">
-                            <label>
-                              <input type="radio" id="radiotipo_movimiento_Baja" name="tipo_movimiento" value="2">
-                              BAJA
-                            </label>
-                        </div>
-                        <div class="radio-inline">
-                            <label>
-                              <input type="radio" id="radiotipo_movimiento_Cambio" name="tipo_movimiento" value="3">
-                              CAMBIO
-                            </label>
-                        </div>
+
+                        {% for movimiento in movimientos %}
+                            {% if movimiento.id_movimiento == tipo_movimiento %}
+                                {% set j = 'checked' %}
+                            {% else %}
+                                {% set j = '' %}
+                            {% endif %}
+                            <div class="radio-inline">
+                                <label>
+                                  <input type="radio" id="radiotipo_movimiento_{{ movimiento.descripcion }}" name="tipo_movimiento" {{ j }} value="{{ movimiento.id_movimiento }}">{{ movimiento.descripcion }}</label>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
 
                 <div>
                     <div class="form-group new-sol">
-                        <label for="inputdelegacion">Subdelegación</label>
-                        <select class="form-control" id="inputsubdelegacion" name="subdelegacion">
-                            <option value="-1">Seleccione Subdelegación</option>
+                        <label for="inputsubdel">Subdelegación</label>
+                        <select class="form-control" id="inputsubdel" name="subdel">
                         {% for subdelegacion in subdelegaciones %}
-                            <option value="{{ subdelegacion.subdelegacion }}">{{ subdelegacion.subdelegacion }} - {{ subdelegacion.descripcion }}</option>
+                            {% if subdelegacion.subdelegacion == subdel %}
+                                {% set str_check = 'selected' %}
+                            {% else %}
+                                {% set str_check = '' %}
+                            {% endif %}
+                            <option value="{{ subdelegacion.subdelegacion }}" {{ str_check }}>{{ subdelegacion.subdelegacion }} - {{ subdelegacion.descripcion }}</option>
                         {% endfor %}
 
                         </select>
@@ -78,29 +78,29 @@
                 <div>
                     <div class="form-group new-sol">
                         <label for="inputPrimerApellido">Primer Apellido</label>
-                        <input type="text" class="form-control" id="inputPrimerApellido" name="primer_apellido" placeholder="Primer Apellido" value="{{ primer_apellido }}">
+                        <input type="text" class="form-control" id="inputPrimerApellido" name="primer_apellido" placeholder="Primer Apellido" value="{{- primer_apellido|upper -}}">
                     </div>
                     <div class="form-group new-sol">
                         <label for="inputSegundoApellido">Segundo Apellido</label>
-                        <input type="text" class="form-control" id="inputSegundoApellido" name="segundo_apellido" placeholder="Segundo Apellido" value="{{ segundo_apellido }}">
+                        <input type="text" class="form-control" id="inputSegundoApellido" name="segundo_apellido" placeholder="Segundo Apellido" value={{ segundo_apellido|upper }}>
                     </div>
                     <div class="form-group new-sol">
                         <label for="inputNombre">Nombre(s)</label>
-                        <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Nombre" value="{{ nombre }}">
+                        <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Nombre" value="{{ nombre|upper }}">
                     </div>
                 </div>
 
                 <div>
                     <div class="form-group new-sol">
                         <label for="inputMatricula">Matrícula</label>
-                        <input class="form-control" type="text" id="inputMatricula" name="matricula" placeholder="Matricula" value="{{ matricula }}">
+                        <input class="form-control" type="text" id="inputMatricula" name="matricula" placeholder="# Matrícula | TTD" value="{{ matricula }}">
                     </div>
                     <div class="form-group new-sol">
                         <label for="inputCurp">CURP</label>
                         <input class="form-control" type="text" id="inputCurp2" name="curp" placeholder="CURP" maxlength="18" value="{{ curp }}">
                     </div>
                     <div class="form-group new-sol">
-                        <label for="inputUsuario">Usuario</label>
+                        <label for="inputUsuario">USER-ID</label>
                         <input class="form-control" type="text" id="inputUsuario" name="usuario" placeholder="Usuario" value="{{ usuario }}">
                     </div>
                 </div>
@@ -135,6 +135,9 @@
                 <div>
                     <div class="form-group new-sol">
                             <button class="btn btn-primary" type="submit">Crear Solicitud</button>
+                    </div>
+                    <div class="form-group new-sol">
+                            <a class="btn btn-default" href="{{ 'admin' | url  }}">Regresar</a>
                     </div>
                 </div>
 

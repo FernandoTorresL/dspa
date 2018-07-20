@@ -10,7 +10,7 @@ class Solicitud extends Model
     protected $primaryKey = 'id_solicitud';
     protected $fillable = [
         'id_valija',
-        'fecha_solicitud_del',
+        'fecha_solicitud',
         'id_lote',
         'delegacion',
         'subdelegacion',
