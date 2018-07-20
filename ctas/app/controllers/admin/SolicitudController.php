@@ -9,11 +9,10 @@ use App\Models\Movimiento;
 use App\Models\Solicitud;
 use App\Models\Solicitud2;
 use App\Models\Subdelegacion;
-use App\Models\Valija;
 
 use Sirius\Validation\Validator;
 use Sirius\Upload\Handler as UploadHandler;
-use Sirius\Validation\Helper;
+
 
 
 
@@ -85,9 +84,9 @@ class SolicitudController extends BaseController {
         //Reglas Required
         //$validator->add('archivo:Archivo', 'File\Extension', ['allowed' => 'pdf'], '{label}: Es obligatorio adjuntar un archivo PDF.');
         //$validator->add('archivo:Archivo', 'required', null, '{label}: Es obligatorio adjuntar un archivo PDF.');
-        $validator->add('fecha_solicitud:Fecha de la Solicitud', 'required', null, '{label}: Es campo obligatorio.');
+        $validator->add('fecha_solicitud_del:Fecha de la Solicitud', 'required', null, '{label}: Es campo obligatorio.');
         $validator->add('tipo_movimiento:Tipo de movimiento', 'Between', '1,3','{label}: Es valor obligatorio.');
-        $validator->add('subdel:Subdelegación', 'GreaterThan','0,inclusive', '{label}: Es campo obligatorio.');
+        $validator->add('subdelegacion:Subdelegación', 'GreaterThan','0,inclusive', '{label}: Es campo obligatorio.');
         $validator->add('primer_apellido:Primer apellido', 'required', null, '{label}: Es un campo obligatorio');
         $validator->add('nombre:Nombre(s)','required', null, '{label}: Es un campo obligatorio');
         $validator->add('matricula:Matrícula','required', null, '{label}: Es un campo obligatorio. Matrícula|TTD');
@@ -108,13 +107,15 @@ class SolicitudController extends BaseController {
             if ($result2->isValid()) {
                 try {
 
+                    var_dump($_SESSION['usuarioDel']);
+                    var_dump($_POST['subdelegacion']);
                     $solicitud = new Solicitud([
                         'id_valija' => 3,
                         'id_lote' => 0,
-                        'fecha_solicitud' => $_POST['fecha_solicitud'],
+                        'fecha_solicitud_del' => $_POST['fecha_solicitud_del'],
                         'id_movimiento' => $_POST['tipo_movimiento'],
                         'delegacion' => $_SESSION['usuarioDel'],
-                        'subdel' => $_POST['subdel'],
+                        'subdelegacion' => $_POST['subdelegacion'],
                         'primer_apellido' => strtoupper(trim($_POST['primer_apellido'])),
                         'segundo_apellido' => strtoupper(trim($_POST['segundo_apellido'])),
                         'nombre' => strtoupper( trim($_POST['nombre'])),
@@ -129,7 +130,7 @@ class SolicitudController extends BaseController {
                         'id_user' => $_SESSION['usuarioId'],
                     ]);
 
-                    //var_dump($solicitud);
+                    var_dump($solicitud);
                     Log::logInfo('Solicitud creada. Usuario:' . $_SESSION['usuarioId'] . '|Solicitud:' );
                     $solicitud->save();
 
@@ -157,9 +158,10 @@ class SolicitudController extends BaseController {
 
         //var_dump($_POST['fecha_solicitud_del']);
         return $this->render('admin/agregar-solicitud.twig', [
-            'fecha_solicitud' => $_POST['fecha_solicitud'],
+            'fecha_solicitud_del' => $_POST['fecha_solicitud_del'],
             'tipo_movimiento' => $_POST['tipo_movimiento'],
-            'subdel' => $_POST['subdel'],
+            'delegacion' => $_SESSION['usuarioDel'],
+            'subdelegacion' => $_POST['subdelegacion'],
             'primer_apellido' => trim($_POST['primer_apellido']),
             'segundo_apellido' => trim($_POST['segundo_apellido']),
             'nombre' => trim($_POST['nombre']),

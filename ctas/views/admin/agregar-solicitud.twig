@@ -7,12 +7,15 @@
     {% if errors or errors2 %}
         {% include('partials/errors.twig')  %}
     {% endif %}
+    <h3 class="form-signin-heading">Registro de Nueva Solicitud</h3>
+    <p>
+        <a class="btn btn-default" href="{{ 'admin' | url  }}">Regresar</a>
+    </p>
 
     {% if result %}
         <div class="alert alert-success">Solicitud creada!</div>
     {% else %}
         <div class="container">
-            <h3 class="form-signin-heading">Registro de Nueva Solicitud</h3>
             <form class="form-inline" enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
 
                 <div class="form-group new-sol">
@@ -32,8 +35,8 @@
                     {#</div>#}
 
                     <div class="form-group new-sol">
-                        <label for="inputfecha_solicitud">Fecha Solicitud</label>
-                        <input class="form-control" type="date" name="fecha_solicitud" id="inputfecha_solicitud" value="{{ fecha_solicitud ?? '' }}">
+                        <label for="inputfecha_solicitud_del">Fecha Solicitud</label>
+                        <input class="form-control" type="date" name="fecha_solicitud_del" id="inputfecha_solicitud_del" value="{{ fecha_solicitud_del }}">
                     </div>
 
                     <div class="form-group new-sol">
@@ -60,8 +63,9 @@
 
                 <div>
                     <div class="form-group new-sol">
-                        <label for="inputsubdel">Subdelegación</label>
-                        <select class="form-control" id="inputsubdel" name="subdel">
+                        <label for="inputsubdelegacion">Subdelegación</label>
+                        <select class="form-control" id="inputsubdelegacion" name="subdelegacion">
+                        {% set subdel = subdelegacion %}
                         {% for subdelegacion in subdelegaciones %}
                             {% if subdelegacion.subdelegacion == subdel %}
                                 {% set str_check = 'selected' %}
@@ -136,9 +140,6 @@
                     <div class="form-group new-sol">
                             <button class="btn btn-primary" type="submit">Crear Solicitud</button>
                     </div>
-                    <div class="form-group new-sol">
-                            <a class="btn btn-default" href="{{ 'admin' | url  }}">Regresar</a>
-                    </div>
                 </div>
 
             </form>
@@ -150,18 +151,18 @@
     <script>
         function validateForm() {
             //var num_oficio_del = document.getElementById('inputnum_oficio_del').value.trim();
-            var fecha_valija_del = document.getElementById('inputfecha_valija_del').value.trim();
-            var archivo = document.getElementById('inputarchivo').value.trim();
+            //var fecha_valija_del = document.getElementById('inputfecha_valija_del').value.trim();
+            //var archivo = document.getElementById('inputarchivo').value.trim();
 
-            if (fecha_valija_del === '') {
-                swal(
-                    'Oops...',
-                    'Fecha de la Solicitud es obligatoria...',
-                    'error'
-                );
-
-                return false;
-            }
+            // if (fecha_valija_del === '') {
+            //     swal(
+            //         'Oops...',
+            //         'Fecha de la Solicitud es obligatoria...',
+            //         'error'
+            //     );
+            //
+            //     return false;
+            // }
         }
     </script>
 {% endblock %}
