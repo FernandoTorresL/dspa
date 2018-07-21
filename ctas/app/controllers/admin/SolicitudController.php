@@ -63,14 +63,16 @@ class SolicitudController extends BaseController {
         //$valijas = Valija::where('delegacion', $_SESSION['usuarioDel'])->take(10)->orderBy('id_valija', 'desc')->get();
 
         $subdelegaciones = Subdelegacion::where('delegacion', $_SESSION['usuarioDel'])->orderBy('subdelegacion')->get();
-        $grupos = Grupo::all();
+        $grupos0 = Grupo::where('active', '<>', null)->orderBy('descripcion')->get();
+        $grupos1 = Grupo::where('active', '=', 1)->orderBy('descripcion')->get();
         $movimientos = Movimiento::where('id_movimiento', '<>', 4)->get();
 
         return $this->render('admin/agregar-solicitud.twig', [
             //'valijas' => $valijas,
             'movimientos' => $movimientos,
             'subdelegaciones' =>  $subdelegaciones,
-            'grupos' => $grupos
+            'grupos0' => $grupos0,
+            'grupos1' => $grupos1
         ]);
     }
 
@@ -92,6 +94,10 @@ class SolicitudController extends BaseController {
         $validator->add('matricula:Matrícula','required', null, '{label}: Es un campo obligatorio. Matrícula|TTD');
         $validator->add('curp:CURP','required', null, '{label}: es un campo obligatorio.');
         $validator->add('usuario:USER-ID','required', null, '{label}: es un campo obligatorio.');
+
+        //RequiredWith Rules
+        //"sale_price" => "required_if:list_type,==,selling"
+        //$validator->add('gpo_actual:Grupo actual', 'requiredWith','tipo_movimiento,==,1' , '{label}: Es campo obligatorio.');
 
         //Reglas específicas
         $validator->add('comentario:Comentario', 'maxlength(max=500)({label}: Debe tener menos de {max} caracteres)');
@@ -152,7 +158,8 @@ class SolicitudController extends BaseController {
 
         $movimientos = Movimiento::where('id_movimiento', '<>', 4)->get();
         $subdelegaciones = Subdelegacion::where('delegacion', $_SESSION['usuarioDel'])->orderBy('subdelegacion')->get();
-        $grupos = Grupo::all();
+        $grupos0 = Grupo::where('active', '<>', null)->orderBy('descripcion')->get();
+        $grupos1 = Grupo::where('active', '=', 1)->orderBy('descripcion')->get();
 
         //var_dump($_POST['fecha_solicitud_del']);
         return $this->render('admin/agregar-solicitud.twig', [
@@ -172,7 +179,8 @@ class SolicitudController extends BaseController {
 
             'movimientos' => $movimientos,
             'subdelegaciones' =>$subdelegaciones,
-            'grupos' => $grupos,
+            'grupos0' => $grupos0,
+            'grupos1' => $grupos1,
 
             'result' => $result,
             'errors' => $errors,

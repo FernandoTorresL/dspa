@@ -74,7 +74,6 @@
                             {% endif %}
                             <option value="{{ subdelegacion.subdelegacion }}" {{ str_check }}>{{ subdelegacion.subdelegacion }} - {{ subdelegacion.descripcion }}</option>
                         {% endfor %}
-
                         </select>
                     </div>
                 </div>
@@ -112,8 +111,13 @@
                 <div class="form-group new-sol">
                     <label for="inputgpoActual">Grupo Actual</label>
                     <select class="form-control" id="inputgpoActual" name="gpo_actual">
-                    {% for grupo in grupos %}
-                        <option value="{{ grupo.id_grupo }}">{{ grupo.descripcion }}</option>
+                    {% for grupo0 in grupos0 %}
+                        {%  if grupo0.id_grupo == gpo_actual %}
+                            {% set str_check = 'selected' %}
+                        {% else %}
+                            {% set str_check = '' %}
+                        {% endif %}
+                        <option value="{{ grupo0.id_grupo }}" {{ str_check }}>{{ grupo0.descripcion }}</option>
                     {% endfor %}
                     </select>
                 </div>
@@ -121,8 +125,13 @@
                 <div class="form-group new-sol">
                     <label for="inputgpoActual">Grupo Nuevo</label>
                     <select class="form-control" id="inputgpoNuevo" name="gpo_nuevo">
-                    {% for grupo in grupos %}
-                        <option value="{{ grupo.id_grupo }}">{{ grupo.descripcion }}</option>
+                    {% for grupo1 in grupos1 %}
+                        {%  if grupo1.id_grupo == gpo_nuevo %}
+                            {% set str_check = 'selected' %}
+                        {% else %}
+                            {% set str_check = '' %}
+                        {% endif %}
+                        <option value="{{ grupo1.id_grupo }}" {{ str_check }}>{{ grupo1.descripcion }}</option>
                     {% endfor %}
                     </select>
                 </div>
