@@ -11,6 +11,7 @@
         "vlucas/phpdotenv": "^2.4",
         "siriusphp/validation": "^2.2",
         "monolog/monolog": "^1.23",
-        "siriusphp/upload": "^2.1"
+        "siriusphp/upload": "^2.1",
+        "twbs/bootstrap": "4.1.3"
     }
 }
