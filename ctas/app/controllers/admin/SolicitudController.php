@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Log;
 use App\Controllers\BaseController;
+use App\Models\Delegacion;
 use App\Models\Grupo;
 use App\Models\Movimiento;
 use App\Models\Solicitud;
@@ -62,6 +63,7 @@ class SolicitudController extends BaseController {
 
         //$valijas = Valija::where('delegacion', $_SESSION['usuarioDel'])->take(10)->orderBy('id_valija', 'desc')->get();
 
+        $delegacion = Delegacion::where('delegacion', $_SESSION['usuarioDel'])->first();
         $subdelegaciones = Subdelegacion::where('delegacion', $_SESSION['usuarioDel'])->orderBy('subdelegacion')->get();
         $grupos0 = Grupo::where('active', '<>', null)->orderBy('descripcion')->get();
         $grupos1 = Grupo::where('active', '=', 1)->orderBy('descripcion')->get();
@@ -70,6 +72,7 @@ class SolicitudController extends BaseController {
         return $this->render('admin/agregar-solicitud.twig', [
             //'valijas' => $valijas,
             'movimientos' => $movimientos,
+            'delegacion' => $delegacion,
             'subdelegaciones' =>  $subdelegaciones,
             'grupos0' => $grupos0,
             'grupos1' => $grupos1

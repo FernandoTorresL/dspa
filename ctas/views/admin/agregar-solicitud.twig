@@ -16,55 +16,46 @@
         <div class="alert alert-success">Solicitud creada!</div>
     {% else %}
         <div class="container">
-            <form class="form-inline" enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
+            <form enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
 
-                <div class="form-group new-sol">
+                <div class="form-group">
                     <label for="inputarchivo">Archivo</label>
-                    <input class="form-control" type="file" name="archivo" id="inputarchivo" autofocus>
+                    <input class="form-control-file" type="file" name="archivo" id="inputarchivo" autofocus>
                 </div>
 
-                <div>
-                    {#<div class="form-group new-sol">#}
-                        {#<label for="inputid_valija" width="250px">Núm Oficio</label>#}
-                        {#<select class="form-control" id="inputid_valija" name="id_valija">#}
-                            {#<option value="0">Seleccione # de Valija/Oficio</option>#}
-                        {#{% for valija in valijas %}#}
-                            {#<option value="{{ valija.id_valija }}">{{ valija.num_oficio_ca }}</option>#}
-                        {#{% endfor %}#}
-                        {#</select>#}
-                    {#</div>#}
+                <div class="form-group">
+                    <label for="inputfecha_solicitud_del">Fecha Solicitud</label>
+                    <input class="form-control" type="date" name="fecha_solicitud_del" id="inputfecha_solicitud_del" value="{{ fecha_solicitud_del }}">
+                </div>
 
-                    <div class="form-group new-sol">
-                        <label for="inputfecha_solicitud_del">Fecha Solicitud</label>
-                        <input class="form-control" type="date" name="fecha_solicitud_del" id="inputfecha_solicitud_del" value="{{ fecha_solicitud_del }}">
+                <div class="form-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="tipo_movimiento" id="radiotipo_movimiento_Nulo" value="0" hidden checked>
+                        <label class="form-check-label" for="radiotipo_movimiento_Nulo">Tipo de Movimiento</label>
                     </div>
-
-                    <div class="form-group new-sol">
-                        <label>Tipo de movimiento</label>
-                        <div class="radio-inline">
-                            <label>
-                              <input type="radio" hidden id="radiotipo_movimiento_Nulo" name="tipo_movimiento" checked value="0">
-                            </label>
+                    {% for movimiento in movimientos %}
+                        {% if movimiento.id_movimiento == tipo_movimiento %}
+                            {% set j = 'checked' %}
+                        {% else %}
+                            {% set j = '' %}
+                        {% endif %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tipo_movimiento" id="radiotipo_movimiento_{{ movimiento.descripcion }}" value="{{ movimiento.id_movimiento }}" {{ j }}>
+                            <label class="form-check-label" for="radiotipo_movimiento_{{ movimiento.descripcion }}">{{ movimiento.descripcion }}</label>
                         </div>
+                    {% endfor %}
+                </div>
 
-                        {% for movimiento in movimientos %}
-                            {% if movimiento.id_movimiento == tipo_movimiento %}
-                                {% set j = 'checked' %}
-                            {% else %}
-                                {% set j = '' %}
-                            {% endif %}
-                            <div class="radio-inline">
-                                <label>
-                                  <input type="radio" id="radiotipo_movimiento_{{ movimiento.descripcion }}" name="tipo_movimiento" {{ j }} value="{{ movimiento.id_movimiento }}">{{ movimiento.descripcion }}</label>
-                            </div>
-                        {% endfor %}
+                <div class="form-group row">
+                    <label for="staticDelegacion" class="col-sm-2 col-form-label">Delegación:</label>
+                    <div class="col-sm-10">
+                      <input type="text" readonly class="form-control-plaintext" id="staticDelegacion" value="{{ delegacion.descripcion }}">
                     </div>
                 </div>
 
-                <div>
-                    <div class="form-group new-sol">
-                        <label for="inputsubdelegacion">Subdelegación</label>
-                        <select class="form-control" id="inputsubdelegacion" name="subdelegacion">
+                <div class="form-group">
+                    <label for="inputsubdelegacion">Subdelegación</label>
+                    <select class="form-control" id="inputsubdelegacion" name="subdelegacion">
                         {% set subdel = subdelegacion %}
                         {% for subdelegacion in subdelegaciones %}
                             {% if subdelegacion.subdelegacion == subdel %}
@@ -74,84 +65,78 @@
                             {% endif %}
                             <option value="{{ subdelegacion.subdelegacion }}" {{ str_check }}>{{ subdelegacion.subdelegacion }} - {{ subdelegacion.descripcion }}</option>
                         {% endfor %}
-                        </select>
-                    </div>
+                    </select>
                 </div>
 
-                <div>
-                    <div class="form-group new-sol">
-                        <label for="inputPrimerApellido">Primer Apellido</label>
-                        <input type="text" class="form-control" id="inputPrimerApellido" name="primer_apellido" placeholder="Primer Apellido" value="{{- primer_apellido|upper -}}">
-                    </div>
-                    <div class="form-group new-sol">
-                        <label for="inputSegundoApellido">Segundo Apellido</label>
-                        <input type="text" class="form-control" id="inputSegundoApellido" name="segundo_apellido" placeholder="Segundo Apellido" value={{ segundo_apellido|upper }}>
-                    </div>
-                    <div class="form-group new-sol">
-                        <label for="inputNombre">Nombre(s)</label>
-                        <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Nombre" value="{{ nombre|upper }}">
-                    </div>
+                <div class="form-group">
+                    <label for="inputPrimerApellido">Primer Apellido</label>
+                    <input type="text" class="form-control" id="inputPrimerApellido" placeholder="Primer Apellido" name="primer_apellido" value="{{- primer_apellido|upper -}}">
                 </div>
 
-                <div>
-                    <div class="form-group new-sol">
-                        <label for="inputMatricula">Matrícula</label>
-                        <input class="form-control" type="text" id="inputMatricula" name="matricula" placeholder="# Matrícula | TTD" value="{{ matricula }}">
-                    </div>
-                    <div class="form-group new-sol">
-                        <label for="inputCurp">CURP</label>
-                        <input class="form-control" type="text" id="inputCurp2" name="curp" placeholder="CURP" maxlength="18" value="{{ curp }}">
-                    </div>
-                    <div class="form-group new-sol">
-                        <label for="inputUsuario">USER-ID</label>
-                        <input class="form-control" type="text" id="inputUsuario" name="usuario" placeholder="Usuario" value="{{ usuario }}">
-                    </div>
+                <div class="form-group new-sol">
+                    <label for="inputSegundoApellido">Segundo Apellido</label>
+                    <input type="text" class="form-control" id="inputSegundoApellido" placeholder="Segundo Apellido" name="segundo_apellido" value={{ segundo_apellido|upper }}>
+                </div>
+
+                <div class="form-group new-sol">
+                    <label for="inputNombre">Nombre(s)</label>
+                    <input type="text" class="form-control" id="inputNombre" placeholder="Nombre" name="nombre" value="{{ nombre|upper }}">
+                </div>
+
+                <div class="form-group new-sol">
+                    <label for="inputMatricula">Matrícula</label>
+                    <input type="text" class="form-control" id="inputMatricula" placeholder="# Matrícula | TTD" name="matricula" value="{{ matricula }}">
+                </div>
+
+                <div class="form-group new-sol">
+                    <label for="inputCurp">CURP</label>
+                    <input type="text" class="form-control" id="inputCurp" placeholder="CURP" name="curp" maxlength="18" value="{{ curp }}">
+                </div>
+
+                <div class="form-group new-sol">
+                    <label for="inputUsuario">USER-ID</label>
+                    <input type="text" class="form-control" id="inputUsuario" placeholder="Usuario" name="usuario" value="{{ usuario }}">
                 </div>
 
                 <div class="form-group new-sol">
                     <label for="inputgpoActual">Grupo Actual</label>
                     <select class="form-control" id="inputgpoActual" name="gpo_actual">
-                    {% for grupo0 in grupos0 %}
-                        {%  if grupo0.id_grupo == gpo_actual %}
-                            {% set str_check = 'selected' %}
-                        {% else %}
-                            {% set str_check = '' %}
-                        {% endif %}
-                        <option value="{{ grupo0.id_grupo }}" {{ str_check }}>{{ grupo0.descripcion }}</option>
-                    {% endfor %}
+                        {% for grupo0 in grupos0 %}
+                            {%  if grupo0.id_grupo == gpo_actual %}
+                                {% set str_check = 'selected' %}
+                            {% else %}
+                                {% set str_check = '' %}
+                            {% endif %}
+                            <option value="{{ grupo0.id_grupo }}" {{ str_check }}>{{ grupo0.descripcion }}</option>
+                        {% endfor %}
                     </select>
                 </div>
 
                 <div class="form-group new-sol">
-                    <label for="inputgpoActual">Grupo Nuevo</label>
+                    <label for="inputgpoNuevo">Grupo Nuevo</label>
                     <select class="form-control" id="inputgpoNuevo" name="gpo_nuevo">
-                    {% for grupo1 in grupos1 %}
-                        {%  if grupo1.id_grupo == gpo_nuevo %}
-                            {% set str_check = 'selected' %}
-                        {% else %}
-                            {% set str_check = '' %}
-                        {% endif %}
-                        <option value="{{ grupo1.id_grupo }}" {{ str_check }}>{{ grupo1.descripcion }}</option>
-                    {% endfor %}
+                        {% for grupo1 in grupos1 %}
+                            {%  if grupo1.id_grupo == gpo_nuevo %}
+                                {% set str_check = 'selected' %}
+                            {% else %}
+                                {% set str_check = '' %}
+                            {% endif %}
+                            <option value="{{ grupo1.id_grupo }}" {{ str_check }}>{{ grupo1.descripcion }}</option>
+                        {% endfor %}
                     </select>
                 </div>
 
-                <div>
-                    <div class="form-group new-sol">
-                        <label for="inputcomentario">Comentario</label>
-                        <div>
-                            <textarea class="form-control" name="comentario" id="inputcomentario" placeholder="Comentario" rows="4" style="margin: 0px; width: 938px; height: 69px;">{{ comentario }}</textarea>
-                        </div>
-                    </div>
+                <div class="form-group new-sol">
+                    <label for="inputcomentario">Comentario</label>
+                    <textarea class="form-control" id="inputcomentario" rows="3" placeholder="Comentario" name="comentario" style="margin: 0px; width: 938px; height: 69px;">{{ comentario }}</textarea>
                 </div>
 
-                <div>
-                    <div class="form-group new-sol">
-                            <button class="btn btn-primary" type="submit">Crear Solicitud</button>
-                    </div>
+                <div class="form-group new-sol">
+                    <button type="submit" class="btn btn-primary">Crear Solicitud</button>
                 </div>
 
             </form>
+        </div>
     {% endif %}
     <br>
 {% endblock %}
