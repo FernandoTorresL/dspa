@@ -18,4 +18,8 @@ class Detalle_ctas extends Model {
     public function area() {
         return $this->belongsTo('App\Models\Area');
     }
+
+    public function ciz() {
+        return $this->belongsTo('App\Models\Ciz', 'ciz_id', 'id_ciz');
+    }
 }
