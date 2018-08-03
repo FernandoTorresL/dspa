@@ -10,22 +10,7 @@
     <br>
     <div class="container">
         <div class="row">
-            <h5><strong>Menú</strong>{{ delegacion.nombre }}</h5>
-            <ul>
-                <li>
-                    <a href="{{ 'admin/solicitudes' | url }}">Ver status de solicitudes</a>
-                </li>
-                <li>
-                    <a href="{{ 'admin/inventario' | url }}">Ver último inventario</a>
-                </li>
-                <li>
-                    <a href="{{ 'admin/valijas' | url }}">Valijas</a>
-                </li>
-                <li>
-                    {#<a href="{{ 'admin/solicitudes' | url }}">Solicitudes</a>#}
-                    <a class="btn btn-primary" href="{{ 'admin/solicitudes/crear' | url }}">Crear solicitud</a>
-                </li>
-            </ul>
+                    <a class="btn btn-primary" href="{{ 'admin/inventario' | url }}">Ver último inventario</a>
         </div>
     </div>
 

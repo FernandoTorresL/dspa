@@ -8,8 +8,7 @@
     </p>
 
     <h2>Inventario</h2>
-    <h4>Fecha de corte: {{ bd_mainframe.fecha_entrega|date("d-M-Y") }}</h4>
-    {#<h6>Próximo corte: finales julio 2018</h6>#}
+    <h4>Fecha de corte: {{ inventario.fecha_corte|date("d-M-Y") }}</h4>
     <br>
     <br>
     <table class="table table-condensed" id="table_inventario">
@@ -21,14 +20,14 @@
             <th class="text-center">Info</th>
             <th class="text-center" width="100%">Tipo Cuenta</th>
         </tr>
-        {% for usuario in listado_usuarios %}
+        {% for detalle_cta in listado_detalle_ctas %}
             <tr>
-                <td class="text-left">{{ usuario.Usuario }}</td>
-                <td class="text-center">{{ usuario.CIZ_Activos }}</td>
-                <td class="text-left" width="30%">{{ usuario.Nombre }}</td>
-                <td class="text-center">{{ usuario.Grupo }}</td>
-                <td class="text-right" width="40%">{{ usuario.Info }}</td>
-                <td class="text-right" width="40%">{{ usuario.Tipo_Cuenta }}</td>
+                <td class="text-left">{{ detalle_cta.cuenta }}</td>
+                <td class="text-center">{{ detalle_cta.ciz_id }}</td>
+                <td class="text-left" width="30%">{{ detalle_cta.nombre }}</td>
+                <td class="text-center">{{ detalle_cta.gpo_owner.descripcion }}</td>
+                <td class="text-right" width="40%">{{ detalle_cta.install_data }}</td>
+                <td class="text-right" width="40%">{{ detalle_cta.area.nombre }}</td>
             </tr>
         {% endfor %}
     </table>

@@ -3,8 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\racf_bd_mainframe;
-use App\Models\racf_inventario;
+use App\Models\Detalle_ctas;
 use App\Log;
 
 //use App\Models\Inventario;
@@ -31,11 +30,16 @@ class InventarioController extends BaseController {
         //$listado_usuarios = racf_userid::where('delegacion', $_SESSION['usuarioDel'])->get();
         //$listado_usuarios_ciz = racf_userid::find(getenv('TMP_USER_ID_RACF'))->cizs;
 
-        $listado_usuarios = racf_inventario::where('Del', $_SESSION['usuarioDel'])->orderBy('Tipo_Cuenta', 'desc')->orderBy('Usuario')->get();
-        $bd_mainframe = racf_bd_mainframe::find(1);
+//        $listado_usuarios = racf_inventario::where('Del', $_SESSION['usuarioDel'])->orderBy('Tipo_Cuenta', 'desc')->orderBy('Usuario')->get();
+//        $bd_mainframe = racf_bd_mainframe::find(1);
+
+        $listado_detalle_ctas = Detalle_ctas::where('delegacion_id', $_SESSION['usuarioDel'])->orderBy('area_id', 'desc')->orderBy('cuenta')->orderBy('ciz_id')->get();
+        $detalle_cta = Detalle_ctas::find(1);
+
         return $this->render('admin/inventario.twig', [
-            'listado_usuarios' => $listado_usuarios,
-            'bd_mainframe' => $bd_mainframe
+            'listado_detalle_ctas' => $listado_detalle_ctas,
+            'inventario' => $detalle_cta->inventario,
+            'inventario_nombre' => $detalle_cta->inventario->nombre
         ]);
     }
 }
