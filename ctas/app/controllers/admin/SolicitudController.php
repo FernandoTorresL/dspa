@@ -91,7 +91,9 @@ class SolicitudController extends BaseController {
         //$validator->add('archivo:Archivo', 'required', null, '{label}: Es obligatorio adjuntar un archivo PDF.');
         $validator->add('fecha_solicitud_del:Fecha de la Solicitud', 'required', null, '{label}: Es campo obligatorio.');
         $validator->add('tipo_movimiento:Tipo de movimiento', 'Between', '1,3','{label}: Es valor obligatorio.');
-        $validator->add('subdelegacion:Subdelegación', 'GreaterThan','0,inclusive', '{label}: Es campo obligatorio.');
+
+//        Subdelegación mayor a 0
+        $validator->add('subdelegacion:Subdelegación', 'GreaterThan', array('min' => 0), '{label}: Es campo obligatorio.');
         $validator->add('primer_apellido:Primer apellido', 'required', null, '{label}: Es un campo obligatorio');
         $validator->add('nombre:Nombre(s)','required', null, '{label}: Es un campo obligatorio');
         $validator->add('matricula:Matrícula','required', null, '{label}: Es un campo obligatorio. Matrícula|TTD');
