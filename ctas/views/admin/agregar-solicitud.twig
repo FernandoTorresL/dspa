@@ -56,6 +56,7 @@
                 <div class="form-group">
                     <label for="inputsubdelegacion">Subdelegación</label>
                     <select class="form-control" id="inputsubdelegacion" name="subdelegacion">
+                        <option value="-1" selected>Seleccione Subdelegación</option>
                         {% set subdel = subdelegacion %}
                         {% for subdelegacion in subdelegaciones %}
                             {% if subdelegacion.subdelegacion == subdel %}
@@ -103,7 +104,7 @@
                     <select class="form-control" id="inputgpoActual" name="gpo_actual">
                         {% for grupo0 in grupos0 %}
                             {%  if grupo0.id_grupo == gpo_actual %}
-                                {% set str_check = 'selected' %}
+                                {% set str_check = '' %}
                             {% else %}
                                 {% set str_check = '' %}
                             {% endif %}

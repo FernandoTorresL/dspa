@@ -86,22 +86,35 @@ class SolicitudController extends BaseController {
 
         $validator = new Validator();
 
-        //Reglas Required
-        //$validator->add('archivo:Archivo', 'File\Extension', ['allowed' => 'pdf'], '{label}: Es obligatorio adjuntar un archivo PDF.');
-        //$validator->add('archivo:Archivo', 'required', null, '{label}: Es obligatorio adjuntar un archivo PDF.');
+        //Reglas
         $validator->add('fecha_solicitud_del:Fecha de la Solicitud', 'required', null, '{label}: Es campo obligatorio.');
         $validator->add('tipo_movimiento:Tipo de movimiento', 'Between', '1,3','{label}: Es valor obligatorio.');
 
-//        Subdelegación mayor a 0
+//        Subdelegación mayor o igual a 0
         $validator->add('subdelegacion:Subdelegación', 'GreaterThan', array('min' => 0), '{label}: Es campo obligatorio.');
+
+//        $validator->add('primer_apellido:Primer apellido',
+//            'required | minlength({"min":2}) ({label}: Debe tener mas de {min} caracteres) | maxlength({"max":3}) ({label}: Debe tener menos de {max} caracteres)');
         $validator->add('primer_apellido:Primer apellido', 'required', null, '{label}: Es un campo obligatorio');
+        $validator->add('primer_apellido:Primer apellido', 'maxlength', array('max' => 50), '{label}: Debe tener menos de {max} caracteres');
+
+        $validator->add('segundo_apellido:Segundo apellido', 'maxlength', array('max' => 50), '{label}: Debe tener menos de {max} caracteres');
+
         $validator->add('nombre:Nombre(s)','required', null, '{label}: Es un campo obligatorio');
+        $validator->add('nombre:Nombre(s)', 'maxlength', array('max' => 3), '{label}: Debe tener menos de {max} caracteres');
+
         $validator->add('matricula:Matrícula','required', null, '{label}: Es un campo obligatorio. Matrícula|TTD');
+        $validator->add('matricula:Matrícula', 'maxlength', array('max' => 10), '{label}: Debe tener menos de {max} caracteres');
+
         $validator->add('curp:CURP','required', null, '{label}: es un campo obligatorio.');
+//        $validator->add('curp:CURP', 'length', '18, 18','{label}: Debe tener caracteres');
+//        $validator->add('curp:CURP','Regex', array('pattern' => '^[A-Z]{4}\d{6}[HM](AS|BC|BS|CC|CH|CL|CM|CS|DF|DG|GR|GT|HG|JC|MC|MN|MS|NE|NL|NT|OC|PL|QR|QT|SL|SP|SR|TC|TL|TS|VZ|YN|ZS)[A-Z]{3}\w{1}\d{1}^'), '{label}: Parece que no es una CURP valida');
+
         $validator->add('usuario:USER-ID','required', null, '{label}: es un campo obligatorio.');
 
         //RequiredWith Rules
         //"sale_price" => "required_if:list_type,==,selling"
+//        $validator->add('gpo_actual:Grupo actual', 'RequiredWith',array('item' => 'matricula'), '{label}: Es campo obligatorio.');
         //$validator->add('gpo_actual:Grupo actual', 'requiredWith','tipo_movimiento,==,1' , '{label}: Es campo obligatorio.');
 
         //Reglas específicas

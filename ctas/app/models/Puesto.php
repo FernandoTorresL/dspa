@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Grupo extends Model {
-    protected $table = 'ctas_grupos';
-    protected $primaryKey = 'id_grupo';
+class Puesto extends Model {
+    protected $table = 'dspa_puestos';
+    protected $primaryKey = 'id_puesto';
 
 }

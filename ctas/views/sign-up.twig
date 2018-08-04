@@ -1,6 +1,12 @@
 {%  extends "layout.twig" %}
 
+{% block title %}Registrar Usuario{% endblock %}
+
 {% block content %}
+
+<h2>Registro de Nuevo usuario</h2>
+<br>
+<br>
 
     {% if errors %}
         {% include('partials/errors.twig')  %}
@@ -12,12 +18,35 @@
     {% else %}
         <div class="container">
             <form class="form-horizontal" method="post" onsubmit="return validateForm()">
-                <h3 class="form-signin-heading">Registro de Nuevo usuario</h3>
-
                 <div class="form-group">
                     <label class="col-sm-1 control-label" for="inputCurp">CURP</label>
                     <div class="col-sm-7">
                         <input class="form-control" type="text" name="curp" id="inputCurp" required autofocus placeholder="CURP" maxlength="18" value="{{ curp }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" for="inputdelegacion">Delegación</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" id="inputdelegacion" name="delegacion">
+                            <option value="0" selected>Seleccione Delegación</option>
+                            {% for delegacion in delegaciones %}
+                                <option value={{ delegacion.delegacion }}>{{ delegacion.descripcion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" for="inputpuesto">Cargo</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" id="inputpuesto" name="puesto">
+                            <option value="0" selected>Seleccione Puesto</option>
+                            <option value="4">Jefe del Departamento de Supervisión Afiliación Vigencia</option>
+                            <option value="3">Jefe de Servicios Afiliación-Cobranza</option>
+                            <option value="2">Normativo DSPA</option>
+                            <option value="7">Otro</option>
+                        </select>
                     </div>
                 </div>
 
@@ -43,7 +72,9 @@
 
             </form>
             <br>
-            <a class="btn btn-default" href="{{ '' | url }}">Regresar</a>
+            <p>
+                <a class="btn btn-default" href="{{ '' | url }}">Regresar</a>
+            </p>
         </div>
     {% endif %}
 {% endblock %}
