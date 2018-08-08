@@ -35,9 +35,6 @@ class UsuarioController extends BaseController {
         $validator = new Validator();
 
         $validator->add('delegacion:Delegación', 'GreaterThan',['min' => 0], '{label}: Es campo obligatorio.');
-
-        $validator->add('puesto:Puesto', 'gt','0', '{label}: Es campo obligatorio.');
-
         $validator->add('curp:CURP','required', null, '{label}: es un campo obligatorio.');
         $validator->add('curp:CURP','minlength(min=18)({label}: Debe tener {min} caracteres)');
         $validator->add('curp:CURP','maxlength(max=18)({label}: Debe tener {max} caracteres)');
@@ -48,6 +45,29 @@ class UsuarioController extends BaseController {
         $validator->add('password', 'required', null, 'Contraseña: El campo es obligatorio');
 
         if ($validator->validate($_POST)) {
+
+            $usuario_ya_existe = Usuario::where('username', $_POST['curp'])->get();
+
+            if ($usuario_ya_existe) {
+
+                Log::logError('Usuario ya existente. CURP:' . $_POST['curp']);
+                $validator->addMessage('curp', 'No se puede registrar de nuevo. ' . $_POST['curp'] . ' ya tiene registro previo. Inicie sesión');
+                $errors = $validator->getMessages();
+                $result = false;
+
+                $delegaciones = Delegacion::where('activo', '1')->orderBy('delegacion')->get();
+
+                return $this->render('sign-up.twig', [
+                    'delegaciones' => $delegaciones,
+                    'curp' => $_POST['curp'],
+                    'delegacion' => $_POST['delegacion'],
+                    'puesto' => $_POST['puesto'],
+                    'email' => $_POST['email'],
+                    'result' => $result,
+                    'errors' => $errors
+                ]);
+            }
+
             $usuario = new Usuario();
 
             $usuario->username = $_POST['curp'];
@@ -61,12 +81,15 @@ class UsuarioController extends BaseController {
             $usuario->save();
             $result = true;
         } else {
-            Log::logError('Crear Usuario. CURP:' . $_POST['curp']);
+            Log::logError('Intento de creación de usuario. CURP:' . $_POST['curp']);
+
+            $delegaciones = Delegacion::where('activo', '1')->orderBy('delegacion')->get();
             $errors = $validator->getMessages();
         }
 
         return $this->render('sign-up.twig', [
             'curp' => $_POST['curp'],
+            'delegaciones' => $delegaciones,
             'delegacion' => $_POST['delegacion'],
             'puesto' => $_POST['puesto'],
             'email' => $_POST['email'],
